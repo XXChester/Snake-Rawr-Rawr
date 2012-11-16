@@ -32,7 +32,7 @@ namespace SnakeRawrRawr.Model {
 
 		#region Class propeties
 		public List<PivotPoint> PivotPoints { get { return this.pivotPoints; } set { this.pivotPoints = value; } }
-		public Vector2 Headind { get { return this.heading; } }
+		public Vector2 Heading { get { return this.heading; } }
 		#endregion Class properties
 
 		#region Constructor

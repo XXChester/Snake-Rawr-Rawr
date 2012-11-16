@@ -15,6 +15,8 @@ using GWNorthEngine.Engine;
 using GWNorthEngine.Engine.Params;
 using GWNorthEngine.Model;
 using GWNorthEngine.Model.Params;
+using GWNorthEngine.Model.Effects;
+using GWNorthEngine.Model.Effects.Params;
 using GWNorthEngine.Logic;
 using GWNorthEngine.Logic.Params;
 using GWNorthEngine.Input;
@@ -28,15 +30,10 @@ namespace SnakeRawrRawr.Model.Display {
 		#region Class variables
 		private Text2D scoreText;
 		private Text2D statusText;
-		private PulseDirection pulseDirection;
-		private float lerp;
-		private const float LERP_BY = .03f;
 		private const string TEXT_WAITING = "Waiting" + TEXT_RESTART;
 		private const string TEXT_GAME_OVER = "Game over" + TEXT_RESTART;
 		private const string TEXT_RESTART = ".....Press {SPACE} to start";
 		private const string TEXT_SCORE = "Score: ";
-		private static Color TOP_COLOUR = Color.Red;
-		private static Color BOTTOM_COLOUR = Color.White;
 		#endregion Class variables
 
 		#region Class propeties
@@ -45,21 +42,28 @@ namespace SnakeRawrRawr.Model.Display {
 
 		#region Constructor
 		public HUD(ContentManager content) {
-			this.pulseDirection = PulseDirection.Down;
-			this.lerp = 0.001f;
-
 			SpriteFont font = LoadingUtils.load<SpriteFont>(content, "SpriteFont1");
 			Text2DParams parms = new Text2DParams();
 			parms.Font = font;
-			parms.LightColour = TOP_COLOUR;
+			parms.LightColour = Color.Red;
 
 			parms.Position = new Vector2(Constants.RESOLUTION_X / 4, 0f);
 			parms.WrittenText = TEXT_WAITING;
 			this.statusText = new Text2D(parms);
 
+			ColourLerpEffectParams effectParms = new ColourLerpEffectParams {
+				Reference = this.statusText,
+				LerpBy = .05f,
+				LerpDownTo = Color.White,
+				LerpUpTo = Color.Red
+			};
+			this.statusText.Effects = new List<BaseEffect> { new ColorLerpEffect(effectParms) };
+
 			parms.Position = new Vector2(Constants.RESOLUTION_X - 250f, 0f);
 			parms.WrittenText = TEXT_SCORE + getScore();
 			this.scoreText = new Text2D(parms);
+			effectParms.Reference = this.scoreText;
+			this.scoreText.Effects = new List<BaseEffect> { new ColorLerpEffect(effectParms) };
 		}
 		#endregion Constructor
 
@@ -76,21 +80,8 @@ namespace SnakeRawrRawr.Model.Display {
 			} else if (StateManager.getInstance().CurrentGameState == GameState.Active) {
 				this.scoreText.WrittenText = TEXT_SCORE + getScore();
 			}
-
-			if (this.pulseDirection == PulseDirection.Up) {
-				this.lerp += LERP_BY;
-				if (this.lerp >= 1) {
-					this.pulseDirection = PulseDirection.Down;
-				}
-			} else {
-				this.lerp -= LERP_BY;
-				if (this.lerp <= 0) {
-					this.pulseDirection = PulseDirection.Up;
-				}
-			}
-			Color lerped = Color.Lerp(TOP_COLOUR, BOTTOM_COLOUR, this.lerp);
-			this.statusText.LightColour = lerped;
-			this.scoreText.LightColour = lerped;
+			this.statusText.update(elapsed);
+			this.scoreText.update(elapsed);
 		}
 
 		public void render(SpriteBatch spriteBatch) {

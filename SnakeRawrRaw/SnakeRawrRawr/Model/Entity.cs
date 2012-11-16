@@ -87,7 +87,7 @@ namespace SnakeRawrRawr.Model {
 			}
 #if DEBUG
 			if (Model.Display.GameDisplay.debugOn) {
-				DebugUtils.drawBoundingBox(spriteBatch, this.BBox, Constants.DEBUG_BBOX_COLOUR, debugLine);
+				DebugUtils.drawBoundingBox(spriteBatch, this.BBox, Constants.DEBUG_BBOX_Color, debugLine);
 			}
 #endif
 		}

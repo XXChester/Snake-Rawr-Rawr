@@ -99,22 +99,6 @@ namespace SnakeRawrRawr.Model {
 				}
 			}
 			updatePulse(newScale);
-			/*if (this.pulseDirection == PulseDirection.Up) {
-				float x = base.Scale.X + PULSE_BY;
-				base.Scale = new Vector2(x, base.Scale.Y);
-				if (x >= PULSE_UP) {
-					this.pulseDirection = PulseDirection.Down;
-				}
-			} else {
-				float x = base.Scale.X - PULSE_BY;
-				base.Scale = new Vector2(x, base.Scale.Y);
-				if (x <= PULSE_DOWN) {
-					this.pulseDirection = PulseDirection.Up;
-				}
-			}
-			if (this.child != null) {
-				this.child.update(elapsed);
-			}*/
 		}
 
 		public override void render(SpriteBatch spriteBatch) {

@@ -68,7 +68,7 @@ namespace SnakeRawrRawr.Model {
 			this.debugPivotPoints = new List<StaticDrawable2D>();
 			this.pivotParms = new StaticDrawable2DParams();
 			this.pivotParms.Texture = LoadingUtils.load<Texture2D>(content, "Chip");
-			this.pivotParms.LightColour = Constants.DEBUG_PIVOT_COLOUR;
+			this.pivotParms.LightColour = Constants.DEBUG_PIVOT_Color;
 			this.pivotParms.Scale = new Vector2(4f);
 #endif
 		}
@@ -151,9 +151,9 @@ namespace SnakeRawrRawr.Model {
 				// create our new link
 				List<PivotPoint> clonedPivots = new List<PivotPoint>();
 				clonedPivots.AddRange(this.tail.PivotPoints);
-				node.Child = new Body(this.content, this.tail.Position, this.tail.Headind, this.tail.Rotation, clonedPivots);
+				node.Child = new Body(this.content, this.tail.Position, this.tail.Heading, this.tail.Rotation, clonedPivots);
 				// we need to push the tail back
-				Vector2 delta = PositionUtils.getDelta(-this.tail.Headind, Constants.TILE_SIZE - Constants.OVERLAP);
+				Vector2 delta = PositionUtils.getDelta(-this.tail.Heading, Constants.TILE_SIZE - Constants.OVERLAP);
 				this.tail.Position += delta;
 				// increase our speed
 				this.currentSpeed += speedMultiplier;

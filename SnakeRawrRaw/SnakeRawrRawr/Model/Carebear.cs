@@ -72,11 +72,18 @@ namespace SnakeRawrRawr.Model {
 		#endregion Constructor
 
 		#region Support methods
+		protected override void createIdleEmitter() {
+			BaseParticle2DEmitterParams emitterParms = new BaseParticle2DEmitterParams();
+			emitterParms.ParticleTexture = LoadingUtils.load<Texture2D>(content, "Heart");
+			emitterParms.SpawnDelay = 350f;
+			base.idleEmitter = new ConstantSpeedParticleEmitter(emitterParms, base.Position, new Vector2(Constants.TILE_SIZE / 2));
+		}
+
 		public override void handleCollision(Vector2 heading) {
 			this.LifeStage = Stage.Dying;
 			BaseParticle2DEmitterParams parms = new BaseParticle2DEmitterParams();
-			parms.ParticleTexture = fluffTexture;
-			base.emitter = new DeathParticleEmitter(parms, base.Position, heading, base.dyingCharacterTextures);
+			parms.ParticleTexture = this.fluffTexture;
+			base.deathEmitter = new DeathParticleEmitter(parms, base.Position, heading, base.dyingCharacterTextures);
 			base.init(null);
 		}
 		#endregion Support methods

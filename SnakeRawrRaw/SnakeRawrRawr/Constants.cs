@@ -5,6 +5,8 @@ using System.Text;
 
 using Microsoft.Xna.Framework;
 
+using GWNorthEngine.Engine;
+
 namespace SnakeRawrRawr {
 	public class Constants {
 		public const float TILE_SIZE = 16f;
@@ -17,15 +19,15 @@ namespace SnakeRawrRawr {
 		public const int RESOLUTION_X = 1280;
 		public const int RESOLUTION_Y = 768;
 		public const int EDIBLE_NODES = 3;
-		public const int RARE_SPAWN_ODDS = 1;//7; // 1 in 7
+		public const int RARE_SPAWN_ODDS = 7; // 1 in 7
 		public static Vector2 HEADING_LEFT = new Vector2(-1, 0f);
 		public static Vector2 HEADING_RIGHT = new Vector2(1, 0f);
 		public static Vector2 HEADING_UP = new Vector2(0, -1f);
 		public static Vector2 HEADING_DOWN = new Vector2(0, 1f);
 
 #if DEBUG
-		public static Color DEBUG_BBOX_COLOUR = Color.Red;
-		public static Color DEBUG_PIVOT_COLOUR = Color.White;
+		public static Color DEBUG_BBOX_Color = Color.Red;
+		public static Color DEBUG_PIVOT_Color = Color.White;
 #endif
 	}
 }

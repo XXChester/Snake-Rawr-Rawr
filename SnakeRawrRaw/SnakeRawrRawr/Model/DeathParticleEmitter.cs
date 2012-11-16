@@ -85,6 +85,21 @@ namespace SnakeRawrRawr.Model {
 			base.particles.Add(new DeacceleratingParticle(base.particleParams));
 			base.createParticle();
 		}
+
+		public override void update(float elapsed) {
+			base.elapsedSpawnTime += elapsed;
+			if (base.elapsedSpawnTime <= Constants.DEATH_DURATION) {
+				foreach (BaseParticle2D particle in base.particles) {
+					if (particle.TimeAlive < particle.TimeToLive) {
+						particle.update(elapsed);
+					}
+				}
+			} else {
+				base.particles = null;
+			}
+
+			
+		}
 		#endregion Support methods
 	}
 }

@@ -33,7 +33,8 @@ namespace SnakeRawrRawr.Model {
 		private bool lapseTime;
 		protected Animated2DSprite spawnSprite;
 		protected Animated2DSprite idleSprite;
-		protected DeathParticleEmitter emitter;
+		protected DeathParticleEmitter deathEmitter;
+		protected BaseParticle2DEmitter idleEmitter;
 		protected List<Texture2D> dyingCharacterTextures;
 		#endregion Class variables
 
@@ -56,6 +57,7 @@ namespace SnakeRawrRawr.Model {
 		#endregion Constructor
 
 		#region Support methods
+		protected abstract void createIdleEmitter();
 		public abstract void handleCollision(Vector2 heading);
 
 		public bool wasCollision(BoundingBox bbox, Vector2 heading) {
@@ -63,6 +65,7 @@ namespace SnakeRawrRawr.Model {
 			if (this.LifeStage == Stage.Idle) {
 				if (base.BBox.Intersects(bbox)) {
 					handleCollision(heading);
+					this.idleEmitter = null;
 					collision = true;
 				}
 			}
@@ -74,10 +77,15 @@ namespace SnakeRawrRawr.Model {
 				this.elapsedTime = 0f;
 			}
 
+			if (this.idleEmitter != null) {
+				this.idleEmitter.update(elapsed);
+			}
+
 			if (this.LifeStage == Stage.Spawn) {
 				if (this.spawnSprite.AnimationManager.State == AnimationState.Paused) {
 					this.elapsedTime += elapsed;
 					this.lapseTime = true;
+					createIdleEmitter();
 				}
 				
 				if (this.elapsedTime >= Constants.SHOW_SPAWN_FOR) {
@@ -90,21 +98,24 @@ namespace SnakeRawrRawr.Model {
 				if (this.elapsedTime >= Constants.DEATH_DURATION) {
 					this.Release = true;
 				}
-				if (this.emitter != null) {
-					this.emitter.update(elapsed);
+				if (this.deathEmitter != null) {
+					this.deathEmitter.update(elapsed);
 				}
 			}
 			base.update(elapsed);
 		}
 
 		public override void render(SpriteBatch spriteBatch) {
+			base.render(spriteBatch);
 			if (this.lifeStage == Stage.Spawn && lapseTime) {
 				this.idleSprite.render(spriteBatch);
 			}
-			if (this.emitter != null) {
-				this.emitter.render(spriteBatch);
+			if (this.idleEmitter != null) {
+				this.idleEmitter.render(spriteBatch);
 			}
-			base.render(spriteBatch);
+			if (this.deathEmitter != null) {
+				this.deathEmitter.render(spriteBatch);
+			}
 		}
 		#endregion Support methods
 	}

@@ -109,6 +109,7 @@ namespace SnakeRawrRawr.Model.Display {
 								
 							}
 							if (food.Release) {
+								this.foods[i] = null;
 								this.foods.RemoveAt(i);
 								i--;
 							}
@@ -150,7 +151,7 @@ namespace SnakeRawrRawr.Model.Display {
 			}
 #if DEBUG
 			if (GameDisplay.debugOn) {
-				DebugUtils.drawBoundingBox(spriteBatch, this.boundary, Constants.DEBUG_BBOX_COLOUR, debugLine);
+				DebugUtils.drawBoundingBox(spriteBatch, this.boundary, Constants.DEBUG_BBOX_Color, debugLine);
 			}
 #endif
 		}

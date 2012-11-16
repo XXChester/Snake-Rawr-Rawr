@@ -23,18 +23,22 @@ begging for an appearance so, here it is.
 ====================
 	POLISH
 ====================
-[]Multiple nodes
-[]Regular node spawn effect
-[]Regular node idle animation
-[]Regular node death effect
+[*]Multiple nodes
+[*]Regular node spawn effect
+[*]Regular node idle animation
+[*]Regular node death effect
 [*]Rare node spawn effect
 [*]Rare node idle animation
-[]Rare node death effect
+[]Rare node idle particles
+[*]Rare node death effect
 [*]Head animation
 [*]Body animation
 [*]Tail animation
 [*]HUD text pulse animation
 []SFK
+[]Music
+[]Portals
+[]Random wall generation
 
 ====================
 	BUGS
@@ -48,6 +52,6 @@ begging for an appearance so, here it is.
 modeling:		.5 hours
 programming
 	core:		6 hours		6:20pm-6:25pm
-	polish:		3.25 hours
-art:			4.25 hours	
+	polish:		3.25 hours	8:38am-9:48pm	1:13pm-1:41pm	2:25pm-2:37pm
+art:			4.25 hours	10:10am-11:27am	1:42pm-2:23pm
 sound:		
