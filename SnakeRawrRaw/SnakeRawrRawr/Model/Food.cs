@@ -15,6 +15,8 @@ using GWNorthEngine.Engine;
 using GWNorthEngine.Engine.Params;
 using GWNorthEngine.Model;
 using GWNorthEngine.Model.Params;
+using GWNorthEngine.Model.Effects;
+using GWNorthEngine.Model.Effects.Params;
 using GWNorthEngine.Logic;
 using GWNorthEngine.Logic.Params;
 using GWNorthEngine.Input;
@@ -31,11 +33,12 @@ namespace SnakeRawrRawr.Model {
 		private Stage previousLifeStage;
 		private Stage lifeStage;
 		private bool lapseTime;
-		protected Animated2DSprite spawnSprite;
-		protected Animated2DSprite idleSprite;
-		protected DeathParticleEmitter deathEmitter;
+		private List<Texture2D> dyingCharacterTextures;
+		private Texture2D deathParticleTexture;
+		private Animated2DSprite spawnSprite;
+		private Animated2DSprite idleSprite;
+		private DeathParticleEmitter deathEmitter;
 		protected BaseParticle2DEmitter idleEmitter;
-		protected List<Texture2D> dyingCharacterTextures;
 		#endregion Class variables
 
 		#region Class propeties
@@ -49,16 +52,54 @@ namespace SnakeRawrRawr.Model {
 		#endregion Class properties
 
 		#region Constructor
-		public Food(ContentManager content, int points, float speedMultiplier) : base(content) {
+		public Food(ContentManager content, Random rand, int points, float speedMultiplier, List<string> dyingCharacterTextureNames, string deathParticleTextureName,
+			string idleTextureName, string spawnTextureName, float spawnPositionYOffset = 0f) 
+			: base(content) {
 			this.Points = points;
 			this.SpeedMultiplier = speedMultiplier;
 			this.LifeStage = Stage.Spawn;
+
+			this.dyingCharacterTextures = new List<Texture2D>();
+			foreach (string texture in dyingCharacterTextureNames) {
+				this.dyingCharacterTextures.Add(LoadingUtils.load<Texture2D>(content, texture));
+			}
+			this.deathParticleTexture = LoadingUtils.load<Texture2D>(content, deathParticleTextureName);
+
+			Animated2DSpriteLoadSingleRowBasedOnTexture parms = new Animated2DSpriteLoadSingleRowBasedOnTexture();
+			BaseAnimationManagerParams animationParms = new BaseAnimationManagerParams();
+			animationParms.AnimationState = AnimationState.PlayForward;
+			animationParms.FrameRate = 100f;
+			animationParms.TotalFrameCount = 4;
+			parms.Position = new Vector2(PositionUtils.getPosition(rand.Next(1, Constants.MAX_X_TILES - 1)),
+				PositionUtils.getPosition(rand.Next(1, Constants.MAX_Y_TILES - 1)) + Constants.HUD_OFFSET + Constants.TILE_SIZE / 2 + Constants.OVERLAP);
+			parms.Texture = LoadingUtils.load<Texture2D>(content, idleTextureName);
+			parms.Scale = new Vector2(.5f);
+			parms.Origin = new Vector2(Constants.TILE_SIZE);
+			parms.AnimationParams = animationParms;
+			this.idleSprite = new Animated2DSprite(parms);
+
+			animationParms.AnimationState = AnimationState.PlayForwardOnce;
+			parms.AnimationParams = animationParms;
+			parms.Texture = LoadingUtils.load<Texture2D>(content, spawnTextureName);
+			parms.Scale = new Vector2(1f);
+			parms.Position = new Vector2(parms.Position.X, parms.Position.Y + spawnPositionYOffset);
+			this.spawnSprite = new Animated2DSprite(parms);
+
+			base.init(this.spawnSprite);
+
 		}
 		#endregion Constructor
 
 		#region Support methods
 		protected abstract void createIdleEmitter();
-		public abstract void handleCollision(Vector2 heading);
+
+		public virtual void handleCollision(Vector2 heading) {
+			this.LifeStage = Stage.Dying;
+			BaseParticle2DEmitterParams parms = new BaseParticle2DEmitterParams();
+			parms.ParticleTexture = this. deathParticleTexture;
+			this.deathEmitter = new DeathParticleEmitter(parms, base.Position, heading, this.dyingCharacterTextures);
+			base.init(null);
+		}
 
 		public bool wasCollision(BoundingBox bbox, Vector2 heading) {
 			bool collision = false;
@@ -74,7 +115,7 @@ namespace SnakeRawrRawr.Model {
 
 		public override void update(float elapsed) {
 			if (this.previousLifeStage != this.LifeStage) {
-				this.elapsedTime = 0f;
+				
 			}
 
 			if (this.idleEmitter != null) {
@@ -92,6 +133,7 @@ namespace SnakeRawrRawr.Model {
 					base.init(this.idleSprite);
 					this.LifeStage = Stage.Idle;
 					this.lapseTime = false;
+					this.elapsedTime = 0f;
 				}
 			} else if (this.LifeStage == Stage.Dying) {
 				this.elapsedTime += elapsed;
@@ -110,8 +152,10 @@ namespace SnakeRawrRawr.Model {
 			if (this.lifeStage == Stage.Spawn && lapseTime) {
 				this.idleSprite.render(spriteBatch);
 			}
-			if (this.idleEmitter != null) {
-				this.idleEmitter.render(spriteBatch);
+			if (this.lifeStage == Stage.Idle) {
+				if (this.idleEmitter != null) {
+					this.idleEmitter.render(spriteBatch);
+				}
 			}
 			if (this.deathEmitter != null) {
 				this.deathEmitter.render(spriteBatch);

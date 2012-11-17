@@ -26,9 +26,12 @@ using SnakeRawrRawr.Logic;
 namespace SnakeRawrRawr.Model {
 	public class Carebear : Food {
 		#region Class variables
-		private Texture2D fluffTexture;
 		private const int VALUE = 75;
 		private const float SPEED_MULTIPLIER = 10f;
+		private const string DEATH_PARTICLE_TEXTURE_NAME = "Fluff";
+		private static List<string> DYING_CHAR_TEXTURE_NAMES = new List<string> {
+			"CarebearHead", "CarebearLeftHand", "CarebearRightHand", "CarebearLeftLeg", "CarebearRightLeg"
+		};
 		#endregion Class variables
 
 		#region Class propeties
@@ -36,38 +39,9 @@ namespace SnakeRawrRawr.Model {
 		#endregion Class properties
 
 		#region Constructor
-		public Carebear(ContentManager content, Random rand) : base(content, VALUE, SPEED_MULTIPLIER) {
-			base.dyingCharacterTextures = new List<Texture2D>{
-				LoadingUtils.load<Texture2D>(content, "CarebearHead"),
-				LoadingUtils.load<Texture2D>(content, "CarebearLeftHand"),
-				LoadingUtils.load<Texture2D>(content, "CarebearRightHand"),
-				LoadingUtils.load<Texture2D>(content, "CarebearLeftLeg"),
-				LoadingUtils.load<Texture2D>(content, "CarebearRightLeg"),
-			};
-
-			this.fluffTexture = LoadingUtils.load<Texture2D>(content, "Fluff");
-
-			Animated2DSpriteLoadSingleRowBasedOnTexture parms = new Animated2DSpriteLoadSingleRowBasedOnTexture();
-			BaseAnimationManagerParams animationParms = new BaseAnimationManagerParams();
-			animationParms.AnimationState = AnimationState.PlayForward;
-			animationParms.FrameRate = 100f;
-			animationParms.TotalFrameCount = 4;
-			parms.Position = new Vector2(PositionUtils.getPosition(rand.Next(1, Constants.MAX_X_TILES - 1)),
-				PositionUtils.getPosition(rand.Next(1, Constants.MAX_Y_TILES - 1)) + Constants.HUD_OFFSET + Constants.TILE_SIZE / 2 + Constants.OVERLAP);
-			parms.Texture = LoadingUtils.load<Texture2D>(content, "Carebear");
-			parms.Scale = new Vector2(.5f);
-			parms.Origin = new Vector2(Constants.TILE_SIZE);
-			parms.AnimationParams = animationParms;
-			base.idleSprite = new Animated2DSprite(parms);
-
-			animationParms.AnimationState = AnimationState.PlayForwardOnce;
-			parms.AnimationParams = animationParms;
-			parms.Texture = LoadingUtils.load<Texture2D>(content, "Rainbow");
-			parms.Scale = new Vector2(1f);
-			parms.Position = new Vector2(parms.Position.X, parms.Position.Y - (Constants.TILE_SIZE / 2));
-			base.spawnSprite = new Animated2DSprite(parms);
-
-			base.init(base.spawnSprite);
+		public Carebear(ContentManager content, Random rand)
+			: base(content, rand, VALUE, SPEED_MULTIPLIER, DYING_CHAR_TEXTURE_NAMES, DEATH_PARTICLE_TEXTURE_NAME,
+			"Carebear", "Rainbow", -(Constants.TILE_SIZE / 2)) {
 		}
 		#endregion Constructor
 
@@ -75,16 +49,8 @@ namespace SnakeRawrRawr.Model {
 		protected override void createIdleEmitter() {
 			BaseParticle2DEmitterParams emitterParms = new BaseParticle2DEmitterParams();
 			emitterParms.ParticleTexture = LoadingUtils.load<Texture2D>(content, "Heart");
-			emitterParms.SpawnDelay = 350f;
+			emitterParms.SpawnDelay = 150f;
 			base.idleEmitter = new ConstantSpeedParticleEmitter(emitterParms, base.Position, new Vector2(Constants.TILE_SIZE / 2));
-		}
-
-		public override void handleCollision(Vector2 heading) {
-			this.LifeStage = Stage.Dying;
-			BaseParticle2DEmitterParams parms = new BaseParticle2DEmitterParams();
-			parms.ParticleTexture = this.fluffTexture;
-			base.deathEmitter = new DeathParticleEmitter(parms, base.Position, heading, base.dyingCharacterTextures);
-			base.init(null);
 		}
 		#endregion Support methods
 	}

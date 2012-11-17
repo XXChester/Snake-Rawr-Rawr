@@ -48,6 +48,7 @@ namespace SnakeRawrRawr.Model {
 			bodyParms.Position = position;
 			bodyParms.Rotation = rotation;
 			bodyParms.Origin = new Vector2(Constants.TILE_SIZE / 2);
+			bodyParms.LightColour = Constants.SNAKE_LIGHT;
 			base.init(new StaticDrawable2D(bodyParms));
 
 			this.heading = heading;

@@ -26,6 +26,7 @@ using GWNorthEngine.Scripting;
 namespace SnakeRawrRawr.Model {
 	public class ConstantSpeedParticleEmitter : AutoParticle2DEmitter {
 		#region Class variables
+		private bool sway;
 		private Vector2 position;
 		private Vector2 origin;
 		private const float VERTICLE_HEADING = -1f;
@@ -43,11 +44,12 @@ namespace SnakeRawrRawr.Model {
 		#endregion Class properties
 
 		#region Constructor
-		public ConstantSpeedParticleEmitter(BaseParticle2DEmitterParams parms, Vector2 position, Vector2 origin)
+		public ConstantSpeedParticleEmitter(BaseParticle2DEmitterParams parms, Vector2 position, Vector2 origin, bool sway=true)
 			: base(parms) {
 
 			this.position = position;
 			this.origin = origin;
+			this.sway = sway;
 		}
 		#endregion Constructor
 
@@ -56,20 +58,32 @@ namespace SnakeRawrRawr.Model {
 			Vector2 heading = HEADINGS[base.RANDOM.Next(HEADINGS.Length)];
 
 			BaseParticle2DParams particleParms = new BaseParticle2DParams();
-			particleParms.TimeToLive = 250;
+			particleParms.TimeToLive = 500;
 			particleParms.Origin = this.origin;
 			particleParms.Texture = base.particleTexture;
 			particleParms.Scale = new Vector2(.5f);
 			particleParms.Position = this.position;
 			particleParms.Direction = heading;
-			particleParms.Acceleration = new Vector2(50f, 50f);
+			particleParms.Acceleration = new Vector2(25f, 35f);
 
 			ConstantSpeedParticle particle = new ConstantSpeedParticle(particleParms);
 			ScaleOverTimeEffectParams effectParms = new ScaleOverTimeEffectParams {
 				Reference = particle,
-				ScaleBy = new Vector2(.05f)
+				ScaleBy = new Vector2(1.75f)
 			};
 			particle.addEffect(new ScaleOverTimeEffect(effectParms));
+
+			if (this.sway) {
+				PulseDirection direction = EnumUtils.numberToEnum<PulseDirection>(base.RANDOM.Next(2));
+				SwayEffectParms swayEffectParms = new SwayEffectParms {
+					Reference = particle,
+					SwayBy = new Vector2(50f, 0f),
+					SwayDownTo = -5f,
+					SwayUpTo = 5f,
+					Direction = direction
+				};
+				particle.addEffect(new SwayEffect(swayEffectParms));
+			}
 			base.particles.Add(particle);
 
 			base.createParticle();

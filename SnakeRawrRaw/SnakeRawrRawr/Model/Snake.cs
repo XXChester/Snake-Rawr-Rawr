@@ -30,12 +30,14 @@ namespace SnakeRawrRawr.Model {
 		private Body body;
 		private Vector2 heading;
 		private List<PivotPoint> pivotPoints;
+		private StaticDrawable2DParams cornerParms;
+		private List<StaticDrawable2D> corners;
 		private float currentSpeed;
 #if DEBUG
 		private List<StaticDrawable2D> debugPivotPoints;
 		private StaticDrawable2DParams pivotParms;
 #endif
-		private const float STARTING_SPEED = 200f;
+		private const float STARTING_SPEED = 10f;//200f;
 		#endregion Class variables
 
 		#region Class propeties
@@ -57,13 +59,19 @@ namespace SnakeRawrRawr.Model {
 			headParms.Texture = LoadingUtils.load<Texture2D>(content, "SnakeHead");
 			headParms.Scale = new Vector2(.5f);
 			headParms.Origin = new Vector2(Constants.TILE_SIZE);
+			headParms.LightColour = Constants.SNAKE_LIGHT;
 			headParms.AnimationParams = animationParms;
 			base.init(new Animated2DSprite(headParms));
 
 			this.body = new Body(content, new Vector2(headParms.Position.X, headParms.Position.Y + Constants.TILE_SIZE - Constants.OVERLAP), this.heading);
 
 			this.tail = new Tail(content, new Vector2(headParms.Position.X, headParms.Position.Y + (Constants.TILE_SIZE - Constants.OVERLAP) * 2), this.heading);
-
+			this.cornerParms = new StaticDrawable2DParams {
+				Texture = LoadingUtils.load<Texture2D>(content, "SnakeBody"),
+				Origin = new Vector2(Constants.TILE_SIZE / 2),
+				Scale = new Vector2(.8f),
+			};
+			this.corners = new List<StaticDrawable2D>();
 #if DEBUG
 			this.debugPivotPoints = new List<StaticDrawable2D>();
 			this.pivotParms = new StaticDrawable2DParams();
@@ -81,6 +89,9 @@ namespace SnakeRawrRawr.Model {
 			this.pivotPoints.Add(pivot);
 			this.body.addPivotPoint(pivot);
 			this.tail.PivotPoints.Add(pivot);
+			this.cornerParms.Position = base.Position;
+			this.cornerParms.Rotation += MathHelper.ToRadians(rotation);
+			this.corners.Add(new StaticDrawable2D(this.cornerParms));
 #if DEBUG
 			this.pivotParms.Position = base.Position;
 			this.debugPivotPoints.Add(new StaticDrawable2D(this.pivotParms));
@@ -95,6 +106,12 @@ namespace SnakeRawrRawr.Model {
 			this.body.update(elapsed);
 			this.tail.updateMovement(distance);
 			this.tail.update(elapsed);
+			for (int i = 0; i < this.corners.Count; i++) {
+				if (!this.tail.hasPivot(this.corners[i].Position)) {
+					this.corners.RemoveAt(i);
+					i--;
+				}
+			}
 		}
 
 		private void handleInput() {
@@ -168,6 +185,11 @@ namespace SnakeRawrRawr.Model {
 		}
 
 		public override void render(SpriteBatch spriteBatch) {
+			if (this.corners != null) {
+				foreach (StaticDrawable2D corner in this.corners) {
+					corner.render(spriteBatch);
+				}
+			}
 			base.render(spriteBatch);
 			if (this.body != null) {
 				this.body.render(spriteBatch);

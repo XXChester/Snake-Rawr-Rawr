@@ -47,6 +47,7 @@ namespace SnakeRawrRawr.Model {
 			tailParms.Texture = LoadingUtils.load<Texture2D>(content, "SnakeTail");
 			tailParms.Scale = new Vector2(.5f);
 			tailParms.Origin = new Vector2(Constants.TILE_SIZE);
+			tailParms.LightColour = Constants.SNAKE_LIGHT;
 			tailParms.AnimationParams = animationParms;
 			base.init(new Animated2DSprite(tailParms));
 
@@ -56,6 +57,17 @@ namespace SnakeRawrRawr.Model {
 		#endregion Constructor
 
 		#region Support methods
+		public bool hasPivot(Vector2 position) {
+			bool pivotFound = false;
+			foreach (PivotPoint pivot in this.pivotPoints) {
+				if (position.Equals(pivot.Position)) {
+					pivotFound = true;
+					break;
+				}
+			}
+			return pivotFound;
+		}
+		
 		public void updateMovement(float distance) {
 			Vector2 position = base.Position;
 			float rotation = base.Rotation;

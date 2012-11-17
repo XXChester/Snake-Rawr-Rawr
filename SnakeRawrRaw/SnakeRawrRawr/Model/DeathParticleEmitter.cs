@@ -15,6 +15,8 @@ using GWNorthEngine.Engine;
 using GWNorthEngine.Engine.Params;
 using GWNorthEngine.Model;
 using GWNorthEngine.Model.Params;
+using GWNorthEngine.Model.Effects;
+using GWNorthEngine.Model.Effects.Params;
 using GWNorthEngine.Logic;
 using GWNorthEngine.Logic.Params;
 using GWNorthEngine.Input;
@@ -54,9 +56,19 @@ namespace SnakeRawrRawr.Model {
 
 			particleParms.Scale = new Vector2(.5f);
 			particleParms.Position = position;
+			FadeEffectParams effectParms = null;
+			DeacceleratingParticle particle = null;
 			foreach (Texture2D texture in characterTextures) {
 				particleParms.Texture = texture;
-				base.particles.Add(new DeacceleratingParticle(particleParms));
+				particle = new DeacceleratingParticle(particleParms);
+				effectParms = new FadeEffectParams {
+					Reference = particle,
+					OriginalColour = Color.White,
+					State = FadeEffect.FadeState.Out,
+					TotalTransitionTime = Constants.DEATH_DURATION
+				};
+				particle.addEffect(new FadeEffect(effectParms));
+				base.particles.Add(particle);
 			}
 		}
 		#endregion Constructor
@@ -82,13 +94,25 @@ namespace SnakeRawrRawr.Model {
 
 			base.particleParams.Scale = new Vector2(base.RANDOM.Next(MIN_SCALE, MAX_SCALE) / 100f);
 			base.particleParams.Position = new Vector2(x, y);
-			base.particles.Add(new DeacceleratingParticle(base.particleParams));
+			DeacceleratingParticle particle = new DeacceleratingParticle(base.particleParams);
+			FadeEffectParams effectParms = new FadeEffectParams {
+				Reference = particle,
+				OriginalColour = Color.White,
+				State = FadeEffect.FadeState.Out,
+				TotalTransitionTime = Constants.DEATH_DURATION
+			};
+			particle.addEffect(new FadeEffect(effectParms));
+			base.particles.Add(particle);
 			base.createParticle();
 		}
 
 		public override void update(float elapsed) {
 			base.elapsedSpawnTime += elapsed;
-			if (base.elapsedSpawnTime <= Constants.DEATH_DURATION) {
+			if (base.elapsedSpawnTime < Constants.DEATH_DURATION) {
+				foreach (BaseParticle2D particle in base.particles) {
+					particle.updateEffects(elapsed);
+				}
+			} else if (base.elapsedSpawnTime <= Constants.DEATH_DURATION) {
 				foreach (BaseParticle2D particle in base.particles) {
 					if (particle.TimeAlive < particle.TimeToLive) {
 						particle.update(elapsed);
@@ -97,8 +121,6 @@ namespace SnakeRawrRawr.Model {
 			} else {
 				base.particles = null;
 			}
-
-			
 		}
 		#endregion Support methods
 	}

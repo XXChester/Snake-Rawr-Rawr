@@ -53,7 +53,7 @@ namespace SnakeRawrRawr.Model.Display {
 
 			ColourLerpEffectParams effectParms = new ColourLerpEffectParams {
 				Reference = this.statusText,
-				LerpBy = .05f,
+				LerpBy = 5f,
 				LerpDownTo = Color.White,
 				LerpUpTo = Color.Red
 			};

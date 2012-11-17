@@ -26,7 +26,8 @@ namespace SnakeRawrRawr.Model {
 		#region Class variables
 		private StaticDrawable2D backGround;
 		private List<StaticDrawable2D> grassBlades;
-		private const int GRASS_BLADES = 1500;
+		private const int GRASS_BLADES = 500;
+		private static Color COLOUR = Color.DarkGreen;
 		#endregion Class variables
 
 		#region Class propeties
@@ -37,8 +38,8 @@ namespace SnakeRawrRawr.Model {
 		public BackGround(ContentManager content) {
 			StaticDrawable2DParams backGroundParms = new StaticDrawable2DParams();
 			backGroundParms.Position = new Vector2(0f, Constants.HUD_OFFSET);
-			backGroundParms.Scale = new Vector2(40f, 23f);
-			backGroundParms.Texture = LoadingUtils.load<Texture2D>(content, "BackGround");
+			backGroundParms.Texture = LoadingUtils.load<Texture2D>(content, "BackGround1");
+			backGroundParms.LightColour = COLOUR;
 			this.backGround = new StaticDrawable2D(backGroundParms);
 
 			this.grassBlades = new List<StaticDrawable2D>();

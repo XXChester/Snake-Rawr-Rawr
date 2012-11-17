@@ -72,11 +72,11 @@
             </summary>
             <param name="effect">Effect object to add</param>
         </member>
-        <member name="M:GWNorthEngine.Model.Base2DSpriteDrawable.rotateAsLifeProgresses(System.Single)">
+        <member name="M:GWNorthEngine.Model.Base2DSpriteDrawable.updateEffects(System.Single)">
             <summary>
-            Rotates the object over time
+            Updates the effects applied to a BaseStatic2DSpriteDrawable
             </summary>
-            <param name="rotationSpeed"></param>
+            <param name="elapsed">Time elapsed sense the last call</param>
         </member>
         <member name="M:GWNorthEngine.Model.Base2DSpriteDrawable.update(System.Single)">
             <summary>
@@ -724,7 +724,18 @@
             Models the manditory fields for an effect
             </summary>
         </member>
-        <member name="M:GWNorthEngine.Model.Effects.BaseEffect.update">
+        <member name="F:GWNorthEngine.Model.Effects.BaseEffect.reference">
+            <summary>
+            Reference object
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.Model.Effects.BaseEffect.#ctor(GWNorthEngine.Model.Effects.Params.BaseEffectParams)">
+            <summary>
+            Constructs a BaseEffect object based on the parms
+            </summary>
+            <param name="parms">BaseEffectParams object</param>
+        </member>
+        <member name="M:GWNorthEngine.Model.Effects.BaseEffect.update(System.Single)">
             <summary>
             Every effect must implement the update method
             </summary>
@@ -735,7 +746,7 @@
             </summary>
             <param name="parms">PulseEffectParams object</param>
         </member>
-        <member name="M:GWNorthEngine.Model.Effects.PulseEffect.update">
+        <member name="M:GWNorthEngine.Model.Effects.PulseEffect.update(System.Single)">
             <summary>
             Runs the effect
             </summary>
@@ -820,11 +831,6 @@
             Builds the base particle
             </summary>
             <param name="parms">BaseParticle2DParams object containing the data required to build the particle</param>
-        </member>
-        <member name="M:GWNorthEngine.Model.BaseParticle2D.fadeOutAsLifeProgresses">
-            <summary>
-            Fades the particle out over its life time to eventually invisible
-            </summary>
         </member>
         <member name="M:GWNorthEngine.Model.BaseParticle2D.update(System.Single)">
             <summary>
@@ -1269,6 +1275,27 @@
         <member name="P:GWNorthEngine.Scripting.ScriptManager.LockOnEnabled">
             <summary>
             Gets whether or not locking on is enabled
+            </summary>
+        </member>
+        <member name="T:GWNorthEngine.Model.Effects.RotateOverTimeEffect">
+            <summary>
+            Models the data required for a rotate over time effect
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.Model.Effects.RotateOverTimeEffect.#ctor(GWNorthEngine.Model.Effects.Params.RotateOverTimeEffectParams)">
+            <summary>
+            Constructs a ScaleOverTimeEffect
+            </summary>
+            <param name="parms">RotateOverTimeEffectParams object</param>
+        </member>
+        <member name="M:GWNorthEngine.Model.Effects.RotateOverTimeEffect.update(System.Single)">
+            <summary>
+            Runs the effect
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Model.Effects.RotateOverTimeEffect.RotateBy">
+            <summary>
+            Amount to rotate by
             </summary>
         </member>
         <member name="T:GWNorthEngine.Model.Params.ScrollingBackGround2DParams">
@@ -1873,7 +1900,7 @@
             </summary>
             <param name="parms">SwayEffectParams object</param>
         </member>
-        <member name="M:GWNorthEngine.Model.Effects.SwayEffect.update">
+        <member name="M:GWNorthEngine.Model.Effects.SwayEffect.update(System.Single)">
             <summary>
             Runs the effect
             </summary>
@@ -2325,6 +2352,11 @@
             Amount to sway down to
             </summary>
         </member>
+        <member name="P:GWNorthEngine.Model.Effects.Params.SwayEffectParms.Direction">
+            <summary>
+            Direction we want to start the effect in
+            </summary>
+        </member>
         <member name="T:GWNorthEngine.Model.Text2D">
             <summary>
             Text class for writing text to the screen
@@ -2518,7 +2550,7 @@
             </summary>
             <param name="parms">ColourLerpEffectParms object used to build the effect</param>
         </member>
-        <member name="M:GWNorthEngine.Model.Effects.ColorLerpEffect.update">
+        <member name="M:GWNorthEngine.Model.Effects.ColorLerpEffect.update(System.Single)">
             <summary>
             Runs the effect
             </summary>
@@ -3070,6 +3102,16 @@
             Amount to lerp by
             </summary>
         </member>
+        <member name="T:GWNorthEngine.Model.Effects.Params.RotateOverTimeEffectParams">
+            <summary>
+            Models the data required for a scale over time effect
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Model.Effects.Params.RotateOverTimeEffectParams.RotateBy">
+            <summary>
+            Amount to rotate by
+            </summary>
+        </member>
         <member name="T:GWNorthEngine.Logic.Params.KeyFrameAnimationManagerParams">
             <summary>
             Models the data required to build a KeyFrameAnimationManager object
@@ -3231,7 +3273,7 @@
             </summary>
             <param name="parms">ScaleOverTimeEffectParams object</param>
         </member>
-        <member name="M:GWNorthEngine.Model.Effects.ScaleOverTimeEffect.update">
+        <member name="M:GWNorthEngine.Model.Effects.ScaleOverTimeEffect.update(System.Single)">
             <summary>
             Runs the effect
             </summary>
@@ -3367,6 +3409,26 @@
         <member name="P:GWNorthEngine.Model.Effects.Params.ScaleOverTimeEffectParams.ScaleBy">
             <summary>
             Amount to scale by
+            </summary>
+        </member>
+        <member name="T:GWNorthEngine.Model.Effects.Params.FadeEffectParams">
+            <summary>
+            Models the data required to build a fade effect
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Model.Effects.Params.FadeEffectParams.State">
+            <summary>
+            State of the effect
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Model.Effects.Params.FadeEffectParams.TotalTransitionTime">
+            <summary>
+            Total time the fade should take
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Model.Effects.Params.FadeEffectParams.OriginalColour">
+            <summary>
+            Original colour to base the effect off of
             </summary>
         </member>
         <member name="T:GWNorthEngine.Logic.KeyFrameAnimationManager">
@@ -3560,6 +3622,57 @@
             Constructor to create a new ScriptException
             </summary>
             <param name="message">Message to send to the console</param>
+        </member>
+        <member name="T:GWNorthEngine.Model.Effects.FadeEffect">
+            <summary>
+            Models the data required for a fade effect
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.Model.Effects.FadeEffect.#ctor(GWNorthEngine.Model.Effects.Params.FadeEffectParams)">
+            <summary>
+            Constructs a FadeEffect object
+            </summary>
+            <param name="parms">FadeEffectParms object</param>
+        </member>
+        <member name="M:GWNorthEngine.Model.Effects.FadeEffect.update(System.Single)">
+            <summary>
+            Runs the effect
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Model.Effects.FadeEffect.State">
+            <summary>
+            State of the effect
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Model.Effects.FadeEffect.TotalTransitionTime">
+            <summary>
+            Total time the fade should take
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Model.Effects.FadeEffect.ElapsedTransitionTime">
+            <summary>
+            Elapsed time the fade has taken
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Model.Effects.FadeEffect.OriginalColour">
+            <summary>
+            Original colour to base the effect off of
+            </summary>
+        </member>
+        <member name="T:GWNorthEngine.Model.Effects.FadeEffect.FadeState">
+            <summary>
+            Fade State
+            </summary>
+        </member>
+        <member name="F:GWNorthEngine.Model.Effects.FadeEffect.FadeState.In">
+            <summary>
+            Fade In
+            </summary>
+        </member>
+        <member name="F:GWNorthEngine.Model.Effects.FadeEffect.FadeState.Out">
+            <summary>
+            Fade out
+            </summary>
         </member>
         <member name="T:GWNorthEngine.Model.Params.Text2DParams">
             <summary>

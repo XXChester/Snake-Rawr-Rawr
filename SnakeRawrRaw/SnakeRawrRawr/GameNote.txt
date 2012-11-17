@@ -7,7 +7,7 @@ begging for an appearance so, here it is.
 
 
 ====================
-	MILESTONES
+	CORE
 ====================
 [*]Model objects
 [*]Render snake
@@ -29,7 +29,7 @@ begging for an appearance so, here it is.
 [*]Regular node death effect
 [*]Rare node spawn effect
 [*]Rare node idle animation
-[]Rare node idle particles
+[*]Rare node idle particles
 [*]Rare node death effect
 [*]Head animation
 [*]Body animation
@@ -39,6 +39,8 @@ begging for an appearance so, here it is.
 []Music
 []Portals
 []Random wall generation
+[*]Snake corner pieces so its not jaggad
+[*]Death animations fade out
 
 ====================
 	BUGS
@@ -51,7 +53,7 @@ begging for an appearance so, here it is.
 ====================
 modeling:		.5 hours
 programming
-	core:		6 hours		6:20pm-6:25pm
-	polish:		3.25 hours	8:38am-9:48pm	1:13pm-1:41pm	2:25pm-2:37pm
-art:			4.25 hours	10:10am-11:27am	1:42pm-2:23pm
-sound:		
+	core:		6.25 hours		
+	polish:		5.75 hours		3:25pm-4:18pm
+art:			6.75 hours	
+sound:			6:25pm-6:40pm	6:52pm-8pm		8:17pm-8:41pm
