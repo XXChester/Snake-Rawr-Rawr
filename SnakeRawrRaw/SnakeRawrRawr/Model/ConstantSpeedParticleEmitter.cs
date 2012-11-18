@@ -11,6 +11,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using GWNorthEngine.Audio;
+using GWNorthEngine.Audio.Params;
 using GWNorthEngine.Engine;
 using GWNorthEngine.Engine.Params;
 using GWNorthEngine.Model;
@@ -23,12 +25,16 @@ using GWNorthEngine.Input;
 using GWNorthEngine.Utils;
 using GWNorthEngine.Scripting;
 
+using SnakeRawrRawr.Engine;
+
 namespace SnakeRawrRawr.Model {
 	public class ConstantSpeedParticleEmitter : AutoParticle2DEmitter {
 		#region Class variables
 		private bool sway;
 		private Vector2 position;
 		private Vector2 origin;
+		private SoundEffect idleSFX;
+		private SoundEmitter sfxEmitter;
 		private const float VERTICLE_HEADING = -1f;
 		private readonly Vector2[] HEADINGS = new Vector2[] { 
 			new Vector2(-1f, VERTICLE_HEADING), 
@@ -44,12 +50,21 @@ namespace SnakeRawrRawr.Model {
 		#endregion Class properties
 
 		#region Constructor
-		public ConstantSpeedParticleEmitter(BaseParticle2DEmitterParams parms, Vector2 position, Vector2 origin, bool sway=true)
+		public ConstantSpeedParticleEmitter(BaseParticle2DEmitterParams parms, Vector2 position, Vector2 origin, SoundEffect idleSFX, float emittRadius, bool sway=true)
 			: base(parms) {
 
 			this.position = position;
 			this.origin = origin;
 			this.sway = sway;
+			this.idleSFX = idleSFX;
+
+			SoundEmitterParams sfxEmitterParms = new SoundEmitterParams {
+				EmittRadius = emittRadius,
+				Position = this.position,
+				SFXEngine = SoundManager.getInstance().SFXEngine
+			};
+			this.sfxEmitter = new SoundEmitter(sfxEmitterParms);
+			SoundManager.getInstance().addEmitter(this.sfxEmitter);
 		}
 		#endregion Constructor
 
@@ -84,6 +99,7 @@ namespace SnakeRawrRawr.Model {
 				};
 				particle.addEffect(new SwayEffect(swayEffectParms));
 			}
+			this.sfxEmitter.playSoundEffect(idleSFX, this.position);
 			base.particles.Add(particle);
 
 			base.createParticle();

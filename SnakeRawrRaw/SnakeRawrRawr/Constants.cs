@@ -29,6 +29,7 @@ namespace SnakeRawrRawr {
 #if DEBUG
 		public static Color DEBUG_BBOX_Color = Color.Red;
 		public static Color DEBUG_PIVOT_Color = Color.White;
+		public static Color DEBUG_RADIUS_COLOUR = Color.LightPink;
 #endif
 	}
 }

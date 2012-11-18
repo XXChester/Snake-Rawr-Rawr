@@ -37,7 +37,7 @@ namespace SnakeRawrRawr.Model {
 		private List<StaticDrawable2D> debugPivotPoints;
 		private StaticDrawable2DParams pivotParms;
 #endif
-		private const float STARTING_SPEED = 10f;//200f;
+		private const float STARTING_SPEED = 200f;
 		#endregion Class variables
 
 		#region Class propeties

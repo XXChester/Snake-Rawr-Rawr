@@ -614,11 +614,6 @@
             Monitors current Sound instances and flags them for cleanup if they have finished playing
             </summary>
         </member>
-        <member name="M:GWNorthEngine.Audio.BaseSoundEngine.dispose">
-            <summary>
-            Cleans up resources used by the SoundEngine
-            </summary>
-        </member>
         <member name="P:GWNorthEngine.Audio.BaseSoundEngine.Volume">
             <summary>
             Gets or sets the volume to play the audio at
@@ -661,11 +656,6 @@
         <member name="M:GWNorthEngine.Audio.SFXEngine.update">
             <summary>
             Monitors current SoundEffectInstances and flags them for cleanup if they have finished playing
-            </summary>
-        </member>
-        <member name="M:GWNorthEngine.Audio.SFXEngine.dispose">
-            <summary>
-            Cleans up the SFXEngines resources
             </summary>
         </member>
         <member name="P:GWNorthEngine.Audio.SFXEngine.Pan">
@@ -2895,11 +2885,6 @@
         <member name="M:GWNorthEngine.Audio.MusicEngine.update">
             <summary>
             Progresses the sound track alongs its path at the end of a sound
-            </summary>
-        </member>
-        <member name="M:GWNorthEngine.Audio.MusicEngine.dispose">
-            <summary>
-            Cleans up resources used by the music engine
             </summary>
         </member>
         <member name="P:GWNorthEngine.Audio.MusicEngine.TrackNumber">

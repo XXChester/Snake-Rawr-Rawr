@@ -28,7 +28,13 @@ namespace SnakeRawrRawr.Model {
 		#region Class variables
 		private const int VALUE = 75;
 		private const float SPEED_MULTIPLIER = 10f;
-		private const string DEATH_PARTICLE_TEXTURE_NAME = "Fluff";
+		private const float IDLE_SFX_EMIT_RADIUS = 1f;
+		private const string TEXTURE_NAME_DEATH_PARTICLE = "Fluff";
+		private const string TEXTURE_NAME_SPAWN = "Rainbow";
+		private const string TEXTURE_NAME_IDLE = "Carebear";
+		private const string SFX_NAME_SPAWN = "ChickenSpawn";
+		private const string SFX_NAME_IDLE = "ChickenIdle";
+		private const string SFX_NAME_DIE = "ChickenDie";
 		private static List<string> DYING_CHAR_TEXTURE_NAMES = new List<string> {
 			"CarebearHead", "CarebearLeftHand", "CarebearRightHand", "CarebearLeftLeg", "CarebearRightLeg"
 		};
@@ -40,8 +46,8 @@ namespace SnakeRawrRawr.Model {
 
 		#region Constructor
 		public Carebear(ContentManager content, Random rand)
-			: base(content, rand, VALUE, SPEED_MULTIPLIER, DYING_CHAR_TEXTURE_NAMES, DEATH_PARTICLE_TEXTURE_NAME,
-			"Carebear", "Rainbow", -(Constants.TILE_SIZE / 2)) {
+			: base(content, rand, VALUE, SPEED_MULTIPLIER, DYING_CHAR_TEXTURE_NAMES, TEXTURE_NAME_DEATH_PARTICLE, TEXTURE_NAME_IDLE, TEXTURE_NAME_SPAWN, SFX_NAME_SPAWN, 
+			SFX_NAME_IDLE, SFX_NAME_DIE, -(Constants.TILE_SIZE / 2)) {
 		}
 		#endregion Constructor
 
@@ -50,7 +56,8 @@ namespace SnakeRawrRawr.Model {
 			BaseParticle2DEmitterParams emitterParms = new BaseParticle2DEmitterParams();
 			emitterParms.ParticleTexture = LoadingUtils.load<Texture2D>(content, "Heart");
 			emitterParms.SpawnDelay = 150f;
-			base.idleEmitter = new ConstantSpeedParticleEmitter(emitterParms, base.Position, new Vector2(Constants.TILE_SIZE / 2));
+			base.idleEmitter = new ConstantSpeedParticleEmitter(emitterParms, base.Position, new Vector2(Constants.TILE_SIZE / 2, Constants.TILE_SIZE), base.idleSFX, 
+				IDLE_SFX_EMIT_RADIUS);
 		}
 		#endregion Support methods
 	}

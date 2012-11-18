@@ -21,6 +21,7 @@ using GWNorthEngine.Input;
 using GWNorthEngine.Utils;
 using GWNorthEngine.Scripting;
 
+using SnakeRawrRawr.Engine;
 using SnakeRawrRawr.Logic;
 
 namespace SnakeRawrRawr.Model.Display {
@@ -35,6 +36,7 @@ namespace SnakeRawrRawr.Model.Display {
 		private BoundingBox boundary;
 #if DEBUG
 		public static bool debugOn = false;
+		public static Texture2D radiusTexture;
 		private Texture2D debugLine;
 #endif
 		#endregion Class variables
@@ -44,9 +46,12 @@ namespace SnakeRawrRawr.Model.Display {
 		#endregion Class properties
 
 		#region Constructor
-		public GameDisplay(ContentManager content) {
+		public GameDisplay(GraphicsDevice graphics, ContentManager content) {
 			this.content = content;
 			init(true);
+#if DEBUG
+			radiusTexture = TextureUtils.create2DRingTexture(graphics, 100, Color.White);
+#endif
 		}
 		#endregion Constructor
 
@@ -95,6 +100,7 @@ namespace SnakeRawrRawr.Model.Display {
 					if (!this.snake.BBox.Intersects(this.boundary) || this.snake.didICollideWithMyself()) {
 						StateManager.getInstance().CurrentGameState = GameState.GameOver;
 					}
+					SoundManager.getInstance().update(this.snake.Position);
 				}
 				if (this.foods != null) {
 					Food food = null;

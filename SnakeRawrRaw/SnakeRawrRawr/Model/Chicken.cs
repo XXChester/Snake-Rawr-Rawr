@@ -28,7 +28,13 @@ namespace SnakeRawrRawr.Model {
 		#region Class variables
 		private const int VALUE = 5;
 		private const float SPEED_MULTIPLIER = 7.5f;
-		private const string DEATH_PARTICLE_TEXTURE_NAME = "Blood";
+		private const float IDLE_SFX_EMIT_RADIUS = 75f;
+		private const string TEXTURE_NAME_DEATH_PARTICLE = "Blood";
+		private const string TEXTURE_NAME_SPAWN = "Egg";
+		private const string TEXTURE_NAME_IDLE = "Chicken";
+		private const string SFX_NAME_SPAWN = "ChickenSpawn";
+		private const string SFX_NAME_IDLE = "ChickenIdle";
+		private const string SFX_NAME_DIE = "ChickenDie";
 		private static List<string> DYING_CHAR_TEXTURE_NAMES = new List<string> {
 			"ChickenHead", "ChickenLeftArm", "ChickenRightArm", "ChickenLeftLeg", "ChickenRightLeg"
 		};
@@ -40,7 +46,8 @@ namespace SnakeRawrRawr.Model {
 
 		#region Constructor
 		public Chicken(ContentManager content, Random rand)
-			: base(content, rand, VALUE, SPEED_MULTIPLIER, DYING_CHAR_TEXTURE_NAMES, DEATH_PARTICLE_TEXTURE_NAME, "Chicken", "Egg") {
+			: base(content, rand, VALUE, SPEED_MULTIPLIER, DYING_CHAR_TEXTURE_NAMES, TEXTURE_NAME_DEATH_PARTICLE, TEXTURE_NAME_IDLE, TEXTURE_NAME_SPAWN, SFX_NAME_SPAWN,
+			SFX_NAME_IDLE, SFX_NAME_DIE) {
 		}
 		#endregion Constructor
 
@@ -50,7 +57,8 @@ namespace SnakeRawrRawr.Model {
 			BaseParticle2DEmitterParams emitterParms = new BaseParticle2DEmitterParams();
 			emitterParms.ParticleTexture = LoadingUtils.load<Texture2D>(content, "Bawk");
 			emitterParms.SpawnDelay = 4000f;
-			base.idleEmitter = new ConstantSpeedParticleEmitter(emitterParms, base.Position, origin, false);
+
+			base.idleEmitter = new ConstantSpeedParticleEmitter(emitterParms, base.Position, origin, base.idleSFX, IDLE_SFX_EMIT_RADIUS, false);
 		}
 		#endregion Support methods
 	}

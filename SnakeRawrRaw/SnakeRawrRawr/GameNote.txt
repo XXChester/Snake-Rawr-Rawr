@@ -36,7 +36,7 @@ begging for an appearance so, here it is.
 [*]Tail animation
 [*]HUD text pulse animation
 []SFK
-[]Music
+[*]Music
 []Portals
 []Random wall generation
 [*]Snake corner pieces so its not jaggad
@@ -54,6 +54,6 @@ begging for an appearance so, here it is.
 modeling:		.5 hours
 programming
 	core:		6.25 hours		
-	polish:		5.75 hours		3:25pm-4:18pm
+	polish:		5.75 hours		3:25pm-4:18pm	10:22pm-11:55pm
 art:			6.75 hours	
-sound:			6:25pm-6:40pm	6:52pm-8pm		8:17pm-8:41pm
+sound:			6:25pm-6:40pm	6:52pm-8pm		8:17pm-8:41pm		3:45pm-6:30pm

@@ -49,7 +49,8 @@ namespace SnakeRawrRawr.Engine {
 		/// all of your content.
 		/// </summary>
 		protected override void LoadContent() {
-			this.gameDisplay = new GameDisplay(Content);
+			SoundManager.getInstance().init(Content);
+			this.gameDisplay = new GameDisplay(GraphicsDevice, Content);
 #if WINDOWS
 #if DEBUG
 			ScriptManager.getInstance().LogFile = "Log.log";
@@ -77,7 +78,7 @@ namespace SnakeRawrRawr.Engine {
 				InputManager.getInstance().MouseX + " Y:" + InputManager.getInstance().MouseY;
 
 			if (InputManager.getInstance().wasKeyPressed(Keys.R)) {
-				this.gameDisplay = new GameDisplay(Content);
+				this.gameDisplay = new GameDisplay(GraphicsDevice, Content);
 			}
 #endif
 			if (InputManager.getInstance().wasKeyPressed(Keys.Escape) ||

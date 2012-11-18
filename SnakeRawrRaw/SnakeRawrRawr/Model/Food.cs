@@ -11,6 +11,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using GWNorthEngine.Audio;
+using GWNorthEngine.Audio.Params;
 using GWNorthEngine.Engine;
 using GWNorthEngine.Engine.Params;
 using GWNorthEngine.Model;
@@ -23,6 +25,7 @@ using GWNorthEngine.Input;
 using GWNorthEngine.Utils;
 using GWNorthEngine.Scripting;
 
+using SnakeRawrRawr.Engine;
 using SnakeRawrRawr.Logic;
 
 namespace SnakeRawrRawr.Model {
@@ -30,22 +33,23 @@ namespace SnakeRawrRawr.Model {
 		public enum Stage { Spawn, Idle, Dying }
 		#region Class variables
 		private float elapsedTime;
-		private Stage previousLifeStage;
 		private Stage lifeStage;
 		private bool lapseTime;
 		private List<Texture2D> dyingCharacterTextures;
+		private SoundEffect spawnSFX;
+		private SoundEffect dyingSFX;
+		private SoundEmitter sfxEmitter;
 		private Texture2D deathParticleTexture;
 		private Animated2DSprite spawnSprite;
 		private Animated2DSprite idleSprite;
 		private DeathParticleEmitter deathEmitter;
 		protected BaseParticle2DEmitter idleEmitter;
+		protected SoundEffect idleSFX;
+		private const float SFX_EMITT_RADIUS = 100f;
 		#endregion Class variables
 
 		#region Class propeties
-		public Stage LifeStage {
-			get { return this.lifeStage; }
-			set { this.previousLifeStage = this.lifeStage; this.lifeStage = value; }
-		}
+		public Stage LifeStage { get { return this.lifeStage; } set { this.lifeStage = value; } }
 		public int Points { get; set; }
 		public float SpeedMultiplier { get; set; }
 		public bool Release { get; set; }
@@ -53,7 +57,7 @@ namespace SnakeRawrRawr.Model {
 
 		#region Constructor
 		public Food(ContentManager content, Random rand, int points, float speedMultiplier, List<string> dyingCharacterTextureNames, string deathParticleTextureName,
-			string idleTextureName, string spawnTextureName, float spawnPositionYOffset = 0f) 
+			string idleTextureName, string spawnTextureName, string spawnSFXName, string idleSFXName, string dyingSFXName, float spawnPositionYOffset = 0f) 
 			: base(content) {
 			this.Points = points;
 			this.SpeedMultiplier = speedMultiplier;
@@ -87,6 +91,17 @@ namespace SnakeRawrRawr.Model {
 
 			base.init(this.spawnSprite);
 
+			this.spawnSFX = LoadingUtils.load<SoundEffect>(content, spawnSFXName);
+			this.idleSFX = LoadingUtils.load<SoundEffect>(content, idleSFXName);
+			this.dyingSFX = LoadingUtils.load<SoundEffect>(content, dyingSFXName);
+
+			SoundEmitterParams sfxEmitterParms = new SoundEmitterParams {
+				SFXEngine = SoundManager.getInstance().SFXEngine,
+				EmittRadius = SFX_EMITT_RADIUS,
+				Position = this.spawnSprite.Position
+			};
+			this.sfxEmitter = new SoundEmitter(sfxEmitterParms);
+			SoundManager.getInstance().addEmitter(this.sfxEmitter);
 		}
 		#endregion Constructor
 
@@ -108,25 +123,24 @@ namespace SnakeRawrRawr.Model {
 					handleCollision(heading);
 					this.idleEmitter = null;
 					collision = true;
+					this.sfxEmitter.playSoundEffect(this.dyingSFX, this.sfxEmitter.Position);
 				}
 			}
 			return collision;
 		}
 
 		public override void update(float elapsed) {
-			if (this.previousLifeStage != this.LifeStage) {
-				
-			}
-
 			if (this.idleEmitter != null) {
 				this.idleEmitter.update(elapsed);
 			}
 
 			if (this.LifeStage == Stage.Spawn) {
 				if (this.spawnSprite.AnimationManager.State == AnimationState.Paused) {
+					if (!this.lapseTime) {
+						this.sfxEmitter.playSoundEffect(this.spawnSFX, this.sfxEmitter.Position);
+					}
 					this.elapsedTime += elapsed;
 					this.lapseTime = true;
-					createIdleEmitter();
 				}
 				
 				if (this.elapsedTime >= Constants.SHOW_SPAWN_FOR) {
@@ -134,6 +148,7 @@ namespace SnakeRawrRawr.Model {
 					this.LifeStage = Stage.Idle;
 					this.lapseTime = false;
 					this.elapsedTime = 0f;
+					createIdleEmitter();
 				}
 			} else if (this.LifeStage == Stage.Dying) {
 				this.elapsedTime += elapsed;
@@ -148,18 +163,25 @@ namespace SnakeRawrRawr.Model {
 		}
 
 		public override void render(SpriteBatch spriteBatch) {
-			base.render(spriteBatch);
-			if (this.lifeStage == Stage.Spawn && lapseTime) {
-				this.idleSprite.render(spriteBatch);
-			}
 			if (this.lifeStage == Stage.Idle) {
 				if (this.idleEmitter != null) {
 					this.idleEmitter.render(spriteBatch);
 				}
 			}
+
+			base.render(spriteBatch);
+			if (this.lifeStage == Stage.Spawn && lapseTime) {
+				this.idleSprite.render(spriteBatch);
+			}
 			if (this.deathEmitter != null) {
 				this.deathEmitter.render(spriteBatch);
 			}
+
+#if DEBUG
+			if (Display.GameDisplay.debugOn) {
+				DebugUtils.drawRadius(spriteBatch, this.sfxEmitter.Position, Display.GameDisplay.radiusTexture, Constants.DEBUG_RADIUS_COLOUR);
+			}
+#endif
 		}
 		#endregion Support methods
 	}
