@@ -83,7 +83,6 @@ namespace SnakeRawrRawr.Model {
 
 			ConstantSpeedParticle particle = new ConstantSpeedParticle(particleParms);
 			ScaleOverTimeEffectParams effectParms = new ScaleOverTimeEffectParams {
-				Reference = particle,
 				ScaleBy = new Vector2(1.75f)
 			};
 			particle.addEffect(new ScaleOverTimeEffect(effectParms));
@@ -91,7 +90,6 @@ namespace SnakeRawrRawr.Model {
 			if (this.sway) {
 				PulseDirection direction = EnumUtils.numberToEnum<PulseDirection>(base.RANDOM.Next(2));
 				SwayEffectParms swayEffectParms = new SwayEffectParms {
-					Reference = particle,
 					SwayBy = new Vector2(50f, 0f),
 					SwayDownTo = -5f,
 					SwayUpTo = 5f,

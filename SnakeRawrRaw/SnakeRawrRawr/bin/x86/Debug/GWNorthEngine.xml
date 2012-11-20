@@ -72,6 +72,13 @@
             </summary>
             <param name="effect">Effect object to add</param>
         </member>
+        <member name="M:GWNorthEngine.Model.Base2DSpriteDrawable.addEffect(GWNorthEngine.Model.Effects.BaseEffect,GWNorthEngine.Model.Base2DSpriteDrawable)">
+            <summary>
+            Adds an effect to the list of effects
+            </summary>
+            <param name="effect">Effect object to add</param>
+            <param name="reference">Object that the effect applies to</param>
+        </member>
         <member name="M:GWNorthEngine.Model.Base2DSpriteDrawable.updateEffects(System.Single)">
             <summary>
             Updates the effects applied to a BaseStatic2DSpriteDrawable
@@ -511,11 +518,6 @@
             Models the common data between effects
             </summary>
         </member>
-        <member name="P:GWNorthEngine.Model.Effects.Params.BaseEffectParams.Reference">
-            <summary>
-            Reference object LightColour that the effect is to apply to
-            </summary>
-        </member>
         <member name="P:GWNorthEngine.Model.Effects.Params.PulseEffectParams.ScaleDownTo">
             <summary>
             Amount to scale down to
@@ -714,11 +716,6 @@
             Models the manditory fields for an effect
             </summary>
         </member>
-        <member name="F:GWNorthEngine.Model.Effects.BaseEffect.reference">
-            <summary>
-            Reference object
-            </summary>
-        </member>
         <member name="M:GWNorthEngine.Model.Effects.BaseEffect.#ctor(GWNorthEngine.Model.Effects.Params.BaseEffectParams)">
             <summary>
             Constructs a BaseEffect object based on the parms
@@ -728,6 +725,11 @@
         <member name="M:GWNorthEngine.Model.Effects.BaseEffect.update(System.Single)">
             <summary>
             Every effect must implement the update method
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Model.Effects.BaseEffect.Reference">
+            <summary>
+            Reference object LightColour that the effect is to apply to
             </summary>
         </member>
         <member name="M:GWNorthEngine.Model.Effects.PulseEffect.#ctor(GWNorthEngine.Model.Effects.Params.PulseEffectParams)">

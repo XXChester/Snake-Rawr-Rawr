@@ -28,13 +28,13 @@ namespace SnakeRawrRawr.Model {
 		#region Class variables
 		private const int VALUE = 75;
 		private const float SPEED_MULTIPLIER = 10f;
-		private const float IDLE_SFX_EMIT_RADIUS = 1f;
+		private const float IDLE_SFX_EMIT_RADIUS = 25f;
 		private const string TEXTURE_NAME_DEATH_PARTICLE = "Fluff";
 		private const string TEXTURE_NAME_SPAWN = "Rainbow";
 		private const string TEXTURE_NAME_IDLE = "Carebear";
-		private const string SFX_NAME_SPAWN = "ChickenSpawn";
-		private const string SFX_NAME_IDLE = "ChickenIdle";
-		private const string SFX_NAME_DIE = "ChickenDie";
+		private const string SFX_NAME_SPAWN = "Harp";
+		private const string SFX_NAME_IDLE = "Popping";
+		private const string SFX_NAME_DIE = "Tearing";
 		private static List<string> DYING_CHAR_TEXTURE_NAMES = new List<string> {
 			"CarebearHead", "CarebearLeftHand", "CarebearRightHand", "CarebearLeftLeg", "CarebearRightLeg"
 		};

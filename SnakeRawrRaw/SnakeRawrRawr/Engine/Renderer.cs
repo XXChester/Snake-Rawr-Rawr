@@ -25,7 +25,10 @@ namespace SnakeRawrRawr.Engine {
 	/// </summary>
 	public class Renderer : BaseRenderer {
 
+		private Cinematic cinematic;
 		private GameDisplay gameDisplay;
+		private MainMenu mainMenu;
+		private IRenderable activeDisplay;
 		private const string GAME_NAME = "SnakeRawrRawr";
 
 		public Renderer() {
@@ -50,6 +53,8 @@ namespace SnakeRawrRawr.Engine {
 		/// </summary>
 		protected override void LoadContent() {
 			SoundManager.getInstance().init(Content);
+			this.cinematic = new Cinematic(Content);
+			this.mainMenu = new MainMenu(Content);
 			this.gameDisplay = new GameDisplay(GraphicsDevice, Content);
 #if WINDOWS
 #if DEBUG
@@ -80,14 +85,34 @@ namespace SnakeRawrRawr.Engine {
 			if (InputManager.getInstance().wasKeyPressed(Keys.R)) {
 				this.gameDisplay = new GameDisplay(GraphicsDevice, Content);
 			}
-#endif
 			if (InputManager.getInstance().wasKeyPressed(Keys.Escape) ||
-						InputManager.getInstance().wasButtonPressed(PlayerIndex.One, Buttons.B)) {
+			InputManager.getInstance().wasButtonPressed(PlayerIndex.One, Buttons.B)) {
 				this.Exit();
+			}
+#endif
+
+			if (StateManager.getInstance().CurrentGameState == GameState.Exit) {
+				this.Exit();
+			} else if (StateManager.getInstance().CurrentGameState == GameState.Init) {
+				if (StateManager.getInstance().PreviousGameState == GameState.MainMenu || StateManager.getInstance().PreviousGameState == GameState.GameOver) {
+					this.gameDisplay = new GameDisplay(GraphicsDevice, Content);
+					StateManager.getInstance().CurrentGameState = GameState.Waiting;
+				}
+			}
+
+			if (StateManager.getInstance().CurrentGameState == GameState.CompanyCinematic) {
+				this.activeDisplay = this.cinematic;
+			} else if (StateManager.getInstance().CurrentGameState == GameState.MainMenu) {
+				this.activeDisplay = this.mainMenu;
+			} else if (StateManager.getInstance().CurrentGameState == GameState.Waiting || StateManager.getInstance().CurrentGameState == GameState.Active ||
+				StateManager.getInstance().CurrentGameState == GameState.GameOver) {
+				this.activeDisplay = this.gameDisplay;
+			} else if (StateManager.getInstance().CurrentGameState == GameState.Options) {
+
 			}
 
 			float elapsed = gameTime.ElapsedGameTime.Milliseconds;
-			this.gameDisplay.update(elapsed);
+			this.activeDisplay.update(elapsed);
 			base.Update(gameTime);
 		}
 
@@ -99,7 +124,7 @@ namespace SnakeRawrRawr.Engine {
 			GraphicsDevice.Clear(Color.Black);
 
 			base.spriteBatch.Begin();
-			this.gameDisplay.render(base.spriteBatch);
+			this.activeDisplay.render(base.spriteBatch);
 			base.spriteBatch.End();
 			base.Draw(gameTime);
 		}

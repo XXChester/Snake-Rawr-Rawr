@@ -62,7 +62,6 @@ namespace SnakeRawrRawr.Model {
 				particleParms.Texture = texture;
 				particle = new DeacceleratingParticle(particleParms);
 				effectParms = new FadeEffectParams {
-					Reference = particle,
 					OriginalColour = Color.White,
 					State = FadeEffect.FadeState.Out,
 					TotalTransitionTime = Constants.DEATH_DURATION
@@ -96,7 +95,6 @@ namespace SnakeRawrRawr.Model {
 			base.particleParams.Position = new Vector2(x, y);
 			DeacceleratingParticle particle = new DeacceleratingParticle(base.particleParams);
 			FadeEffectParams effectParms = new FadeEffectParams {
-				Reference = particle,
 				OriginalColour = Color.White,
 				State = FadeEffect.FadeState.Out,
 				TotalTransitionTime = Constants.DEATH_DURATION
@@ -108,15 +106,12 @@ namespace SnakeRawrRawr.Model {
 
 		public override void update(float elapsed) {
 			base.elapsedSpawnTime += elapsed;
-			if (base.elapsedSpawnTime < Constants.DEATH_DURATION) {
-				foreach (BaseParticle2D particle in base.particles) {
-					particle.updateEffects(elapsed);
-				}
-			} else if (base.elapsedSpawnTime <= Constants.DEATH_DURATION) {
+			if (base.elapsedSpawnTime <= Constants.DEATH_DURATION) {
 				foreach (BaseParticle2D particle in base.particles) {
 					if (particle.TimeAlive < particle.TimeToLive) {
 						particle.update(elapsed);
 					}
+					particle.updateEffects(elapsed);
 				}
 			} else {
 				base.particles = null;

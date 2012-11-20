@@ -25,7 +25,7 @@ using SnakeRawrRawr.Engine;
 using SnakeRawrRawr.Logic;
 
 namespace SnakeRawrRawr.Model.Display {
-	public class GameDisplay {
+	public class GameDisplay : IRenderable {
 		#region Class variables
 		private Random rand;
 		private ContentManager content;
@@ -87,11 +87,8 @@ namespace SnakeRawrRawr.Model.Display {
 		public void update(float elapsed) {
 			if (StateManager.getInstance().CurrentGameState != GameState.Active) {
 				if (InputManager.getInstance().wasKeyPressed(Keys.Space)) {
-					StateManager.getInstance().CurrentGameState = GameState.Active;
-					if (StateManager.getInstance().PreviousGameState == GameState.GameOver) {
-						init(true);
-					} else if (StateManager.getInstance().PreviousGameState == GameState.Waiting) {
-						init();
+					if (StateManager.getInstance().CurrentGameState == GameState.GameOver) {
+						StateManager.getInstance().CurrentGameState = GameState.Init;
 					}
 				}
 			} else if (StateManager.getInstance().CurrentGameState == GameState.Active) {
@@ -142,9 +139,6 @@ namespace SnakeRawrRawr.Model.Display {
 			if (this.backGround != null) {
 				this.backGround.render(spriteBatch);
 			}
-			if (this.hud != null) {
-				this.hud.render(spriteBatch);
-			}
 			if (this.foods != null) {
 				foreach (Food food in foods) {
 					if (food != null) {
@@ -154,6 +148,10 @@ namespace SnakeRawrRawr.Model.Display {
 			}
 			if (this.snake != null) {
 				this.snake.render(spriteBatch);
+			}
+
+			if (this.hud != null) {
+				this.hud.render(spriteBatch);
 			}
 #if DEBUG
 			if (GameDisplay.debugOn) {

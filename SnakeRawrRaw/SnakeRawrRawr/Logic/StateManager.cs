@@ -22,6 +22,7 @@ namespace SnakeRawrRawr.Logic {
 			}
 		}
 		public GameState PreviousGameState { get; set; }
+		public GameMode GameMode { get; set; }
 		public TransitionState CurrentTransitionState {
 			get { return this.currentTransitionState; }
 			set {
@@ -35,10 +36,14 @@ namespace SnakeRawrRawr.Logic {
 		#region Constructor
 		public StateManager() {
 			this.currentTransitionState = TransitionState.TransitionIn;
-			this.currentGameState = GameState.Waiting;
+			this.currentGameState = GameState.CompanyCinematic;
+			this.GameMode = GameMode.Waiting;
 
 			// TESTING VALUES
-			this.currentGameState = GameState.Active;
+			//this.currentGameState = GameState.Active;
+			//this.currentGameState = GameState.Waiting;
+			this.currentGameState = GameState.GameOver;
+			//this.currentGameState = GameState.MainMenu;
 		}
 		#endregion Constructor
 

@@ -45,7 +45,7 @@ namespace SnakeRawrRawr.Engine {
 			// used a SoundEffectEngine because we are looping the same track
 			//MusicEngineParams musicParms = new MusicEngineParams {
 			SFXEngineParams musicParms = new SFXEngineParams {
-				Muted = false,
+				Muted = true,
 				/*PlayList = new List<Song> {
 					LoadingUtils.load<Song>(content, "SnakeRawrRawr")
 				}*/

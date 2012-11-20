@@ -30,9 +30,13 @@ namespace SnakeRawrRawr.Model.Display {
 		#region Class variables
 		private Text2D scoreText;
 		private Text2D statusText;
-		private const string TEXT_WAITING = "Waiting" + TEXT_RESTART;
-		private const string TEXT_GAME_OVER = "Game over" + TEXT_RESTART;
-		private const string TEXT_RESTART = ".....Press {SPACE} to start";
+		private StaticDrawable2D activeCountdownItem;
+		private StaticDrawable2D[] countDownImages;
+		private StaticDrawable2D gameOver;
+		private ScaleOverTimeEffectParams scaleOverTimeEffectParms;
+		private float elapsedTime;
+		private int index;
+		private const string TEXT_RESTART = "Press {SPACE} to replay";
 		private const string TEXT_SCORE = "Score: ";
 		#endregion Class variables
 
@@ -47,23 +51,47 @@ namespace SnakeRawrRawr.Model.Display {
 			parms.Font = font;
 			parms.LightColour = Color.Red;
 
-			parms.Position = new Vector2(Constants.RESOLUTION_X / 4, 0f);
-			parms.WrittenText = TEXT_WAITING;
+			parms.Position = new Vector2(Constants.RESOLUTION_X / 3, 500f);
+			parms.WrittenText = TEXT_RESTART;
 			this.statusText = new Text2D(parms);
 
 			ColourLerpEffectParams effectParms = new ColourLerpEffectParams {
-				Reference = this.statusText,
 				LerpBy = 5f,
 				LerpDownTo = Color.White,
 				LerpUpTo = Color.Red
 			};
-			this.statusText.Effects = new List<BaseEffect> { new ColorLerpEffect(effectParms) };
 
 			parms.Position = new Vector2(Constants.RESOLUTION_X - 250f, 0f);
 			parms.WrittenText = TEXT_SCORE + getScore();
 			this.scoreText = new Text2D(parms);
-			effectParms.Reference = this.scoreText;
-			this.scoreText.Effects = new List<BaseEffect> { new ColorLerpEffect(effectParms) };
+			this.scoreText.addEffect(new ColorLerpEffect(effectParms));
+
+			this.countDownImages = new StaticDrawable2D[3];
+			StaticDrawable2DParams countDownParms = new StaticDrawable2DParams {
+				Position = new Vector2(Constants.RESOLUTION_X / 2, Constants.RESOLUTION_Y / 2),
+				Origin = new Vector2(256f),
+			};
+			for (int i = 0; i < this.countDownImages.Length; i++) {
+				countDownParms.Texture = LoadingUtils.load<Texture2D>(content, (i + 1).ToString());
+				this.countDownImages[i] = new StaticDrawable2D(countDownParms);
+			}
+
+			StaticDrawable2DParams gameOverParms = new StaticDrawable2DParams {
+				Position = new Vector2(Constants.RESOLUTION_X / 2, Constants.RESOLUTION_Y / 2),
+				Origin = new Vector2(512f),
+				Texture = LoadingUtils.load<Texture2D>(content, "GameOver")
+			};
+			this.gameOver = new StaticDrawable2D(gameOverParms);
+
+			scaleOverTimeEffectParms = new ScaleOverTimeEffectParams {
+				ScaleBy = new Vector2(-1f)
+			};
+
+			this.index = 2;
+			this.activeCountdownItem = this.countDownImages[this.index];
+			this.activeCountdownItem.addEffect(new ScaleOverTimeEffect(scaleOverTimeEffectParms));
+			this.elapsedTime = 0f;
+
 		}
 		#endregion Constructor
 
@@ -73,25 +101,50 @@ namespace SnakeRawrRawr.Model.Display {
 		}
 
 		public void update(float elapsed) {
-			if (StateManager.getInstance().CurrentGameState == GameState.Waiting) {
-				this.statusText.WrittenText = TEXT_WAITING;
-			} else if (StateManager.getInstance().CurrentGameState == GameState.GameOver) {
-				this.statusText.WrittenText = TEXT_GAME_OVER;
+			this.elapsedTime += elapsed;
+
+			if (this.elapsedTime >= 1000f && this.index > -1) {
+				this.index -= 1;
+				if (this.index == -1) {
+					this.activeCountdownItem = null;
+					StateManager.getInstance().CurrentGameState = GameState.Active;
+				} else {
+					this.activeCountdownItem = this.countDownImages[this.index];
+					this.activeCountdownItem.addEffect(new ScaleOverTimeEffect(this.scaleOverTimeEffectParms));
+				}
+				this.elapsedTime = 0f;
+			}
+
+			if (StateManager.getInstance().CurrentGameState == GameState.GameOver) {
+				this.statusText.WrittenText = TEXT_RESTART;
 			} else if (StateManager.getInstance().CurrentGameState == GameState.Active) {
 				this.scoreText.WrittenText = TEXT_SCORE + getScore();
 			}
-			this.statusText.update(elapsed);
-			this.scoreText.update(elapsed);
+			if (StateManager.getInstance().CurrentGameState == GameState.Active) {
+				this.scoreText.update(elapsed);
+			} else {
+				this.scoreText.LightColour = Color.Red;
+			}
+
+			if (this.activeCountdownItem != null) {
+				this.activeCountdownItem.update(elapsed);
+			}
 		}
 
 		public void render(SpriteBatch spriteBatch) {
 			if (this.scoreText != null) {
 				this.scoreText.render(spriteBatch);
 			}
-			if (StateManager.getInstance().CurrentGameState != GameState.Active) {
+			if (StateManager.getInstance().CurrentGameState == GameState.GameOver) {
 				if (this.statusText != null) {
 					this.statusText.render(spriteBatch);
 				}
+				if (this.gameOver != null) {
+					this.gameOver.render(spriteBatch);
+				}
+			}
+			if (this.activeCountdownItem != null) {
+				this.activeCountdownItem.render(spriteBatch);
 			}
 		}
 		#endregion Support methods

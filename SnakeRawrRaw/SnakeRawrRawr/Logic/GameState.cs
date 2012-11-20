@@ -5,8 +5,13 @@ using System.Text;
 
 namespace SnakeRawrRawr.Logic {
 	public enum GameState {
+		CompanyCinematic,
+		MainMenu,
+		Init,
 		Waiting,
 		Active,
-		GameOver
+		GameOver,
+		Options,
+		Exit
 	}
 }
