@@ -33,6 +33,7 @@ namespace SnakeRawrRawr.Model {
 		private StaticDrawable2DParams cornerParms;
 		private List<StaticDrawable2D> corners;
 		private float currentSpeed;
+		private Controls controls;
 #if DEBUG
 		private List<StaticDrawable2D> debugPivotPoints;
 		private StaticDrawable2DParams pivotParms;
@@ -45,17 +46,18 @@ namespace SnakeRawrRawr.Model {
 		#endregion Class properties
 
 		#region Constructor
-		public Snake(ContentManager content) : base(content) {
+		public Snake(ContentManager content, Vector2 heading, float xOffSet, Controls controls) : base(content) {
 			this.pivotPoints = new List<PivotPoint>();
-			this.heading = Constants.HEADING_UP;
+			this.heading = heading;
 			this.currentSpeed = STARTING_SPEED;
+			this.controls = controls;
 
 			Animated2DSpriteLoadSingleRowBasedOnTexture headParms = new Animated2DSpriteLoadSingleRowBasedOnTexture();
 			BaseAnimationManagerParams animationParms = new BaseAnimationManagerParams();
 			animationParms.AnimationState = AnimationState.PlayForward;
 			animationParms.FrameRate = 100f;
 			animationParms.TotalFrameCount = 4;
-			headParms.Position = new Vector2(PositionUtils.getPosition(Constants.MAX_X_TILES / 2), PositionUtils.getPosition(Constants.MAX_Y_TILES / 2 - 1));
+			headParms.Position = new Vector2(xOffSet + PositionUtils.getPosition(Constants.MAX_X_TILES / 2), PositionUtils.getPosition(Constants.MAX_Y_TILES / 2 - 1));
 			headParms.Texture = LoadingUtils.load<Texture2D>(content, "SnakeHead");
 			headParms.Scale = new Vector2(.5f);
 			headParms.Origin = new Vector2(Constants.TILE_SIZE);
@@ -117,16 +119,16 @@ namespace SnakeRawrRawr.Model {
 		private void handleInput() {
 			// get key press for new direction and log the pivot point
 			Vector2 previousHeading = this.heading;
-			if (InputManager.getInstance().wasKeyPressed(Keys.Left) && this.heading != Constants.HEADING_RIGHT && this.heading != Constants.HEADING_LEFT) {
+			if (InputManager.getInstance().wasKeyPressed(controls.Left) && this.heading != Constants.HEADING_RIGHT && this.heading != Constants.HEADING_LEFT) {
 				this.heading = Constants.HEADING_LEFT;
 				createPivotPoint(PositionUtils.getRotation(previousHeading, this.heading));
-			} else if (InputManager.getInstance().wasKeyPressed(Keys.Right) && this.heading != Constants.HEADING_LEFT && this.heading != Constants.HEADING_RIGHT) {
+			} else if (InputManager.getInstance().wasKeyPressed(controls.Right) && this.heading != Constants.HEADING_LEFT && this.heading != Constants.HEADING_RIGHT) {
 				this.heading = Constants.HEADING_RIGHT;
 				createPivotPoint(PositionUtils.getRotation(previousHeading, this.heading));
-			} else if (InputManager.getInstance().wasKeyPressed(Keys.Up) && this.heading != Constants.HEADING_DOWN && this.heading != Constants.HEADING_UP) {
+			} else if (InputManager.getInstance().wasKeyPressed(controls.Up) && this.heading != Constants.HEADING_DOWN && this.heading != Constants.HEADING_UP) {
 				this.heading = Constants.HEADING_UP;
 				createPivotPoint(PositionUtils.getRotation(previousHeading, this.heading));
-			} else if (InputManager.getInstance().wasKeyPressed(Keys.Down) && this.heading != Constants.HEADING_UP && this.heading != Constants.HEADING_DOWN) {
+			} else if (InputManager.getInstance().wasKeyPressed(controls.Down) && this.heading != Constants.HEADING_UP && this.heading != Constants.HEADING_DOWN) {
 				this.heading = Constants.HEADING_DOWN;
 				createPivotPoint(PositionUtils.getRotation(previousHeading, this.heading));
 			}
@@ -139,13 +141,13 @@ namespace SnakeRawrRawr.Model {
 				new Vector3(Vector2.Add(this.Position, new Vector2(quarter)), 0f));
 		}
 
-		public bool didICollideWithMyself() {
+		public bool wasCollisionWithBodies(BoundingBox bbox) {
 			bool collision = false;
 			if (body != null && body.Child != null) {
 				Body node = this.body.Child;
 				while (node != null) {
-					// did we collide with our body?
-					if (this.BBox.Intersects(node.BBox)) {
+					// was there a collision with our body?
+					if (bbox.Intersects(node.BBox)) {
 						collision = true;
 						break;
 					}
@@ -153,6 +155,10 @@ namespace SnakeRawrRawr.Model {
 				}
 			}
 			return collision;
+		}
+
+		public bool didICollideWithMyself() {
+			return wasCollisionWithBodies(this.BBox);
 		}
 
 		public void eat(float speedMultiplier) {

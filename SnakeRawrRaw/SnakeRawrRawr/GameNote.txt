@@ -17,6 +17,7 @@ begging for an appearance so, here it is.
 [*]Implement collection of nodes which make snake grow
 [*]Implement the ability to die
 [*]Implement a HUD that tracks the score
+[*]2 player
 
 
 
@@ -42,9 +43,10 @@ begging for an appearance so, here it is.
 [*]Snake corner pieces so its not jaggad
 [*]Death animations fade out
 [*]Countdown to start HUD
-[]2 player
 [*]Main Menu
 []Options Menu
+[]Transitions
+[]HUD countdown SFXs
 
 ====================
 	BUGS
@@ -57,7 +59,7 @@ begging for an appearance so, here it is.
 ====================
 modeling:		.5 hours
 programming
-	core:		6.25 hours		
-	polish:		10.25 hours		
+	core:		6.25 hours		1:37pm-2:02pm
+	polish:		10.25 hours		2:26pm-2:58pm
 art:			11.25 hours		
 sound:			5.5 hour		

@@ -116,6 +116,8 @@
     <Compile Include="Engine\Program.cs" />
     <Content Include="GameNote.txt" />
     <Compile Include="Engine\SoundManager.cs" />
+    <Compile Include="Logic\ConfigurationManager.cs" />
+    <Compile Include="Logic\Controls.cs" />
     <Compile Include="Logic\GameMode.cs" />
     <Compile Include="Logic\GameState.cs" />
     <Compile Include="Logic\PivotPoint.cs" />
@@ -130,8 +132,11 @@
     <Compile Include="Model\ConstantSpeedParticleEmitter.cs" />
     <Compile Include="Model\DeathParticleEmitter.cs" />
     <Compile Include="Model\Display\Cinematic.cs" />
+    <Compile Include="Model\Display\BaseMenu.cs" />
+    <Compile Include="Model\Display\OptionsMenu.cs" />
     <Compile Include="Model\Display\MainMenu.cs" />
     <Compile Include="Model\Display\IRenderable.cs" />
+    <Compile Include="Model\Display\OptionsSection.cs" />
     <Compile Include="Model\Food.cs" />
     <Compile Include="Model\Tail.cs" />
     <Compile Include="Model\Display\GameDisplay.cs" />

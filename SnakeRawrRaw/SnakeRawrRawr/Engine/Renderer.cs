@@ -28,6 +28,7 @@ namespace SnakeRawrRawr.Engine {
 		private Cinematic cinematic;
 		private GameDisplay gameDisplay;
 		private MainMenu mainMenu;
+		private OptionsMenu optionsMenu;
 		private IRenderable activeDisplay;
 		private const string GAME_NAME = "SnakeRawrRawr";
 
@@ -55,6 +56,7 @@ namespace SnakeRawrRawr.Engine {
 			SoundManager.getInstance().init(Content);
 			this.cinematic = new Cinematic(Content);
 			this.mainMenu = new MainMenu(Content);
+			this.optionsMenu = new OptionsMenu(Content);
 			this.gameDisplay = new GameDisplay(GraphicsDevice, Content);
 #if WINDOWS
 #if DEBUG
@@ -87,7 +89,7 @@ namespace SnakeRawrRawr.Engine {
 			}
 			if (InputManager.getInstance().wasKeyPressed(Keys.Escape) ||
 			InputManager.getInstance().wasButtonPressed(PlayerIndex.One, Buttons.B)) {
-				this.Exit();
+				//this.Exit();
 			}
 #endif
 
@@ -100,6 +102,7 @@ namespace SnakeRawrRawr.Engine {
 				}
 			}
 
+			base.IsMouseVisible = false;
 			if (StateManager.getInstance().CurrentGameState == GameState.CompanyCinematic) {
 				this.activeDisplay = this.cinematic;
 			} else if (StateManager.getInstance().CurrentGameState == GameState.MainMenu) {
@@ -108,7 +111,8 @@ namespace SnakeRawrRawr.Engine {
 				StateManager.getInstance().CurrentGameState == GameState.GameOver) {
 				this.activeDisplay = this.gameDisplay;
 			} else if (StateManager.getInstance().CurrentGameState == GameState.Options) {
-
+				base.IsMouseVisible = true;
+				this.activeDisplay = this.optionsMenu;
 			}
 
 			float elapsed = gameTime.ElapsedGameTime.Milliseconds;

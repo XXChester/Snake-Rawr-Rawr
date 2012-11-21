@@ -28,7 +28,7 @@ using SnakeRawrRawr.Logic;
 namespace SnakeRawrRawr.Model.Display {
 	public class HUD {
 		#region Class variables
-		private Text2D scoreText;
+		private Text2D[] scoreTexts;
 		private Text2D statusText;
 		private StaticDrawable2D activeCountdownItem;
 		private StaticDrawable2D[] countDownImages;
@@ -36,12 +36,13 @@ namespace SnakeRawrRawr.Model.Display {
 		private ScaleOverTimeEffectParams scaleOverTimeEffectParms;
 		private float elapsedTime;
 		private int index;
-		private const string TEXT_RESTART = "Press {SPACE} to replay";
+		private const string TEXT_RESTART = "Press {Enter} to replay";
 		private const string TEXT_SCORE = "Score: ";
 		#endregion Class variables
 
 		#region Class propeties
-		public int Score { get; set; }
+		public int PlayerOneScore { get; set; }
+		public int PlayerTwoScore { get; set; }
 		#endregion Class properties
 
 		#region Constructor
@@ -51,7 +52,7 @@ namespace SnakeRawrRawr.Model.Display {
 			parms.Font = font;
 			parms.LightColour = Color.Red;
 
-			parms.Position = new Vector2(Constants.RESOLUTION_X / 3, 500f);
+			parms.Position = new Vector2(Constants.RESOLUTION_X / 3, 450f);
 			parms.WrittenText = TEXT_RESTART;
 			this.statusText = new Text2D(parms);
 
@@ -61,10 +62,22 @@ namespace SnakeRawrRawr.Model.Display {
 				LerpUpTo = Color.Red
 			};
 
-			parms.Position = new Vector2(Constants.RESOLUTION_X - 250f, 0f);
-			parms.WrittenText = TEXT_SCORE + getScore();
-			this.scoreText = new Text2D(parms);
-			this.scoreText.addEffect(new ColorLerpEffect(effectParms));
+			if (StateManager.getInstance().GameMode == GameMode.TwoPlayer) {
+				this.scoreTexts = new Text2D[2];
+			} else {
+				this.scoreTexts = new Text2D[1];
+			}
+
+			parms.Position = new Vector2(Constants.RESOLUTION_X - 250f, 5f);
+			parms.WrittenText = TEXT_SCORE + getScore(0);
+			this.scoreTexts[0] = new Text2D(parms);
+			this.scoreTexts[0].addEffect(new ColorLerpEffect(effectParms));
+
+			if (StateManager.getInstance().GameMode == GameMode.TwoPlayer) {
+				parms.Position = new Vector2(15f, 5f);
+				this.scoreTexts[1] = new Text2D(parms);
+				this.scoreTexts[1].addEffect(new ColorLerpEffect(effectParms));
+			}
 
 			this.countDownImages = new StaticDrawable2D[3];
 			StaticDrawable2DParams countDownParms = new StaticDrawable2DParams {
@@ -96,8 +109,12 @@ namespace SnakeRawrRawr.Model.Display {
 		#endregion Constructor
 
 		#region Support methods
-		private string getScore() {
-			return this.Score.ToString().PadLeft(5, '0');
+		private string getScore(int player) {
+			if (player == 0) {
+				return this.PlayerOneScore.ToString().PadLeft(5, '0');
+			} else {
+				return this.PlayerTwoScore.ToString().PadLeft(5, '0');
+			}
 		}
 
 		public void update(float elapsed) {
@@ -118,12 +135,18 @@ namespace SnakeRawrRawr.Model.Display {
 			if (StateManager.getInstance().CurrentGameState == GameState.GameOver) {
 				this.statusText.WrittenText = TEXT_RESTART;
 			} else if (StateManager.getInstance().CurrentGameState == GameState.Active) {
-				this.scoreText.WrittenText = TEXT_SCORE + getScore();
+				for (int i = 0; i < this.scoreTexts.Length; i++) {
+					this.scoreTexts[i].WrittenText = TEXT_SCORE + getScore(i);
+				}
 			}
 			if (StateManager.getInstance().CurrentGameState == GameState.Active) {
-				this.scoreText.update(elapsed);
+				for (int i = 0; i < this.scoreTexts.Length; i++) {
+					this.scoreTexts[i].update(elapsed);
+				}
 			} else {
-				this.scoreText.LightColour = Color.Red;
+				for (int i = 0; i < this.scoreTexts.Length; i++) {
+					this.scoreTexts[i].LightColour = Color.Red;
+				}
 			}
 
 			if (this.activeCountdownItem != null) {
@@ -132,8 +155,10 @@ namespace SnakeRawrRawr.Model.Display {
 		}
 
 		public void render(SpriteBatch spriteBatch) {
-			if (this.scoreText != null) {
-				this.scoreText.render(spriteBatch);
+			if (this.scoreTexts != null) {
+				for (int i = 0; i < this.scoreTexts.Length; i++) {
+					this.scoreTexts[i].render(spriteBatch);
+				}
 			}
 			if (StateManager.getInstance().CurrentGameState == GameState.GameOver) {
 				if (this.statusText != null) {

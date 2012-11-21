@@ -30,7 +30,8 @@ namespace SnakeRawrRawr.Model.Display {
 		private Random rand;
 		private ContentManager content;
 		private BackGround backGround;
-		private Snake snake;
+		private Snake playerOne;
+		private Snake playerTwo;
 		private List<Food> foods;
 		private HUD hud;
 		private BoundingBox boundary;
@@ -61,7 +62,13 @@ namespace SnakeRawrRawr.Model.Display {
 			Vector3 max = new Vector3(Constants.RESOLUTION_X, Constants.RESOLUTION_Y, 0f);
 			this.boundary = new BoundingBox(min, max);
 			this.rand = new Random();
-			this.snake = new Snake(this.content);
+			if (StateManager.getInstance().GameMode == GameMode.OnePlayer) {
+				this.playerOne = new Snake(this.content, Constants.HEADING_UP, 0f, ConfigurationManager.getInstance().PlayerOnesControls);
+			} else {
+				this.playerOne = new Snake(this.content, Constants.HEADING_UP, 100f, ConfigurationManager.getInstance().PlayerOnesControls);
+				this.playerTwo = new Snake(this.content, Constants.HEADING_UP, -100f, ConfigurationManager.getInstance().PlayerTwosControls);
+			}
+			
 			if (fullRegen) {
 				this.backGround = new BackGround(this.content);
 				this.hud = new HUD(this.content);
@@ -86,30 +93,43 @@ namespace SnakeRawrRawr.Model.Display {
 
 		public void update(float elapsed) {
 			if (StateManager.getInstance().CurrentGameState != GameState.Active) {
-				if (InputManager.getInstance().wasKeyPressed(Keys.Space)) {
+				if (InputManager.getInstance().wasKeyPressed(Keys.Enter)) {
 					if (StateManager.getInstance().CurrentGameState == GameState.GameOver) {
 						StateManager.getInstance().CurrentGameState = GameState.Init;
 					}
 				}
 			} else if (StateManager.getInstance().CurrentGameState == GameState.Active) {
-				if (this.snake != null) {
-					this.snake.update(elapsed);
-					if (!this.snake.BBox.Intersects(this.boundary) || this.snake.didICollideWithMyself()) {
+					this.playerOne.update(elapsed);
+					if (!this.playerOne.BBox.Intersects(this.boundary) || this.playerOne.didICollideWithMyself()) {
 						StateManager.getInstance().CurrentGameState = GameState.GameOver;
 					}
-					SoundManager.getInstance().update(this.snake.Position);
+					SoundManager.getInstance().update(this.playerOne.Position);
+
+				if (this.playerTwo != null) {
+					this.playerTwo.update(elapsed);
+					if (!this.playerTwo.BBox.Intersects(this.boundary) || this.playerTwo.didICollideWithMyself() ||
+						this.playerTwo.wasCollisionWithBodies(this.playerOne.BBox) || this.playerOne.wasCollisionWithBodies(this.playerTwo.BBox)) {
+						StateManager.getInstance().CurrentGameState = GameState.GameOver;
+					}
+					SoundManager.getInstance().update(this.playerTwo.Position);
 				}
+				
 				if (this.foods != null) {
 					Food food = null;
 					for (int i = 0; i < this.foods.Count; i++) {
 						food = this.foods[i];
 						if (food != null) {
 							food.update(elapsed);
-							if (food.wasCollision(this.snake.BBox, this.snake.Heading)) {
-								this.snake.eat(food.SpeedMultiplier);
+							if (food.wasCollision(this.playerOne.BBox, this.playerOne.Heading)) {
+								this.playerOne.eat(food.SpeedMultiplier);
 								spawnNode();
-								this.hud.Score += food.Points;
-								
+								this.hud.PlayerOneScore += food.Points;
+
+							} else if (this.playerTwo != null && food.wasCollision(this.playerTwo.BBox, this.playerTwo.Heading)) {
+								this.playerTwo.eat(food.SpeedMultiplier);
+								spawnNode();
+								this.hud.PlayerTwoScore += food.Points;
+
 							}
 							if (food.Release) {
 								this.foods[i] = null;
@@ -124,13 +144,17 @@ namespace SnakeRawrRawr.Model.Display {
 			if (this.hud != null) {
 				this.hud.update(elapsed);
 			}
+
+			if (InputManager.getInstance().wasKeyPressed(Keys.Escape)) {
+				StateManager.getInstance().CurrentGameState = GameState.MainMenu;
+			}
 #if DEBUG
-			if (InputManager.getInstance().wasKeyPressed(Keys.D)) {
+			if (InputManager.getInstance().wasKeyPressed(Keys.D1)) {
 				debugOn = !debugOn;
-			} else if (InputManager.getInstance().wasKeyPressed(Keys.A)) {
-				this.snake.eat(10f);
+			} else if (InputManager.getInstance().wasKeyPressed(Keys.D2)) {
+				this.playerOne.eat(10f);
 			} else if (InputManager.getInstance().wasKeyPressed(Keys.K)) {
-				this.foods[0].handleCollision(this.snake.Heading);
+				this.foods[0].handleCollision(this.playerOne.Heading);
 			}
 #endif
 		}
@@ -146,8 +170,11 @@ namespace SnakeRawrRawr.Model.Display {
 					}
 				}
 			}
-			if (this.snake != null) {
-				this.snake.render(spriteBatch);
+			if (this.playerOne != null) {
+				this.playerOne.render(spriteBatch);
+			}
+			if (this.playerTwo != null) {
+				this.playerTwo.render(spriteBatch);
 			}
 
 			if (this.hud != null) {

@@ -26,9 +26,8 @@ using GWNorthEngine.Scripting;
 using SnakeRawrRawr.Logic;
 
 namespace SnakeRawrRawr.Model.Display {
-	public class MainMenu : IRenderable {
+	public class MainMenu : BaseMenu {
 		#region Class variables
-		private StaticDrawable2D background;
 		private int index;
 		private StaticDrawable2D[] menuItems;
 		private PulseEffectParams effectParms;
@@ -43,15 +42,7 @@ namespace SnakeRawrRawr.Model.Display {
 		#endregion Class properties
 
 		#region Constructor
-		public MainMenu(ContentManager content) {
-			Texture2D texture = LoadingUtils.load<Texture2D>(content, "MainMenu");
-			StaticDrawable2DParams parms = new StaticDrawable2DParams {
-				Texture = texture,
-				Origin = new Vector2(texture.Width / 2, texture.Height / 2),
-				Position = new Vector2(Constants.RESOLUTION_X / 2, Constants.RESOLUTION_Y / 8 * 3)
-			};
-			this.background = new StaticDrawable2D(parms);
-
+		public MainMenu(ContentManager content): base(content, "MainMenu", new Vector2(Constants.RESOLUTION_X / 2, Constants.RESOLUTION_Y / 8 * 3)) {
 			this.effectParms = new PulseEffectParams {
 				ScaleBy = 1f,
 				ScaleDownTo = .9f,
@@ -59,10 +50,10 @@ namespace SnakeRawrRawr.Model.Display {
 			};
 			this.index = 0;
 
-			this.menuItems = new StaticDrawable2D[4];
-			Vector2 startPosition = new Vector2(parms.Position.X, parms.Position.Y + 250f);
+			this.menuItems = new StaticDrawable2D[BUTTON_NAMES.Length];
+			Vector2 startPosition = new Vector2(Constants.RESOLUTION_X / 2, (Constants.RESOLUTION_Y / 8 * 3) + 250f);
 
-			parms = new StaticDrawable2DParams {
+			StaticDrawable2DParams parms = new StaticDrawable2DParams {
 				Origin = new Vector2(128f),
 				Scale = DEFAULT_SCALE,
 			};
@@ -84,8 +75,8 @@ namespace SnakeRawrRawr.Model.Display {
 			this.menuItems[this.index].addEffect(new PulseEffect(this.effectParms));
 		}
 
-		public void update(float elapsed) {
-			this.background.update(elapsed);
+		public override void update(float elapsed) {
+			base.update(elapsed);
 
 			int newIndex;
 			if (InputManager.getInstance().wasKeyPressed(Keys.Down)) {
@@ -109,6 +100,8 @@ namespace SnakeRawrRawr.Model.Display {
 				} else {
 					StateManager.getInstance().CurrentGameState = GameState.Exit;
 				}
+			} else if (InputManager.getInstance().wasKeyPressed(Keys.Escape)) {
+				StateManager.getInstance().CurrentGameState = GameState.Exit;
 			}
 
 			if (this.menuItems != null) {
@@ -118,10 +111,8 @@ namespace SnakeRawrRawr.Model.Display {
 			}
 		}
 
-		public void render(SpriteBatch spriteBatch) {
-			if (this.background != null) {
-				this.background.render(spriteBatch);
-			}
+		public override void render(SpriteBatch spriteBatch) {
+			base.render(spriteBatch);
 
 			if (this.menuItems != null) {
 				foreach (Base2DSpriteDrawable menuItem in this.menuItems) {
