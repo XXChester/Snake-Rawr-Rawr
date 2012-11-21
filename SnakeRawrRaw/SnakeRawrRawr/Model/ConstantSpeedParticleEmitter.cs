@@ -25,7 +25,7 @@ using GWNorthEngine.Input;
 using GWNorthEngine.Utils;
 using GWNorthEngine.Scripting;
 
-using SnakeRawrRawr.Engine;
+using SnakeRawrRawr.Logic;
 
 namespace SnakeRawrRawr.Model {
 	public class ConstantSpeedParticleEmitter : AutoParticle2DEmitter {

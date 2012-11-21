@@ -111,7 +111,9 @@ namespace SnakeRawrRawr.Engine {
 				StateManager.getInstance().CurrentGameState == GameState.GameOver) {
 				this.activeDisplay = this.gameDisplay;
 			} else if (StateManager.getInstance().CurrentGameState == GameState.Options) {
-				base.IsMouseVisible = true;
+				if (!InputManager.getInstance().isLeftButtonDown()) {
+					base.IsMouseVisible = true;
+				}
 				this.activeDisplay = this.optionsMenu;
 			}
 

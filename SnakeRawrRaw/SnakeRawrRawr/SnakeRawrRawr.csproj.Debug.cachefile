@@ -30,7 +30,6 @@ SnakeRawrRawrContent\SpriteFont1.xnb
 SnakeRawrRawrContent\ChickenIdle.xnb
 SnakeRawrRawrContent\ChickenSpawn.xnb
 SnakeRawrRawrContent\ChickenDie.xnb
-SnakeRawrRawrContent\SnakeRawrRawr.xnb
 SnakeRawrRawrContent\Harp.xnb
 SnakeRawrRawrContent\Tearing.xnb
 SnakeRawrRawrContent\Popping.xnb
@@ -45,3 +44,6 @@ SnakeRawrRawrContent\2.xnb
 SnakeRawrRawrContent\3.xnb
 SnakeRawrRawrContent\GameOver.xnb
 SnakeRawrRawrContent\OptionsMenu.xnb
+SnakeRawrRawrContent\GUIElements.xnb
+SnakeRawrRawrContent\SnakeRawrRawr.xnb
+SnakeRawrRawrContent\SnakeRawrRawr.wma

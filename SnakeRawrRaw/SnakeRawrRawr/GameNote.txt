@@ -45,6 +45,8 @@ begging for an appearance so, here it is.
 [*]Countdown to start HUD
 [*]Main Menu
 []Options Menu
+	[*]Sliders for Music & SFX
+	[]Configurable keys
 []Transitions
 []HUD countdown SFXs
 
@@ -60,6 +62,6 @@ begging for an appearance so, here it is.
 modeling:		.5 hours
 programming
 	core:		6.25 hours		1:37pm-2:02pm
-	polish:		10.25 hours		2:26pm-2:58pm
+	polish:		10.25 hours		2:26pm-2:58pm	12:34am-12:58am
 art:			11.25 hours		
 sound:			5.5 hour		
