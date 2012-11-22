@@ -42,10 +42,11 @@ namespace SnakeRawrRawr.Logic {
 			// TESTING VALUES
 			//this.currentGameState = GameState.Active;
 			//this.currentGameState = GameState.Waiting;
+			//this.GameMode = Logic.GameMode.OnePlayer;
 			//this.GameMode = Logic.GameMode.TwoPlayer;
 			//this.currentGameState = GameState.GameOver;
 			//this.currentGameState = GameState.MainMenu;
-			this.currentGameState = GameState.Options;
+			//this.currentGameState = GameState.Options;
 		}
 		#endregion Constructor
 

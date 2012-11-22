@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.IO;
 
 using GWNorthEngine.Engine;
 using GWNorthEngine.Engine.Params;
@@ -24,7 +25,6 @@ namespace SnakeRawrRawr.Engine {
 	/// This is the main type for your game
 	/// </summary>
 	public class Renderer : BaseRenderer {
-
 		private Cinematic cinematic;
 		private GameDisplay gameDisplay;
 		private MainMenu mainMenu;
@@ -54,10 +54,12 @@ namespace SnakeRawrRawr.Engine {
 		/// </summary>
 		protected override void LoadContent() {
 			SoundManager.getInstance().init(Content);
+			IOHelper.loadConfiguration(IOHelper.getConfiguration());
+
 			this.cinematic = new Cinematic(Content);
 			this.mainMenu = new MainMenu(Content);
 			this.optionsMenu = new OptionsMenu(Content);
-			this.gameDisplay = new GameDisplay(GraphicsDevice, Content);
+			//this.gameDisplay = new GameDisplay(GraphicsDevice, Content);
 #if WINDOWS
 #if DEBUG
 			ScriptManager.getInstance().LogFile = "Log.log";
@@ -95,11 +97,12 @@ namespace SnakeRawrRawr.Engine {
 
 			if (StateManager.getInstance().CurrentGameState == GameState.Exit) {
 				this.Exit();
-			} else if (StateManager.getInstance().CurrentGameState == GameState.Init) {
-				if (StateManager.getInstance().PreviousGameState == GameState.MainMenu || StateManager.getInstance().PreviousGameState == GameState.GameOver) {
-					this.gameDisplay = new GameDisplay(GraphicsDevice, Content);
-					StateManager.getInstance().CurrentGameState = GameState.Waiting;
-				}
+			} else if (StateManager.getInstance().CurrentGameState == GameState.LoadGame) {
+				this.gameDisplay = new GameDisplay(GraphicsDevice, Content);
+				StateManager.getInstance().CurrentGameState = GameState.Waiting;
+			} else if (StateManager.getInstance().CurrentGameState == GameState.LoadOptions) {
+				this.optionsMenu = new OptionsMenu(Content);
+				StateManager.getInstance().CurrentGameState = GameState.Options;
 			}
 
 			base.IsMouseVisible = false;

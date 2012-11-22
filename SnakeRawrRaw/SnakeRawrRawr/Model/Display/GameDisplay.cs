@@ -95,15 +95,15 @@ namespace SnakeRawrRawr.Model.Display {
 			if (StateManager.getInstance().CurrentGameState != GameState.Active) {
 				if (InputManager.getInstance().wasKeyPressed(Keys.Enter)) {
 					if (StateManager.getInstance().CurrentGameState == GameState.GameOver) {
-						StateManager.getInstance().CurrentGameState = GameState.Init;
+						StateManager.getInstance().CurrentGameState = GameState.LoadGame;
 					}
 				}
 			} else if (StateManager.getInstance().CurrentGameState == GameState.Active) {
-					this.playerOne.update(elapsed);
-					if (!this.playerOne.BBox.Intersects(this.boundary) || this.playerOne.didICollideWithMyself()) {
-						StateManager.getInstance().CurrentGameState = GameState.GameOver;
-					}
-					SoundManager.getInstance().update(this.playerOne.Position);
+				this.playerOne.update(elapsed);
+				if (!this.playerOne.BBox.Intersects(this.boundary) || this.playerOne.didICollideWithMyself()) {
+					StateManager.getInstance().CurrentGameState = GameState.GameOver;
+				}
+				List<Vector2> listeners = new List<Vector2> { this.playerOne.Position };
 
 				if (this.playerTwo != null) {
 					this.playerTwo.update(elapsed);
@@ -111,9 +111,10 @@ namespace SnakeRawrRawr.Model.Display {
 						this.playerTwo.wasCollisionWithBodies(this.playerOne.BBox) || this.playerOne.wasCollisionWithBodies(this.playerTwo.BBox)) {
 						StateManager.getInstance().CurrentGameState = GameState.GameOver;
 					}
-					SoundManager.getInstance().update(this.playerTwo.Position);
+					listeners.Add(this.playerTwo.Position);
 				}
-				
+				SoundManager.getInstance().update(listeners.ToArray());
+
 				if (this.foods != null) {
 					Food food = null;
 					for (int i = 0; i < this.foods.Count; i++) {

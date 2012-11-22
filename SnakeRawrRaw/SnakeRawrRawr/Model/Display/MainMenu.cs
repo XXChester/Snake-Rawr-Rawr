@@ -90,13 +90,13 @@ namespace SnakeRawrRawr.Model.Display {
 				buttonChange(newIndex);
 			} else if (InputManager.getInstance().wasKeyPressed(Keys.Enter)) {
 				if (this.index == 0) {
-					StateManager.getInstance().CurrentGameState = GameState.Init;
+					StateManager.getInstance().CurrentGameState = GameState.LoadGame;
 					StateManager.getInstance().GameMode = GameMode.OnePlayer;
 				} else if (this.index == 1) {
-					StateManager.getInstance().CurrentGameState = GameState.Init;
+					StateManager.getInstance().CurrentGameState = GameState.LoadGame;
 					StateManager.getInstance().GameMode = GameMode.TwoPlayer;
 				} else if (this.index == 2) {
-					StateManager.getInstance().CurrentGameState = GameState.Options;
+					StateManager.getInstance().CurrentGameState = GameState.LoadOptions;
 				} else {
 					StateManager.getInstance().CurrentGameState = GameState.Exit;
 				}

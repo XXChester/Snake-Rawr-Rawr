@@ -38,7 +38,7 @@ namespace SnakeRawrRawr.Logic {
 
 		public void init(ContentManager content) {
 			SFXEngineParams sfxEngineParms = new SFXEngineParams();
-			sfxEngineParms.Muted = false;
+			sfxEngineParms.Muted = true;
 			this.SFXEngine = new SFXEngine(sfxEngineParms);
 			this.emitters = new List<SoundEmitter>();
 
@@ -56,10 +56,10 @@ namespace SnakeRawrRawr.Logic {
 			this.emitters.Add(emitter);
 		}
 
-		public void update(Vector2 playersPosition) {
+		public void update(Vector2[] listenersPositions) {
 			this.MusicEngine.update();
 			foreach (SoundEmitter emitter in this.emitters) {
-				emitter.update(playersPosition);
+				emitter.update(listenersPositions);
 			}
 		}
 		#endregion Support methods

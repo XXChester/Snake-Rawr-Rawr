@@ -48,12 +48,13 @@ begging for an appearance so, here it is.
 	[*]Sliders for Music & SFX
 	[]Configurable keys
 []Transitions
-[]HUD countdown SFXs
+[*]HUD countdown SFXs
 
 ====================
 	BUGS
 ====================
 [*]We are loosing space on the pivot points with the children nodes...gaps appear in the snake
+[*]2Player sound listeners aren't working, only 2nd player is listening
 
 
 ====================
@@ -61,7 +62,7 @@ begging for an appearance so, here it is.
 ====================
 modeling:		.5 hours
 programming
-	core:		6.25 hours		1:37pm-2:02pm
-	polish:		10.25 hours		2:26pm-2:58pm	12:34am-12:58am
-art:			11.25 hours		
-sound:			5.5 hour		
+	core:		6.75 hours		
+	polish:		12.75 hours		
+art:			11.75 hours	
+sound:			5.75 hour		

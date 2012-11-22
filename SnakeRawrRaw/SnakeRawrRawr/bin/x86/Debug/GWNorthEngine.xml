@@ -237,6 +237,105 @@
             Gets or sets the Minimum values to clamp the camera at
             </summary>
         </member>
+        <member name="T:GWNorthEngine.GUI.SoundEngineSlider">
+            <summary>
+            Models the data of a SoundEngineSlider GUI element
+            </summary>
+        </member>
+        <member name="T:GWNorthEngine.GUI.Slider">
+            <summary>
+            Models a GUI Slider
+            </summary>
+        </member>
+        <member name="T:GWNorthEngine.GUI.BaseGUIElement">
+            <summary>
+            Models the data that every GUI element must have
+            </summary>
+        </member>
+        <member name="F:GWNorthEngine.GUI.BaseGUIElement.lightColour">
+            <summary>
+            Colour to render the element in
+            </summary>
+        </member>
+        <member name="F:GWNorthEngine.GUI.BaseGUIElement.content">
+            <summary>
+            ContentManager object
+            </summary>
+        </member>
+        <member name="F:GWNorthEngine.GUI.BaseGUIElement.position">
+            <summary>
+            Position the element resides at
+            </summary>
+        </member>
+        <member name="F:GWNorthEngine.GUI.BaseGUIElement.scale">
+            <summary>
+            Scale of the element
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.GUI.BaseGUIElement.#ctor(GWNorthEngine.GUI.Params.BaseGUIElementParams)">
+            <summary>
+            Constructs a BaseGUIElement object based on the params object
+            </summary>
+            <param name="parms">BaseGUIElementParams object</param>
+        </member>
+        <member name="M:GWNorthEngine.GUI.BaseGUIElement.update(System.Single)">
+            <summary>
+            Updates the GUI element
+            </summary>
+            <param name="elapsed">Time elapsed since the last call</param>
+        </member>
+        <member name="M:GWNorthEngine.GUI.BaseGUIElement.render(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
+            <summary>
+            Renders the GUI element
+            </summary>
+            <param name="spriteBatch">SpriteBatch object used for rendering</param>
+        </member>
+        <member name="M:GWNorthEngine.GUI.Slider.#ctor(GWNorthEngine.GUI.Params.SliderParams)">
+            <summary>
+            Constructs a Slider object based on the params object
+            </summary>
+            <param name="parms">SliderParams object</param>
+        </member>
+        <member name="M:GWNorthEngine.GUI.Slider.update(System.Single)">
+            <summary>
+            Updates the slider
+            </summary>
+            <param name="elapsed">Time elapsed since the last call</param>
+        </member>
+        <member name="M:GWNorthEngine.GUI.Slider.render(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
+            <summary>
+            Renders the Slider
+            </summary>
+            <param name="spriteBatch">SpriteBatch object used for rendering</param>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Slider.CurrentValue">
+            <summary>
+            Value of the slider between 0 and 1
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.GUI.SoundEngineSlider.#ctor(GWNorthEngine.GUI.Params.SoundEngineSliderParams)">
+            <summary>
+            Constructs a SoundEngineSlider object based on the parms
+            </summary>
+            <param name="parms">SoundEngineSliderParams object</param>
+        </member>
+        <member name="M:GWNorthEngine.GUI.SoundEngineSlider.update(System.Single)">
+            <summary>
+            Updates the slider
+            </summary>
+            <param name="elapsed">Time elapsed since the last call</param>
+        </member>
+        <member name="M:GWNorthEngine.GUI.SoundEngineSlider.render(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
+            <summary>
+            Renders the Slider
+            </summary>
+            <param name="spriteBatch">SpriteBatch object used for rendering</param>
+        </member>
+        <member name="P:GWNorthEngine.GUI.SoundEngineSlider.CurrentValue">
+            <summary>
+            Changes the volume of the sound engine, value is clamped between 0 and 1
+            </summary>
+        </member>
         <member name="T:GWNorthEngine.AI.AStar.DefaultPathFinder">
             <summary>
             Default path finding class
@@ -1355,6 +1454,73 @@
             Gets the position of the camera
             </summary>
         </member>
+        <member name="T:GWNorthEngine.GUI.Params.SliderParams">
+            <summary>
+            Models the data required to build a GUI Slider
+            </summary>
+        </member>
+        <member name="T:GWNorthEngine.GUI.Params.BaseGUIElementParams">
+            <summary>
+            Models the basic information required to build any GUI element
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.GUI.Params.BaseGUIElementParams.#ctor">
+            <summary>
+            Constructs a basic BaseGUIElementParams object
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Params.BaseGUIElementParams.LightColour">
+            <summary>
+            Colour to render the element in
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Params.BaseGUIElementParams.Content">
+            <summary>
+            ContentManager object
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Params.BaseGUIElementParams.Position">
+            <summary>
+            Position the GUI element is to reside at
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Params.BaseGUIElementParams.Scale">
+            <summary>
+            Scale of the GUI element
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.GUI.Params.SliderParams.#ctor">
+            <summary>
+            Constructs a default SliderParams object with the default values below;
+            Scale(Bar):		Vector2(4f,1f)
+            BallScale:		Vector2(1f)
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Params.SliderParams.CurrentValue">
+            <summary>
+            Intitial value (between 0 and 1)
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Params.SliderParams.BallScale">
+            <summary>
+            Scale of the ball
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Params.SliderParams.Font">
+            <summary>
+            Font to write the % with
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Params.SliderParams.BallColour">
+            <summary>
+            Colour ofthe Ball
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Params.SliderParams.BarColour">
+            <summary>
+            Colour of the Bar
+            </summary>
+        </member>
         <member name="T:GWNorthEngine.Audio.SoundEmitter">
             <summary>
             Models a SoundEmitter that plays sounds dynamic to a position
@@ -1380,6 +1546,12 @@
             Updates the emitter based on the listeners position
             </summary>
             <param name="listenersPosition"></param>
+        </member>
+        <member name="M:GWNorthEngine.Audio.SoundEmitter.update(Microsoft.Xna.Framework.Vector2[])">
+            <summary>
+            Updates the emitter based on the listeners positions
+            </summary>
+            <param name="listenersPositions">Vector2[] of the positions that we need to take into account for listening</param>
         </member>
         <member name="P:GWNorthEngine.Audio.SoundEmitter.Position">
             <summary>
@@ -2157,36 +2329,6 @@
             Models the data required to build a CheckBox
             </summary>
         </member>
-        <member name="T:GWNorthEngine.GUI.Params.BaseGUIElementParams">
-            <summary>
-            Models the basic information required to build any GUI element
-            </summary>
-        </member>
-        <member name="M:GWNorthEngine.GUI.Params.BaseGUIElementParams.#ctor">
-            <summary>
-            Constructs a basic BaseGUIElementParams object
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.GUI.Params.BaseGUIElementParams.LightColour">
-            <summary>
-            Colour to render the element in
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.GUI.Params.BaseGUIElementParams.Content">
-            <summary>
-            ContentManager object
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.GUI.Params.BaseGUIElementParams.Position">
-            <summary>
-            Position the GUI element is to reside at
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.GUI.Params.BaseGUIElementParams.Scale">
-            <summary>
-            Scale of the GUI element
-            </summary>
-        </member>
         <member name="P:GWNorthEngine.GUI.Params.CheckBoxParams.Text">
             <summary>
             Text to appear next to the CheckBox
@@ -2463,6 +2605,127 @@
         <member name="P:GWNorthEngine.Model.Params.Animated2DSpriteLoadMultipleRows.MaxColumnsToARow">
             <summary>
             Gets or sets the number of columns to load in a sprite sheet before moving to the next line
+            </summary>
+        </member>
+        <member name="T:GWNorthEngine.Model.TexturedEffectButton">
+            <summary>
+            Textured effect button
+            </summary>
+        </member>
+        <member name="T:GWNorthEngine.Model.StaticDrawable2D">
+            <summary>
+            Text class for writing text to the screen
+            </summary>
+        </member>
+        <member name="F:GWNorthEngine.Model.StaticDrawable2D.texture">
+            <summary>
+            Texture2D object
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.Model.StaticDrawable2D.#ctor(GWNorthEngine.Model.Params.StaticDrawable2DParams)">
+            <summary>
+            Builds an object that can draw a texture to the screen
+            </summary>
+            <param name="parms">StaticDrawable2DParams object</param>
+        </member>
+        <member name="M:GWNorthEngine.Model.StaticDrawable2D.render(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Renders the sprite to the screen
+            </summary>
+            <param name="spriteBatch">SpriteBatch object used to render the sprite</param>
+            <param name="positionOffset">Offset to render the object at</param>
+        </member>
+        <member name="M:GWNorthEngine.Model.StaticDrawable2D.dispose">
+            <summary>
+            Disposes the texture that was being drawn
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Model.StaticDrawable2D.Texture">
+            <summary>
+            Gets or sets the Texture of the static drawable object
+            </summary>
+        </member>
+        <member name="T:GWNorthEngine.Model.IButton">
+            <summary>
+             Button interface defining what every button must implement
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.Model.IButton.render(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
+            <summary>
+            abstract rendering of the base button
+            </summary>
+            <param name="spriteBatch">SpriteBatch object used to render the sprite</param>
+        </member>
+        <member name="M:GWNorthEngine.Model.IButton.processActorsMovement(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Processes the actors movment
+            </summary>
+            <param name="actorsPosition">Actors current position</param>
+        </member>
+        <member name="M:GWNorthEngine.Model.IButton.isActorOver(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Determines if the actor is over the button
+            </summary>
+            <param name="actorsPosition">Actors current position</param>
+            <returns>boolean based on whether the actor is over the button</returns>
+        </member>
+        <member name="M:GWNorthEngine.Model.IButton.dispose">
+            <summary>
+            Releases the portions of the button that cause memory leaks
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Model.IButton.ID">
+            <summary>
+            Gets or sets the ID of the button
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.Model.TexturedEffectButton.#ctor(GWNorthEngine.Model.Params.TexturedEffectButtonParams)">
+            <summary>
+            Building of a textured button
+            </summary>
+            <param name="parms">TexturedButtonParams object containing the data required to build the TexturedButton</param>
+        </member>
+        <member name="M:GWNorthEngine.Model.TexturedEffectButton.isActorOver(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Determines if the actor is over the button
+            </summary>
+            <param name="actorsPosition">Actors current position</param>
+            <returns>boolean based on whether the actor is over the button</returns>
+        </member>
+        <member name="M:GWNorthEngine.Model.TexturedEffectButton.processActorsMovement(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Processes the movement of the actor (Mouse/XBox Controller etc)
+            </summary>
+            <param name="actorsPosition">Actors current position</param>
+        </member>
+        <member name="P:GWNorthEngine.Model.TexturedEffectButton.ID">
+            <summary>
+            Gets or sets the ID of the button
+            </summary>
+        </member>
+        <member name="T:GWNorthEngine.GUI.Params.SoundEngineSliderParams">
+            <summary>
+            Models the data required to build a SoundEngine specific slider
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Params.SoundEngineSliderParams.SoundEngine">
+            <summary>
+            BaseSoundEngine that the slider is to control
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Params.SoundEngineSliderParams.CheckBoxText">
+            <summary>
+            Text to display beside the CheckBox
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Params.SoundEngineSliderParams.Checked">
+            <summary>
+            Whether the check box is checked or unchecked
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Params.SoundEngineSliderParams.CheckBoxPosition">
+            <summary>
+            Position of the CheckBox
             </summary>
         </member>
         <member name="T:GWNorthEngine.Tools.TilePlacer.Constants">
@@ -2745,40 +3008,6 @@
             Coloured button
             </summary>
         </member>
-        <member name="T:GWNorthEngine.Model.IButton">
-            <summary>
-             Button interface defining what every button must implement
-            </summary>
-        </member>
-        <member name="M:GWNorthEngine.Model.IButton.render(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
-            <summary>
-            abstract rendering of the base button
-            </summary>
-            <param name="spriteBatch">SpriteBatch object used to render the sprite</param>
-        </member>
-        <member name="M:GWNorthEngine.Model.IButton.processActorsMovement(Microsoft.Xna.Framework.Vector2)">
-            <summary>
-            Processes the actors movment
-            </summary>
-            <param name="actorsPosition">Actors current position</param>
-        </member>
-        <member name="M:GWNorthEngine.Model.IButton.isActorOver(Microsoft.Xna.Framework.Vector2)">
-            <summary>
-            Determines if the actor is over the button
-            </summary>
-            <param name="actorsPosition">Actors current position</param>
-            <returns>boolean based on whether the actor is over the button</returns>
-        </member>
-        <member name="M:GWNorthEngine.Model.IButton.dispose">
-            <summary>
-            Releases the portions of the button that cause memory leaks
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.Model.IButton.ID">
-            <summary>
-            Gets or sets the ID of the button
-            </summary>
-        </member>
         <member name="M:GWNorthEngine.Model.ColouredButton.#ctor(GWNorthEngine.Model.Params.ColouredButtonParams)">
             <summary>
             Building of a coloured button
@@ -2933,49 +3162,6 @@
             <summary>
             Location of the Slider's Bar
             </summary>
-        </member>
-        <member name="T:GWNorthEngine.GUI.BaseGUIElement">
-            <summary>
-            Models the data that every GUI element must have
-            </summary>
-        </member>
-        <member name="F:GWNorthEngine.GUI.BaseGUIElement.lightColour">
-            <summary>
-            Colour to render the element in
-            </summary>
-        </member>
-        <member name="F:GWNorthEngine.GUI.BaseGUIElement.content">
-            <summary>
-            ContentManager object
-            </summary>
-        </member>
-        <member name="F:GWNorthEngine.GUI.BaseGUIElement.position">
-            <summary>
-            Position the element resides at
-            </summary>
-        </member>
-        <member name="F:GWNorthEngine.GUI.BaseGUIElement.scale">
-            <summary>
-            Scale of the element
-            </summary>
-        </member>
-        <member name="M:GWNorthEngine.GUI.BaseGUIElement.#ctor(GWNorthEngine.GUI.Params.BaseGUIElementParams)">
-            <summary>
-            Constructs a BaseGUIElement object based on the params object
-            </summary>
-            <param name="parms">BaseGUIElementParams object</param>
-        </member>
-        <member name="M:GWNorthEngine.GUI.BaseGUIElement.update(System.Single)">
-            <summary>
-            Updates the GUI element
-            </summary>
-            <param name="elapsed">Time elapsed since the last call</param>
-        </member>
-        <member name="M:GWNorthEngine.GUI.BaseGUIElement.render(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
-            <summary>
-            Renders the GUI element
-            </summary>
-            <param name="spriteBatch">SpriteBatch object used for rendering</param>
         </member>
         <member name="T:GWNorthEngine.Audio.MusicEngine">
             <summary>
@@ -3225,6 +3411,31 @@
             Gets or Sets the distance between the frames in the sprite sheet to load.
             </summary>
         </member>
+        <member name="T:GWNorthEngine.Model.Params.TexturedEffectButtonParams">
+            <summary>
+            Params object containing the data required to build a TexturedEffectButton object
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Model.Params.TexturedEffectButtonParams.ID">
+            <summary>
+            Buttons ID used for determining if a button was clicked
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Model.Params.TexturedEffectButtonParams.Effects">
+            <summary>
+            Effects to be applied to the button on hover
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Model.Params.TexturedEffectButtonParams.ResetDelegate">
+            <summary>
+            Delegate that resets the button when the mouse is not over it
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Model.Params.TexturedEffectButtonParams.PickableArea">
+            <summary>
+            Area of the rectable to pick
+            </summary>
+        </member>
         <member name="T:GWNorthEngine.Model.Effects.Params.ColourLerpEffectParams">
             <summary>
             Models the data required to build a ColourLerpEffect
@@ -3320,39 +3531,6 @@
         <member name="T:GWNorthEngine.Model.TexturedButton">
             <summary>
             Textured button
-            </summary>
-        </member>
-        <member name="T:GWNorthEngine.Model.StaticDrawable2D">
-            <summary>
-            Text class for writing text to the screen
-            </summary>
-        </member>
-        <member name="F:GWNorthEngine.Model.StaticDrawable2D.texture">
-            <summary>
-            Texture2D object
-            </summary>
-        </member>
-        <member name="M:GWNorthEngine.Model.StaticDrawable2D.#ctor(GWNorthEngine.Model.Params.StaticDrawable2DParams)">
-            <summary>
-            Builds an object that can draw a texture to the screen
-            </summary>
-            <param name="parms">StaticDrawable2DParams object</param>
-        </member>
-        <member name="M:GWNorthEngine.Model.StaticDrawable2D.render(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2)">
-            <summary>
-            Renders the sprite to the screen
-            </summary>
-            <param name="spriteBatch">SpriteBatch object used to render the sprite</param>
-            <param name="positionOffset">Offset to render the object at</param>
-        </member>
-        <member name="M:GWNorthEngine.Model.StaticDrawable2D.dispose">
-            <summary>
-            Disposes the texture that was being drawn
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.Model.StaticDrawable2D.Texture">
-            <summary>
-            Gets or sets the Texture of the static drawable object
             </summary>
         </member>
         <member name="M:GWNorthEngine.Model.TexturedButton.#ctor(GWNorthEngine.Model.Params.TexturedButtonParams)">
@@ -3920,124 +4098,6 @@
         <member name="P:GWNorthEngine.GUI.CheckBox.Checked">
             <summary>
             Whether or not the check box is checked or unchecked
-            </summary>
-        </member>
-        <member name="T:GWNorthEngine.GUI.Params.SliderParams">
-            <summary>
-            Models the data required to build a GUI Slider
-            </summary>
-        </member>
-        <member name="M:GWNorthEngine.GUI.Params.SliderParams.#ctor">
-            <summary>
-            Constructs a default SliderParams object with the default values below;
-            Scale(Bar):		Vector2(4f,1f)
-            BallScale:		Vector2(1f)
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.GUI.Params.SliderParams.CurrentValue">
-            <summary>
-            Intitial value (between 0 and 1)
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.GUI.Params.SliderParams.BallScale">
-            <summary>
-            Scale of the ball
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.GUI.Params.SliderParams.Font">
-            <summary>
-            Font to write the % with
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.GUI.Params.SliderParams.BallColour">
-            <summary>
-            Colour ofthe Ball
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.GUI.Params.SliderParams.BarColour">
-            <summary>
-            Colour of the Bar
-            </summary>
-        </member>
-        <member name="T:GWNorthEngine.GUI.Slider">
-            <summary>
-            Models a GUI Slider
-            </summary>
-        </member>
-        <member name="M:GWNorthEngine.GUI.Slider.#ctor(GWNorthEngine.GUI.Params.SliderParams)">
-            <summary>
-            Constructs a Slider object based on the params object
-            </summary>
-            <param name="parms">SliderParams object</param>
-        </member>
-        <member name="M:GWNorthEngine.GUI.Slider.update(System.Single)">
-            <summary>
-            Updates the slider
-            </summary>
-            <param name="elapsed">Time elapsed since the last call</param>
-        </member>
-        <member name="M:GWNorthEngine.GUI.Slider.render(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
-            <summary>
-            Renders the Slider
-            </summary>
-            <param name="spriteBatch">SpriteBatch object used for rendering</param>
-        </member>
-        <member name="P:GWNorthEngine.GUI.Slider.CurrentValue">
-            <summary>
-            Value of the slider between 0 and 1
-            </summary>
-        </member>
-        <member name="T:GWNorthEngine.GUI.Params.SoundEngineSliderParams">
-            <summary>
-            Models the data required to build a SoundEngine specific slider
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.GUI.Params.SoundEngineSliderParams.SoundEngine">
-            <summary>
-            BaseSoundEngine that the slider is to control
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.GUI.Params.SoundEngineSliderParams.CheckBoxText">
-            <summary>
-            Text to display beside the CheckBox
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.GUI.Params.SoundEngineSliderParams.Checked">
-            <summary>
-            Whether the check box is checked or unchecked
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.GUI.Params.SoundEngineSliderParams.CheckBoxPosition">
-            <summary>
-            Position of the CheckBox
-            </summary>
-        </member>
-        <member name="T:GWNorthEngine.GUI.SoundEngineSlider">
-            <summary>
-            Models the data of a SoundEngineSlider GUI element
-            </summary>
-        </member>
-        <member name="M:GWNorthEngine.GUI.SoundEngineSlider.#ctor(GWNorthEngine.GUI.Params.SoundEngineSliderParams)">
-            <summary>
-            Constructs a SoundEngineSlider object based on the parms
-            </summary>
-            <param name="parms">SoundEngineSliderParams object</param>
-        </member>
-        <member name="M:GWNorthEngine.GUI.SoundEngineSlider.update(System.Single)">
-            <summary>
-            Updates the slider
-            </summary>
-            <param name="elapsed">Time elapsed since the last call</param>
-        </member>
-        <member name="M:GWNorthEngine.GUI.SoundEngineSlider.render(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
-            <summary>
-            Renders the Slider
-            </summary>
-            <param name="spriteBatch">SpriteBatch object used for rendering</param>
-        </member>
-        <member name="P:GWNorthEngine.GUI.SoundEngineSlider.CurrentValue">
-            <summary>
-            Changes the volume of the sound engine, value is clamped between 0 and 1
             </summary>
         </member>
     </members>

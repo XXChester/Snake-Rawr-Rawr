@@ -7,10 +7,11 @@ namespace SnakeRawrRawr.Logic {
 	public enum GameState {
 		CompanyCinematic,
 		MainMenu,
-		Init,
+		LoadGame,
 		Waiting,
 		Active,
 		GameOver,
+		LoadOptions,
 		Options,
 		Exit
 	}

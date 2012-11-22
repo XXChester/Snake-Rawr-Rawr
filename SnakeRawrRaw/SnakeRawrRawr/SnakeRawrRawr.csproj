@@ -19,19 +19,24 @@
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>publish\</PublishUrl>
+    <PublishUrl>F:\Work\C# Gaming\XNA Projects\SnakeRawrRawr\SnakeRawrRaw\installer\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
+    <UpdateUrl>http://BrandonMcCulligh.ca/Updates/Games/SnakeRawrRawr/</UpdateUrl>
+    <ProductName>SnakeRawrRawr</ProductName>
+    <PublisherName>Great White North Productions</PublisherName>
+    <SuiteName>Games</SuiteName>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -61,6 +66,18 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>CE2F273C25DDA440B1A367DD1CBF1F54C1194172</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>SnakeRawrRawr_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GWNorthEngine">
@@ -113,6 +130,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="defaultconfig.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Compile Include="Engine\IOHelper.cs" />
     <Compile Include="Engine\Program.cs" />
     <Content Include="GameNote.txt" />
     <Compile Include="Logic\SoundManager.cs" />
@@ -145,6 +166,7 @@
     <Compile Include="Model\Snake.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Engine\Renderer.cs" />
+    <None Include="SnakeRawrRawr_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

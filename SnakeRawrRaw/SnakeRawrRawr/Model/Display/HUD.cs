@@ -34,6 +34,7 @@ namespace SnakeRawrRawr.Model.Display {
 		private StaticDrawable2D[] countDownImages;
 		private StaticDrawable2D gameOver;
 		private ScaleOverTimeEffectParams scaleOverTimeEffectParms;
+		private SoundEffect soundEffect;
 		private float elapsedTime;
 		private int index;
 		private const string TEXT_RESTART = "Press {Enter} to replay";
@@ -100,11 +101,13 @@ namespace SnakeRawrRawr.Model.Display {
 				ScaleBy = new Vector2(-1f)
 			};
 
+			this.soundEffect = LoadingUtils.load<SoundEffect>(content, "ShortBeep");
+
 			this.index = 2;
 			this.activeCountdownItem = this.countDownImages[this.index];
 			this.activeCountdownItem.addEffect(new ScaleOverTimeEffect(scaleOverTimeEffectParms));
 			this.elapsedTime = 0f;
-
+			SoundManager.getInstance().SFXEngine.playSoundEffect(this.soundEffect);
 		}
 		#endregion Constructor
 
@@ -128,6 +131,7 @@ namespace SnakeRawrRawr.Model.Display {
 				} else {
 					this.activeCountdownItem = this.countDownImages[this.index];
 					this.activeCountdownItem.addEffect(new ScaleOverTimeEffect(this.scaleOverTimeEffectParms));
+					SoundManager.getInstance().SFXEngine.playSoundEffect(this.soundEffect);
 				}
 				this.elapsedTime = 0f;
 			}
