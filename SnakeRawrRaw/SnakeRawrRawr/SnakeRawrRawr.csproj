@@ -33,7 +33,7 @@
     <ProductName>SnakeRawrRawr</ProductName>
     <PublisherName>Great White North Productions</PublisherName>
     <SuiteName>Games</SuiteName>
-    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationRevision>5</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
