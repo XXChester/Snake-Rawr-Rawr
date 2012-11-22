@@ -1,0 +1,68 @@
+﻿====================
+	OBJECTIVE
+====================
+I was bored and needed a break from writing all of my companies infrastructure and I also was waiting on a contract to be signed and returned and had an itching
+for some game development. So I had to pick something really simple becuase I didn't have a lot of time....Snake it is. Also my friend "Carebear Truscello" was
+begging for an appearance so, here it is.
+
+
+====================
+	CORE
+====================
+[*]Model objects
+[*]Render snake
+[*]Implement snake movement
+[*]Render board
+[*]State machine
+[*]Implement collection of nodes which make snake grow
+[*]Implement the ability to die
+[*]Implement a HUD that tracks the score
+[*]2 player
+
+
+
+====================
+	POLISH
+====================
+[*]Multiple nodes
+[*]Regular node spawn effect
+[*]Regular node idle animation
+[*]Regular node death effect
+[*]Rare node spawn effect
+[*]Rare node idle animation
+[*]Rare node idle particles
+[*]Rare node death effect
+[*]Head animation
+[*]Body animation
+[*]Tail animation
+[*]HUD text pulse animation
+[*]SFK
+[*]Music
+[]Portals
+[]Random wall generation
+[*]Snake corner pieces so its not jaggad
+[*]Death animations fade out
+[*]Countdown to start HUD
+[*]Main Menu
+[]Options Menu
+	[*]Sliders for Music & SFX
+	[]Configurable keys
+[]Transitions
+[*]HUD countdown SFXs
+
+====================
+	BUGS
+====================
+[*]We are loosing space on the pivot points with the children nodes...gaps appear in the snake
+[*]2Player sound listeners aren't working, only 2nd player is listening
+
+
+====================
+	TIME
+====================
+modeling:		.5 hours
+programming
+	core:		6.25 hours		1:37pm-2:02pm
+	polish:		10.25 hours		2:26pm-2:58pm	12:34am-12:58am	12:06pm-12:29pm	12:40pm-12:53pm		1:06pm-1:21pm	4:20pm-4:50pm		5:05pm-5:13pm
+art:			11.25 hours		12:35pm-12:40pm		1:22pm-1:36PM	5:14pm-5:25pm
+sound:			5.5 hour		5:40pm-6pm
