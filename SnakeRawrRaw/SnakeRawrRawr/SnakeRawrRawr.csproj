@@ -30,10 +30,10 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <UpdateUrl>http://BrandonMcCulligh.ca/Updates/Games/SnakeRawrRawr/</UpdateUrl>
-    <ProductName>SnakeRawrRawr</ProductName>
+    <ProductName>Snake Rawr Rawr</ProductName>
     <PublisherName>Great White North Productions</PublisherName>
     <SuiteName>Games</SuiteName>
-    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationRevision>6</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>

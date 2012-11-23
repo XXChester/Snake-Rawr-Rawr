@@ -30,7 +30,7 @@ namespace SnakeRawrRawr.Engine {
 		private MainMenu mainMenu;
 		private OptionsMenu optionsMenu;
 		private IRenderable activeDisplay;
-		private const string GAME_NAME = "SnakeRawrRawr";
+		private const string GAME_NAME = "Snake Rawr Rawr";
 
 		public Renderer() {
 			BaseRendererParams baseParms = new BaseRendererParams();
