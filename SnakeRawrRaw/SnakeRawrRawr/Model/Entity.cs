@@ -28,6 +28,7 @@ namespace SnakeRawrRawr.Model {
 		#region Class variables
 		private Base2DSpriteDrawable image;
 		protected ContentManager content;
+		protected bool alwaysRender;
 #if DEBUG
 		private Texture2D debugLine;
 #endif
@@ -53,9 +54,10 @@ namespace SnakeRawrRawr.Model {
 		#endregion Class properties
 
 		#region Constructor
-		public Entity(ContentManager content) : this(content, null) { }
-		public Entity(ContentManager content, Base2DSpriteDrawable image) {
+		public Entity(ContentManager content, bool alwaysRender=false) : this(content, null, alwaysRender) { }
+		public Entity(ContentManager content, Base2DSpriteDrawable image, bool alwaysRender = false) {
 			this.content = content;
+			this.alwaysRender = alwaysRender;
 			init(image);
 #if DEBUG
 			this.debugLine = LoadingUtils.load<Texture2D>(content, "Chip");
@@ -82,8 +84,10 @@ namespace SnakeRawrRawr.Model {
 		}
 
 		public virtual void render(SpriteBatch spriteBatch) {
-			if (this.image != null) {
-				this.image.render(spriteBatch);
+			if (StateManager.getInstance().CurrentGameState == GameState.Active || alwaysRender) {
+				if (this.image != null) {
+					this.image.render(spriteBatch);
+				}
 			}
 #if DEBUG
 			if (Model.Display.GameDisplay.debugOn) {

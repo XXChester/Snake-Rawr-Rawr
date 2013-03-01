@@ -29,6 +29,7 @@ namespace SnakeRawrRawr.Model {
 		private Body child;
 		private Vector2 heading;
 		private List<PivotPoint> pivotPoints;
+		private WarpCoordinates warpCoords;
 		private PulseDirection pulseDirection;
 		private const float PULSE_BY = .02f;
 		private const float PULSE_UP = 1.3f;
@@ -42,7 +43,8 @@ namespace SnakeRawrRawr.Model {
 		#region Constructor
 		public Body(ContentManager content, Vector2 position, Vector2 heading) :this(content, position, heading, 0f, new List<PivotPoint>()) { }
 
-		public Body(ContentManager content, Vector2 position, Vector2 heading, float rotation, List<PivotPoint> pivotPoints): base(content) {
+		public Body(ContentManager content, Vector2 position, Vector2 heading, float rotation, List<PivotPoint> pivotPoints)
+			: base(content, true) {
 			StaticDrawable2DParams bodyParms = new StaticDrawable2DParams();
 			bodyParms.Texture = LoadingUtils.load<Texture2D>(content, "Snakebody");
 			bodyParms.Position = position;
@@ -73,10 +75,17 @@ namespace SnakeRawrRawr.Model {
 			}
 		}
 
+		public void addWarpPosition(WarpCoordinates warpCoords) {
+			this.warpCoords = warpCoords;
+			if (this.child != null) {
+				this.child.addWarpPosition(warpCoords);
+			}
+		}
+
 		public void updateMovement(float distance) {
 			Vector2 position = base.Position;
 			float rotation = base.Rotation;
-			PositionUtils.handleChildMovement(distance, ref this.heading, ref position, ref rotation, ref this.pivotPoints);
+			PositionUtils.handleChildMovement(distance, ref this.heading, ref position, ref rotation, ref this.pivotPoints, ref warpCoords);
 
 			base.Position = position;
 			base.Rotation = rotation;

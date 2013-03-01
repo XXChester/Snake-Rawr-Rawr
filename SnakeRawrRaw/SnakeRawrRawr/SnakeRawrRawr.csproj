@@ -145,12 +145,14 @@
     <Compile Include="Logic\PositionUtils.cs" />
     <Compile Include="Logic\StateManager.cs" />
     <Compile Include="Logic\TransitionState.cs" />
+    <Compile Include="Logic\WarpCoordinates.cs" />
     <Compile Include="Model\BackGround.cs" />
     <Compile Include="Model\Body.cs" />
     <Compile Include="Model\Chicken.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Model\Carebear.cs" />
     <Compile Include="Model\ConstantSpeedParticleEmitter.cs" />
+    <Compile Include="Model\Portal.cs" />
     <Compile Include="Model\DeathParticleEmitter.cs" />
     <Compile Include="Model\Display\Cinematic.cs" />
     <Compile Include="Model\Display\BaseMenu.cs" />
@@ -159,6 +161,7 @@
     <Compile Include="Model\Display\IRenderable.cs" />
     <Compile Include="Model\Display\OptionsSection.cs" />
     <Compile Include="Model\Food.cs" />
+    <Compile Include="Model\PortalGroup.cs" />
     <Compile Include="Model\Tail.cs" />
     <Compile Include="Model\Display\GameDisplay.cs" />
     <Compile Include="Model\Display\HUD.cs" />

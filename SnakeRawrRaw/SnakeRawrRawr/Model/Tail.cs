@@ -28,6 +28,7 @@ namespace SnakeRawrRawr.Model {
 		#region Class variables
 		private Vector2 heading;
 		private List<PivotPoint> pivotPoints;
+		private WarpCoordinates warpCoords;
 		#endregion Class variables
 
 		#region Class propeties
@@ -36,7 +37,8 @@ namespace SnakeRawrRawr.Model {
 		#endregion Class properties
 
 		#region Constructor
-		public Tail(ContentManager content, Vector2 position, Vector2 heading) :base(content) {
+		public Tail(ContentManager content, Vector2 position, Vector2 heading)
+			: base(content, true) {
 			Animated2DSpriteLoadSingleRowBasedOnTexture tailParms = new Animated2DSpriteLoadSingleRowBasedOnTexture();
 			BaseAnimationManagerParams animationParms = new BaseAnimationManagerParams();
 			animationParms.AnimationState = AnimationState.PlayForward;
@@ -57,6 +59,10 @@ namespace SnakeRawrRawr.Model {
 		#endregion Constructor
 
 		#region Support methods
+		public void addWarpPosition(WarpCoordinates warpCoords) {
+			this.warpCoords = warpCoords;
+		}
+
 		public bool hasPivot(Vector2 position) {
 			bool pivotFound = false;
 			foreach (PivotPoint pivot in this.pivotPoints) {
@@ -71,7 +77,7 @@ namespace SnakeRawrRawr.Model {
 		public void updateMovement(float distance) {
 			Vector2 position = base.Position;
 			float rotation = base.Rotation;
-			PositionUtils.handleChildMovement(distance, ref this.heading, ref position, ref rotation, ref this.pivotPoints);
+			PositionUtils.handleChildMovement(distance, ref this.heading, ref position, ref rotation, ref this.pivotPoints, ref warpCoords);
 
 			base.Position = position;
 			base.Rotation = rotation;

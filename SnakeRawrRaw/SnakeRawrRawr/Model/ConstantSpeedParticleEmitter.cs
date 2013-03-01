@@ -97,10 +97,16 @@ namespace SnakeRawrRawr.Model {
 				};
 				particle.addEffect(new SwayEffect(swayEffectParms));
 			}
-			this.sfxEmitter.playSoundEffect(idleSFX, this.position);
+			SoundManager.getInstance().playSoundEffect(this.sfxEmitter, this.idleSFX);
 			base.particles.Add(particle);
 
 			base.createParticle();
+		}
+
+		~ConstantSpeedParticleEmitter() {
+			if (this.sfxEmitter != null) {
+				SoundManager.getInstance().removeEmitter(this.sfxEmitter);
+			}
 		}
 		#endregion Support methods
 	}

@@ -29,11 +29,11 @@ namespace SnakeRawrRawr.Model {
 		private Tail tail;
 		private Body body;
 		private Vector2 heading;
-		private List<PivotPoint> pivotPoints;
 		private StaticDrawable2DParams cornerParms;
 		private List<StaticDrawable2D> corners;
 		private float currentSpeed;
 		private Controls controls;
+		private SoundEffect portalEnteredSFX;
 #if DEBUG
 		private List<StaticDrawable2D> debugPivotPoints;
 		private StaticDrawable2DParams pivotParms;
@@ -43,11 +43,11 @@ namespace SnakeRawrRawr.Model {
 
 		#region Class propeties
 		public Vector2 Heading { get { return this.heading; } }
+		public BoundingBox TailsBBox { get { return this.tail.BBox; } }
 		#endregion Class properties
 
 		#region Constructor
-		public Snake(ContentManager content, Vector2 heading, float xOffSet, Controls controls) : base(content) {
-			this.pivotPoints = new List<PivotPoint>();
+		public Snake(ContentManager content, Vector2 heading, float xOffSet, Controls controls) : base(content, true) {
 			this.heading = heading;
 			this.currentSpeed = STARTING_SPEED;
 			this.controls = controls;
@@ -74,6 +74,8 @@ namespace SnakeRawrRawr.Model {
 				Scale = new Vector2(.8f),
 			};
 			this.corners = new List<StaticDrawable2D>();
+
+			this.portalEnteredSFX = LoadingUtils.load<SoundEffect>(content, "PortalTakenSFX");
 #if DEBUG
 			this.debugPivotPoints = new List<StaticDrawable2D>();
 			this.pivotParms = new StaticDrawable2DParams();
@@ -88,7 +90,6 @@ namespace SnakeRawrRawr.Model {
 		private void createPivotPoint(float rotation) {
 			base.Rotation += MathHelper.ToRadians(rotation);
 			PivotPoint pivot = new PivotPoint { Heading = this.heading, Position = base.Position, Rotation = rotation };
-			this.pivotPoints.Add(pivot);
 			this.body.addPivotPoint(pivot);
 			this.tail.PivotPoints.Add(pivot);
 			this.cornerParms.Position = base.Position;
@@ -159,6 +160,16 @@ namespace SnakeRawrRawr.Model {
 
 		public bool didICollideWithMyself() {
 			return wasCollisionWithBodies(this.BBox);
+		}
+
+		public void handlePortalCollision(WarpCoordinates warpCoords) {
+			SoundManager.getInstance().SFXEngine.playSoundEffect(this.portalEnteredSFX);
+			this.body.addWarpPosition(warpCoords);
+			this.tail.addWarpPosition(warpCoords);
+			this.Position = warpCoords.WarpTo;
+			this.cornerParms.Position = base.Position;
+			this.cornerParms.Rotation =base.Rotation;
+			this.corners.Add(new StaticDrawable2D(this.cornerParms));
 		}
 
 		public void eat(float speedMultiplier) {

@@ -59,10 +59,12 @@ namespace SnakeRawrRawr.Engine {
 			this.cinematic = new Cinematic(Content);
 			this.mainMenu = new MainMenu(Content);
 			this.optionsMenu = new OptionsMenu(Content);
-			//this.gameDisplay = new GameDisplay(GraphicsDevice, Content);
 #if WINDOWS
 #if DEBUG
 			ScriptManager.getInstance().LogFile = "Log.log";
+			if (StateManager.getInstance().CurrentGameState == GameState.Active || StateManager.getInstance().CurrentGameState == GameState.Waiting) {
+				this.gameDisplay = new GameDisplay(GraphicsDevice, Content);
+			}
 #endif
 #endif
 
@@ -91,7 +93,7 @@ namespace SnakeRawrRawr.Engine {
 			}
 			if (InputManager.getInstance().wasKeyPressed(Keys.Escape) ||
 			InputManager.getInstance().wasButtonPressed(PlayerIndex.One, Buttons.B)) {
-				//this.Exit();
+				this.Exit();
 			}
 #endif
 

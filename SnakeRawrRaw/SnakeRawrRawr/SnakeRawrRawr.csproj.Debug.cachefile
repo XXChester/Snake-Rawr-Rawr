@@ -50,5 +50,9 @@ SnakeRawrRawrContent\SaveAndReturn.xnb
 SnakeRawrRawrContent\SetToDefault.xnb
 SnakeRawrRawrContent\Return.xnb
 SnakeRawrRawrContent\ShortBeep.xnb
+SnakeRawrRawrContent\PortalIdleSFX.xnb
+SnakeRawrRawrContent\PortalCloseSFX.xnb
+SnakeRawrRawrContent\PortalSpawnSFX.xnb
+SnakeRawrRawrContent\PortalTakenSFX.xnb
 SnakeRawrRawrContent\SnakeRawrRawr.wma
 defaultconfig.dat

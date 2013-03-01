@@ -123,7 +123,7 @@ namespace SnakeRawrRawr.Model {
 					handleCollision(heading);
 					this.idleEmitter = null;
 					collision = true;
-					this.sfxEmitter.playSoundEffect(this.dyingSFX, this.sfxEmitter.Position);
+					SoundManager.getInstance().playSoundEffect(this.sfxEmitter, this.dyingSFX);
 				}
 			}
 			return collision;
@@ -137,7 +137,7 @@ namespace SnakeRawrRawr.Model {
 			if (this.LifeStage == Stage.Spawn) {
 				if (this.spawnSprite.AnimationManager.State == AnimationState.Paused) {
 					if (!this.lapseTime) {
-						this.sfxEmitter.playSoundEffect(this.spawnSFX, this.sfxEmitter.Position);
+						SoundManager.getInstance().playSoundEffect(this.sfxEmitter, this.spawnSFX);
 					}
 					this.elapsedTime += elapsed;
 					this.lapseTime = true;
@@ -163,18 +163,20 @@ namespace SnakeRawrRawr.Model {
 		}
 
 		public override void render(SpriteBatch spriteBatch) {
-			if (this.lifeStage == Stage.Idle) {
-				if (this.idleEmitter != null) {
-					this.idleEmitter.render(spriteBatch);
+			if (StateManager.getInstance().CurrentGameState == GameState.Active) {
+				if (this.lifeStage == Stage.Idle) {
+					if (this.idleEmitter != null) {
+						this.idleEmitter.render(spriteBatch);
+					}
 				}
-			}
 
-			base.render(spriteBatch);
-			if (this.lifeStage == Stage.Spawn && lapseTime) {
-				this.idleSprite.render(spriteBatch);
-			}
-			if (this.deathEmitter != null) {
-				this.deathEmitter.render(spriteBatch);
+				base.render(spriteBatch);
+				if (this.lifeStage == Stage.Spawn && lapseTime) {
+					this.idleSprite.render(spriteBatch);
+				}
+				if (this.deathEmitter != null) {
+					this.deathEmitter.render(spriteBatch);
+				}
 			}
 
 #if DEBUG
@@ -182,6 +184,12 @@ namespace SnakeRawrRawr.Model {
 				DebugUtils.drawRadius(spriteBatch, this.sfxEmitter.Position, Display.GameDisplay.radiusTexture, Constants.DEBUG_RADIUS_COLOUR);
 			}
 #endif
+		}
+
+		~Food() {
+			if (this.sfxEmitter != null) {
+				SoundManager.getInstance().removeEmitter(this.sfxEmitter);
+			}
 		}
 		#endregion Support methods
 	}

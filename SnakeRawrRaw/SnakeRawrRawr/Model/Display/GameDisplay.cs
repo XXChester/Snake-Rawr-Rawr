@@ -33,6 +33,7 @@ namespace SnakeRawrRawr.Model.Display {
 		private Snake playerOne;
 		private Snake playerTwo;
 		private List<Food> foods;
+		private PortalGroup portals;
 		private HUD hud;
 		private BoundingBox boundary;
 #if DEBUG
@@ -76,6 +77,7 @@ namespace SnakeRawrRawr.Model.Display {
 				for (int i = 0; i < Constants.EDIBLE_NODES; i++) {
 					spawnNode();
 				}
+				this.portals = new PortalGroup(content, this.rand);
 			}
 
 #if DEBUG
@@ -125,12 +127,10 @@ namespace SnakeRawrRawr.Model.Display {
 								this.playerOne.eat(food.SpeedMultiplier);
 								spawnNode();
 								this.hud.PlayerOneScore += food.Points;
-
 							} else if (this.playerTwo != null && food.wasCollision(this.playerTwo.BBox, this.playerTwo.Heading)) {
 								this.playerTwo.eat(food.SpeedMultiplier);
 								spawnNode();
 								this.hud.PlayerTwoScore += food.Points;
-
 							}
 							if (food.Release) {
 								this.foods[i] = null;
@@ -138,6 +138,22 @@ namespace SnakeRawrRawr.Model.Display {
 								i--;
 							}
 						}
+					}
+				}
+
+				if (this.portals != null) {
+					this.portals.update(elapsed);
+					if (this.portals.wasCollision(this.playerOne.BBox, this.playerOne.Position)) {
+						this.playerOne.handlePortalCollision(this.portals.WarpCoords);
+						this.hud.PlayerOneScore += this.portals.Points;
+					}
+					this.portals.wasClosingCollision(this.playerOne.TailsBBox);
+					if (this.playerTwo != null) {
+						if (this.portals.wasCollision(this.playerTwo.BBox, this.playerTwo.Position)) {
+							this.playerTwo.handlePortalCollision(this.portals.WarpCoords);
+							this.hud.PlayerTwoScore += this.portals.Points;
+						}
+						this.portals.wasClosingCollision(this.playerTwo.TailsBBox);
 					}
 				}
 			}
@@ -153,7 +169,7 @@ namespace SnakeRawrRawr.Model.Display {
 			if (InputManager.getInstance().wasKeyPressed(Keys.D1)) {
 				debugOn = !debugOn;
 			} else if (InputManager.getInstance().wasKeyPressed(Keys.D2)) {
-				this.playerOne.eat(10f);
+				this.playerOne.eat(1f);
 			} else if (InputManager.getInstance().wasKeyPressed(Keys.K)) {
 				this.foods[0].handleCollision(this.playerOne.Heading);
 			}
@@ -170,6 +186,9 @@ namespace SnakeRawrRawr.Model.Display {
 						food.render(spriteBatch);
 					}
 				}
+			}
+			if (this.portals != null) {
+				this.portals.render(spriteBatch);
 			}
 			if (this.playerOne != null) {
 				this.playerOne.render(spriteBatch);

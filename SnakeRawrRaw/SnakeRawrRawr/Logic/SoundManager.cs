@@ -18,6 +18,7 @@ namespace SnakeRawrRawr.Logic {
 		// singleton variable
 		private static SoundManager instance = new SoundManager();
 		private List<SoundEmitter> emitters;
+		private Vector2[] lastKnownListenersPositions;
 		#endregion Class variables
 
 		#region Class propeties
@@ -27,7 +28,7 @@ namespace SnakeRawrRawr.Logic {
 
 		#region Constructor
 		public SoundManager() {
-			
+			this.lastKnownListenersPositions = new Vector2[] { new Vector2(-10000f) };
 		}
 		#endregion Constructor
 
@@ -42,7 +43,6 @@ namespace SnakeRawrRawr.Logic {
 			this.SFXEngine = new SFXEngine(sfxEngineParms);
 			this.emitters = new List<SoundEmitter>();
 
-			// used a SoundEffectEngine because we are looping the same track
 			MusicEngineParams musicParms = new MusicEngineParams {
 				Muted = true,
 				PlayList = new List<Song> {
@@ -56,11 +56,21 @@ namespace SnakeRawrRawr.Logic {
 			this.emitters.Add(emitter);
 		}
 
+		public void removeEmitter(SoundEmitter emitter) {
+			this.emitters.Remove(emitter);
+		}
+
+		public void playSoundEffect(SoundEmitter sfxEmitter, SoundEffect sfx, bool loop=false) {
+			update(this.lastKnownListenersPositions);
+			sfxEmitter.playSoundEffect(sfx, loop: loop);
+		}
+
 		public void update(Vector2[] listenersPositions) {
 			this.MusicEngine.update();
 			foreach (SoundEmitter emitter in this.emitters) {
 				emitter.update(listenersPositions);
 			}
+			this.lastKnownListenersPositions = listenersPositions;
 		}
 		#endregion Support methods
 	}

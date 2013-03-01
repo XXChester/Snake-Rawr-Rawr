@@ -38,8 +38,12 @@ begging for an appearance so, here it is.
 [*]HUD text pulse animation
 [*]SFK
 [*]Music
-[]Portals
+[*]Portals Functional
+[*]Portals SFX
+[]Redo portal sprites
 []Random wall generation
+[]Random wall generation sfx
+[]New generation algorithm based on the current display
 [*]Snake corner pieces so its not jaggad
 [*]Death animations fade out
 [*]Countdown to start HUD
@@ -55,6 +59,9 @@ begging for an appearance so, here it is.
 ====================
 [*]We are loosing space on the pivot points with the children nodes...gaps appear in the snake
 [*]2Player sound listeners aren't working, only 2nd player is listening
+[*]Portal spawn is blarring and completely ignoring the emitter when the game is waiting, once the game is active it respects the emitter
+[*]All sprites are shown in their initial stage, on count down...should be hidden
+[*]SFX Emitter's leaking
 
 
 ====================
@@ -63,6 +70,6 @@ begging for an appearance so, here it is.
 modeling:		.5 hours
 programming
 	core:		6.75 hours		
-	polish:		12.75 hours		
-art:			11.75 hours	
-sound:			5.75 hour		
+	polish:		12.75 hours		6pm-8:43pm		5:55pm-6:45pm	7:30pm-8:21pm		9:27pm-10:36pm
+art:			13 hours		
+sound:			5.75 hour		6:52pm-7:29pm

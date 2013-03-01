@@ -657,6 +657,11 @@
             Animation plays through forward 1 time
             </summary>
         </member>
+        <member name="F:GWNorthEngine.Logic.AnimationState.PlayReversedOnce">
+            <summary>
+            Animation plays through 1 time
+            </summary>
+        </member>
         <member name="T:GWNorthEngine.Audio.Params.SoundEmitterParams">
             <summary>
             Models the data required to create a Sound Emitter
@@ -672,6 +677,11 @@
         <member name="P:GWNorthEngine.Audio.Params.SoundEmitterParams.Position">
             <summary>
             Position the emitter is to be located at
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Audio.Params.SoundEmitterParams.ListenerPositions">
+            <summary>
+            Position of the listeners
             </summary>
         </member>
         <member name="P:GWNorthEngine.Audio.Params.SoundEmitterParams.Pan">
@@ -1532,12 +1542,11 @@
             </summary>
             <param name="parms">SoundEmitterParams object</param>
         </member>
-        <member name="M:GWNorthEngine.Audio.SoundEmitter.playSoundEffect(Microsoft.Xna.Framework.Audio.SoundEffect,Microsoft.Xna.Framework.Vector2,System.Single,System.Boolean)">
+        <member name="M:GWNorthEngine.Audio.SoundEmitter.playSoundEffect(Microsoft.Xna.Framework.Audio.SoundEffect,System.Single,System.Boolean)">
             <summary>
             Plays a sound effect in relation to a listening position
             </summary>
             <param name="sfx">SoundEffect to play</param>
-            <param name="listenersPosition">Position the listener is currently at</param>
             <param name="pitch">Pitch of the sound effect</param>
             <param name="loop">Whether we are looping the sound effect or not</param>
         </member>
