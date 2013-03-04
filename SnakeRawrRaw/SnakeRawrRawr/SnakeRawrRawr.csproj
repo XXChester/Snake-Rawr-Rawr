@@ -152,6 +152,9 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Model\Carebear.cs" />
     <Compile Include="Model\ConstantSpeedParticleEmitter.cs" />
+    <Compile Include="Model\WallGroup.cs" />
+    <Compile Include="Model\DustParticleEmitter.cs" />
+    <Compile Include="Model\LightningParticleEmitter.cs" />
     <Compile Include="Model\Portal.cs" />
     <Compile Include="Model\DeathParticleEmitter.cs" />
     <Compile Include="Model\Display\Cinematic.cs" />
@@ -167,6 +170,7 @@
     <Compile Include="Model\Display\HUD.cs" />
     <Compile Include="Model\Entity.cs" />
     <Compile Include="Model\Snake.cs" />
+    <Compile Include="Model\Wall.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Engine\Renderer.cs" />
     <None Include="SnakeRawrRawr_TemporaryKey.pfx" />

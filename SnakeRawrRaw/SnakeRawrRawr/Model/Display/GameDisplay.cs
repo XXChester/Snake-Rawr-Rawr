@@ -33,6 +33,7 @@ namespace SnakeRawrRawr.Model.Display {
 		private Snake playerOne;
 		private Snake playerTwo;
 		private List<Food> foods;
+		private WallGroup walls;
 		private PortalGroup portals;
 		private HUD hud;
 		private BoundingBox boundary;
@@ -78,6 +79,7 @@ namespace SnakeRawrRawr.Model.Display {
 					spawnNode();
 				}
 				this.portals = new PortalGroup(content, this.rand);
+				this.walls = new WallGroup(content, this.rand);
 			}
 
 #if DEBUG
@@ -156,6 +158,17 @@ namespace SnakeRawrRawr.Model.Display {
 						this.portals.wasClosingCollision(this.playerTwo.TailsBBox);
 					}
 				}
+
+				if (this.walls != null) {
+					this.walls.update(elapsed);
+					if (this.walls.wasCollision(this.playerOne.BBox)) {
+						StateManager.getInstance().CurrentGameState = GameState.GameOver;
+					} else {
+						if (this.playerTwo != null && this.walls.wasCollision(this.playerTwo.BBox)) {
+							StateManager.getInstance().CurrentGameState = GameState.GameOver;
+						}
+					}
+				}
 			}
 
 			if (this.hud != null) {
@@ -195,6 +208,10 @@ namespace SnakeRawrRawr.Model.Display {
 			}
 			if (this.playerTwo != null) {
 				this.playerTwo.render(spriteBatch);
+			}
+
+			if (this.walls != null) {
+				this.walls.render(spriteBatch);
 			}
 
 			if (this.hud != null) {

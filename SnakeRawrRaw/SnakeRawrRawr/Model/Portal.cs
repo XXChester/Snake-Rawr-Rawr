@@ -41,6 +41,7 @@ namespace SnakeRawrRawr.Model {
 		private SoundEmitter sfxEmitter;
 		private Animated2DSprite spawnSprite;
 		private Animated2DSprite idleSprite;
+		private LightningParticleEmitter lightningEmitter;
 		private const float SFX_EMITT_RADIUS = 75f;
 		private const float MAX_OPEN_TIME = 14000f;
 		private const string IDLE_SFX_NAME = "PortalIdleSFX";
@@ -54,8 +55,7 @@ namespace SnakeRawrRawr.Model {
 		#endregion Class properties
 
 		#region Constructor
-		public Portal(ContentManager content, Random rand) 
-			: base(content) {
+		public Portal(ContentManager content, Random rand) : base(content) {
 			this.lifeStage = Stage.Spawn;
 
 			Animated2DSpriteLoadSingleRowBasedOnTexture parms = new Animated2DSpriteLoadSingleRowBasedOnTexture();
@@ -71,13 +71,19 @@ namespace SnakeRawrRawr.Model {
 			this.idleSprite = new Animated2DSprite(parms);
 
 			animationParms.AnimationState = AnimationState.PlayForwardOnce;
-			animationParms.TotalFrameCount = 4;
+			animationParms.TotalFrameCount = 6;
 			parms.AnimationParams = animationParms;
 			parms.Texture = LoadingUtils.load<Texture2D>(content, "PortalSpawn");
 			parms.Position = new Vector2(parms.Position.X, parms.Position.Y);
 			this.spawnSprite = new Animated2DSprite(parms);
 
 			base.init(this.spawnSprite);
+
+			BaseParticle2DEmitterParams emitterParams = new BaseParticle2DEmitterParams {
+				ParticleTexture = LoadingUtils.load<Texture2D>(content, "Lightning"),
+				SpawnDelay = 500f
+			};
+			this.lightningEmitter = new LightningParticleEmitter(emitterParams, parms.Position);
 
 			this.spawnSFX = LoadingUtils.load<SoundEffect>(content, SPAWN_SFX_NAME);
 			this.idleSFX = LoadingUtils.load<SoundEffect>(content, IDLE_SFX_NAME);
@@ -95,6 +101,12 @@ namespace SnakeRawrRawr.Model {
 		#endregion Constructor
 
 		#region Support methods
+		protected override BoundingBox getBBox() {
+			float size = (Constants.TILE_SIZE / 3) * 2;
+			return new BoundingBox(new Vector3(new Vector2(base.Position.X - size, base.Position.Y - size), 0f),
+				new Vector3(new Vector2(base.Position.X + size, base.Position.Y + size), 0f));
+		}
+
 		public void handleCollision() {
 			this.lifeStage = Stage.Entered;
 		}
@@ -105,7 +117,6 @@ namespace SnakeRawrRawr.Model {
 				if (base.BBox.Intersects(bbox)) {
 					handleCollision();
 					collision = true;
-					//this.sfxEmitter.playSoundEffect(this.enteredSFX, this.sfxEmitter.Position);
 				}
 			}
 			return collision;
@@ -127,10 +138,6 @@ namespace SnakeRawrRawr.Model {
 		}
 
 		public override void update(float elapsed) {
-			// REMOVE ME!!!!
-			if (InputManager.getInstance().wasKeyPressed(Keys.D9)) {
-				SoundManager.getInstance().playSoundEffect(this.sfxEmitter, this.spawnSFX);
-			}
 			this.elapsedTime += elapsed;
 			if (this.LifeStage == Stage.Spawn) {
 				if (this.spawnSprite.AnimationManager.State == AnimationState.Paused) {
@@ -150,17 +157,20 @@ namespace SnakeRawrRawr.Model {
 				}
 			}
 			if (this.lifeStage == Stage.Closing) {
+				this.lightningEmitter.Emitt = false;
 				if (this.spawnSprite.AnimationManager.State == AnimationState.Paused) {
 					this.Release = true;
 					base.init(null);
 				}
 			}
+			this.lightningEmitter.update(elapsed);
 			base.update(elapsed);
 		}
 
 #if DEBUG
 		public override void render(SpriteBatch spriteBatch) {
 			base.render(spriteBatch);
+			this.lightningEmitter.render(spriteBatch);
 			if (GameDisplay.debugOn) {
 				DebugUtils.drawRadius(spriteBatch, this.sfxEmitter.Position, Display.GameDisplay.radiusTexture, Color.Purple);
 			}

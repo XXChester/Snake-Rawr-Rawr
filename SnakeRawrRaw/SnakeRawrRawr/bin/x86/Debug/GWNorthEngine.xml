@@ -662,6 +662,11 @@
             Animation plays through 1 time
             </summary>
         </member>
+        <member name="F:GWNorthEngine.Logic.AnimationState.PulseForwardBack">
+            <summary>
+            Animations plays forward then backwards etc etc
+            </summary>
+        </member>
         <member name="T:GWNorthEngine.Audio.Params.SoundEmitterParams">
             <summary>
             Models the data required to create a Sound Emitter
@@ -4107,6 +4112,26 @@
         <member name="P:GWNorthEngine.GUI.CheckBox.Checked">
             <summary>
             Whether or not the check box is checked or unchecked
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.Logic.PulseAnimationManager.setNextFrame(System.Int32)">
+            <summary>
+            Handles incrementing the animation steps
+            </summary>
+            <param name="maxFrameCount">Max frames used to reset reverse sprites</param>
+        </member>
+        <member name="M:GWNorthEngine.Logic.PulseAnimationManager.resetAnimation(System.Int32,System.Boolean)">
+            <summary>
+            Resets the animation sequence that the AnimationManager is controlling and has an option to set the animation so that it will
+            fire as soon the state is changed to a "play" state
+            </summary>
+            <param name="maxFrameCount">Max frames used to reset reverse sprites</param>
+            <param name="cockAnimation">Determines if we are setting the animation up to fire right away as soon as a "Play" state is entered or whether
+            we want it set to replay the whole wait time</param>
+        </member>
+        <member name="T:GWNorthEngine.Logic.Params.PulseAnimationManagerParams">
+            <summary>
+            Models the data required to build a PulseAnimationManager object
             </summary>
         </member>
     </members>

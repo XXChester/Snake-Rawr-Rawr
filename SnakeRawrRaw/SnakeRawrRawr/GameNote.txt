@@ -40,7 +40,7 @@ begging for an appearance so, here it is.
 [*]Music
 [*]Portals Functional
 [*]Portals SFX
-[]Redo portal sprites
+[*]Redo portal sprites
 []Random wall generation
 []Random wall generation sfx
 []New generation algorithm based on the current display
@@ -70,6 +70,6 @@ begging for an appearance so, here it is.
 modeling:		.5 hours
 programming
 	core:		6.75 hours		
-	polish:		12.75 hours		6pm-8:43pm		5:55pm-6:45pm	7:30pm-8:21pm		9:27pm-10:36pm
-art:			13 hours		
+	polish:		20 hours		9:22pm-9:39pm
+art:			14 hours		7:40pm-8:21pm
 sound:			5.75 hour		6:52pm-7:29pm

@@ -23,8 +23,6 @@ SnakeRawrRawrContent\ChickenLeftLeg.xnb
 SnakeRawrRawrContent\ChickenRightArm.xnb
 SnakeRawrRawrContent\ChickenRightLeg.xnb
 SnakeRawrRawrContent\Bawk.xnb
-SnakeRawrRawrContent\PortalOpen.xnb
-SnakeRawrRawrContent\PortalSpawn.xnb
 SnakeRawrRawrContent\BackGround1.xnb
 SnakeRawrRawrContent\SpriteFont1.xnb
 SnakeRawrRawrContent\ChickenIdle.xnb
@@ -54,5 +52,11 @@ SnakeRawrRawrContent\PortalIdleSFX.xnb
 SnakeRawrRawrContent\PortalCloseSFX.xnb
 SnakeRawrRawrContent\PortalSpawnSFX.xnb
 SnakeRawrRawrContent\PortalTakenSFX.xnb
+SnakeRawrRawrContent\PortalOpen.xnb
+SnakeRawrRawrContent\PortalSpawn.xnb
+SnakeRawrRawrContent\Lightning.xnb
+SnakeRawrRawrContent\Fence.xnb
+SnakeRawrRawrContent\Dust.xnb
+SnakeRawrRawrContent\FenceOpening.xnb
 SnakeRawrRawrContent\SnakeRawrRawr.wma
 defaultconfig.dat
