@@ -31,8 +31,8 @@ namespace SnakeRawrRawr.Model {
 		private Random rand;
 		private float elapsed;
 		private List<Food> foods;
-		private const int BURST_CHANCE = 1;//10; 
-		private const float SPAWN_INTERVAL = 1000f;//3000f;
+		private const int BURST_CHANCE = 10; 
+		private const float SPAWN_INTERVAL = 3000f;
 		#endregion Class variables
 
 		#region Class propeties
