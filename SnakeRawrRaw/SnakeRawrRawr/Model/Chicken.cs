@@ -26,7 +26,7 @@ using SnakeRawrRawr.Logic;
 namespace SnakeRawrRawr.Model {
 	public class Chicken : Food {
 		#region Class variables
-		private const int VALUE = 5;
+		private const int VALUE = 30;
 		private const float SPEED_MULTIPLIER = 7.5f;
 		private const float IDLE_SFX_EMIT_RADIUS = 75f;
 		private const string TEXTURE_NAME_DEATH_PARTICLE = "Blood";
@@ -47,8 +47,7 @@ namespace SnakeRawrRawr.Model {
 		#region Constructor
 		public Chicken(ContentManager content, Random rand)
 			: base(content, rand, VALUE, SPEED_MULTIPLIER, DYING_CHAR_TEXTURE_NAMES, TEXTURE_NAME_DEATH_PARTICLE, TEXTURE_NAME_IDLE, TEXTURE_NAME_SPAWN, SFX_NAME_SPAWN,
-			SFX_NAME_IDLE, SFX_NAME_DIE) {
-		}
+				SFX_NAME_IDLE, SFX_NAME_DIE) { }
 		#endregion Constructor
 
 		#region Support methods

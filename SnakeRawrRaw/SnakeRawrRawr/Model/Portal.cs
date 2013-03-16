@@ -27,6 +27,7 @@ using GWNorthEngine.Scripting;
 
 using SnakeRawrRawr.Engine;
 using SnakeRawrRawr.Logic;
+using SnakeRawrRawr.Logic.Generator;
 using SnakeRawrRawr.Model.Display;
 
 namespace SnakeRawrRawr.Model {
@@ -63,8 +64,7 @@ namespace SnakeRawrRawr.Model {
 			animationParms.AnimationState = AnimationState.PlayForward;
 			animationParms.FrameRate = 100f;
 			animationParms.TotalFrameCount = 7;
-			parms.Position = new Vector2(PositionUtils.getPosition(rand.Next(1, Constants.MAX_X_TILES - 1)),
-				PositionUtils.getPosition(rand.Next(1, Constants.MAX_Y_TILES - 1)) + Constants.HUD_OFFSET + Constants.TILE_SIZE / 2 + Constants.OVERLAP);
+			parms.Position = PositionGenerator.getInstance().generateSpawn();
 			parms.Texture = LoadingUtils.load<Texture2D>(content, "PortalOpen");
 			parms.Origin = new Vector2(Constants.TILE_SIZE);
 			parms.AnimationParams = animationParms;
@@ -156,10 +156,12 @@ namespace SnakeRawrRawr.Model {
 					SoundManager.getInstance().SFXEngine.stop(IDLE_SFX_NAME);
 				}
 			}
+			PositionGenerator.getInstance().markPosition(base.Position, false);
 			if (this.lifeStage == Stage.Closing) {
 				this.lightningEmitter.Emitt = false;
 				if (this.spawnSprite.AnimationManager.State == AnimationState.Paused) {
 					this.Release = true;
+					PositionGenerator.getInstance().markPosition(base.Position);
 					base.init(null);
 				}
 			}

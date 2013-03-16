@@ -77,52 +77,46 @@ namespace SnakeRawrRawr.Logic {
 			return goingToBeAtOrPast;
 		}
 
-		public static void handleChildMovement(float distance, ref Vector2 heading, ref Vector2 position, ref float rotation, ref List<PivotPoint> pivotPoints,
-			ref WarpCoordinates warpCoords) {
+		public static void handleChildMovement(float distance, ref Vector2 heading, ref Vector2 position, ref float rotation, ref List<TargetPosition> targetPositions) {
 
 			Vector2 delta = PositionUtils.getDelta(heading, distance);
 			Vector2 distanceMinusTarget, minVector, maxVector, positiveDelta;
 
-			// figure out which is closer, the pivot point or the warp, then process that point first
+			if (targetPositions != null && targetPositions.Count > 0 && goingToBeAtOrPastPoint(position, targetPositions[0].Position, ref delta, out distanceMinusTarget, out positiveDelta)) {
+				TargetPosition targetPosition = targetPositions[0];
+				Type type = targetPosition.GetType();
+				if (type == typeof(WarpCoordinates)) {
+					PositionUtils.getMinMax(positiveDelta, distanceMinusTarget, out minVector, out maxVector);
+					Vector2 deltaMinusTargetDistance = Vector2.Subtract(maxVector, minVector);
 
+					// we need to apply the remainder to the new direction
+					position = ((WarpCoordinates)targetPosition).WarpTo;
+					if (heading == Constants.HEADING_DOWN || heading == Constants.HEADING_UP) {
+						delta = PositionUtils.getDelta(heading, deltaMinusTargetDistance.Y);
+						position = new Vector2(position.X, position.Y + delta.Y);
+					} else if (heading == Constants.HEADING_LEFT || heading == Constants.HEADING_RIGHT) {
+						delta = PositionUtils.getDelta(heading, deltaMinusTargetDistance.X);
+						position = new Vector2(position.X + delta.X, position.Y);
+					}
+				} else if (type == typeof(PivotPoint)) {
+					PivotPoint pivotPoint = ((PivotPoint)targetPosition);
+					// we are either at or going to pass through the pivot point so we need to set to pivot point + the extra distance
+					PositionUtils.getMinMax(positiveDelta, distanceMinusTarget, out minVector, out maxVector);
+					Vector2 deltaMinusPivotDistance = Vector2.Subtract(maxVector, minVector);
 
-			// if we just warped that is the first thing to handle
-			if (warpCoords != null && goingToBeAtOrPastPoint(position, warpCoords.WarpFrom, ref delta, out distanceMinusTarget, out positiveDelta)) {
-				//position = warpCoords.WarpTo + distanceMinusTarget;
-				PositionUtils.getMinMax(positiveDelta, distanceMinusTarget, out minVector, out maxVector);
-				Vector2 deltaMinusTargetDistance = Vector2.Subtract(maxVector, minVector);
-
-				// we need to apply the remainder to the new direction
-				position = warpCoords.WarpTo;
-				if (heading == Constants.HEADING_DOWN || heading == Constants.HEADING_UP) {
-					delta = PositionUtils.getDelta(heading, deltaMinusTargetDistance.Y);
-					position = new Vector2(position.X, position.Y + delta.Y);
-				} else if (heading == Constants.HEADING_LEFT || heading == Constants.HEADING_RIGHT) {
-					delta = PositionUtils.getDelta(heading, deltaMinusTargetDistance.X);
-					position = new Vector2(position.X + delta.X, position.Y);
+					// we need to apply the remainder to the new direction
+					position = pivotPoint.Position;
+					if (heading == Constants.HEADING_DOWN || heading == Constants.HEADING_UP) {
+						delta = PositionUtils.getDelta(pivotPoint.Heading, deltaMinusPivotDistance.Y);
+						position = new Vector2(position.X + delta.X, position.Y);
+					} else if (heading == Constants.HEADING_LEFT || heading == Constants.HEADING_RIGHT) {
+						delta = PositionUtils.getDelta(pivotPoint.Heading, deltaMinusPivotDistance.X);
+						position = new Vector2(position.X, position.Y + delta.Y);
+					}
+					rotation += MathHelper.ToRadians(pivotPoint.Rotation);
+					heading = pivotPoint.Heading;
 				}
-			} else if (pivotPoints != null && pivotPoints.Count > 0 &&
-				goingToBeAtOrPastPoint(position, pivotPoints[0].Position, ref delta, out distanceMinusTarget, out positiveDelta)) {
-				// the first node is our current target
-				PivotPoint pivotPoint = pivotPoints[0];
-				// we are either at or going to pass through the pivot point so we need to set to pivot point + the extra distance
-				PositionUtils.getMinMax(positiveDelta, distanceMinusTarget, out minVector, out maxVector);
-				Vector2 deltaMinusPivotDistance = Vector2.Subtract(maxVector, minVector);
-
-				// we need to apply the remainder to the new direction
-				position = pivotPoint.Position;
-				if (heading == Constants.HEADING_DOWN || heading == Constants.HEADING_UP) {
-					delta = PositionUtils.getDelta(pivotPoint.Heading, deltaMinusPivotDistance.Y);
-					position = new Vector2(position.X + delta.X, position.Y);
-				} else if (heading == Constants.HEADING_LEFT || heading == Constants.HEADING_RIGHT) {
-					delta = PositionUtils.getDelta(pivotPoint.Heading, deltaMinusPivotDistance.X);
-					position = new Vector2(position.X, position.Y + delta.Y);
-				}
-				rotation += MathHelper.ToRadians(pivotPoint.Rotation);
-				heading = pivotPoint.Heading;
-
-				// lastly remove the pivot point
-				pivotPoints.RemoveAt(0);
+				targetPositions.RemoveAt(0);
 			} else {
 				position += delta;
 			}

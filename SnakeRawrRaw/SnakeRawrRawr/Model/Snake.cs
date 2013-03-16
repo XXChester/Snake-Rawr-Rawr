@@ -22,6 +22,7 @@ using GWNorthEngine.Utils;
 using GWNorthEngine.Scripting;
 
 using SnakeRawrRawr.Logic;
+using SnakeRawrRawr.Logic.Generator;
 
 namespace SnakeRawrRawr.Model {
 	public class Snake : Entity {
@@ -89,9 +90,9 @@ namespace SnakeRawrRawr.Model {
 		#region Support methods
 		private void createPivotPoint(float rotation) {
 			base.Rotation += MathHelper.ToRadians(rotation);
-			PivotPoint pivot = new PivotPoint { Heading = this.heading, Position = base.Position, Rotation = rotation };
-			this.body.addPivotPoint(pivot);
-			this.tail.PivotPoints.Add(pivot);
+			PivotPoint pivot = new PivotPoint(base.Position, this.heading, rotation);
+			this.body.addTargetPosition(pivot);
+			this.tail.TargetPositions.Add(pivot);
 			this.cornerParms.Position = base.Position;
 			this.cornerParms.Rotation += MathHelper.ToRadians(rotation);
 			this.corners.Add(new StaticDrawable2D(this.cornerParms));
@@ -104,7 +105,9 @@ namespace SnakeRawrRawr.Model {
 		private void updateMovement(float elapsed) {
 			float distance = (this.currentSpeed / 1000) * elapsed;
 
+			Vector2 currentPosition = base.Position;
 			base.Position += PositionUtils.getDelta(this.heading, distance);
+			PositionGenerator.getInstance().updateLocation(currentPosition, base.Position, extraSurround: true);
 			this.body.updateMovement(distance);
 			this.body.update(elapsed);
 			this.tail.updateMovement(distance);
@@ -164,8 +167,8 @@ namespace SnakeRawrRawr.Model {
 
 		public void handlePortalCollision(WarpCoordinates warpCoords) {
 			SoundManager.getInstance().SFXEngine.playSoundEffect(this.portalEnteredSFX);
-			this.body.addWarpPosition(warpCoords);
-			this.tail.addWarpPosition(warpCoords);
+			this.body.addTargetPosition(warpCoords);
+			this.tail.TargetPositions.Add(warpCoords);
 			this.Position = warpCoords.WarpTo;
 			this.cornerParms.Position = base.Position;
 			this.cornerParms.Rotation =base.Rotation;
@@ -183,9 +186,9 @@ namespace SnakeRawrRawr.Model {
 					node = node.Child;
 				}
 				// create our new link
-				List<PivotPoint> clonedPivots = new List<PivotPoint>();
-				clonedPivots.AddRange(this.tail.PivotPoints);
-				node.Child = new Body(this.content, this.tail.Position, this.tail.Heading, this.tail.Rotation, clonedPivots);
+				List<TargetPosition> clonedTargets = new List<TargetPosition>();
+				clonedTargets.AddRange(this.tail.TargetPositions);
+				node.Child = new Body(this.content, this.tail.Position, this.tail.Heading, this.tail.Rotation, clonedTargets);
 				// we need to push the tail back
 				Vector2 delta = PositionUtils.getDelta(-this.tail.Heading, Constants.TILE_SIZE - Constants.OVERLAP);
 				this.tail.Position += delta;

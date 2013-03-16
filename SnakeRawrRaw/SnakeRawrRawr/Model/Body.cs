@@ -22,14 +22,14 @@ using GWNorthEngine.Utils;
 using GWNorthEngine.Scripting;
 
 using SnakeRawrRawr.Logic;
+using SnakeRawrRawr.Logic.Generator;
 
 namespace SnakeRawrRawr.Model {
 	public class Body : Entity {
 		#region Class variables
 		private Body child;
 		private Vector2 heading;
-		private List<PivotPoint> pivotPoints;
-		private WarpCoordinates warpCoords;
+		private List<TargetPosition> targetPositions;
 		private PulseDirection pulseDirection;
 		private const float PULSE_BY = .02f;
 		private const float PULSE_UP = 1.3f;
@@ -41,9 +41,9 @@ namespace SnakeRawrRawr.Model {
 		#endregion Class properties
 
 		#region Constructor
-		public Body(ContentManager content, Vector2 position, Vector2 heading) :this(content, position, heading, 0f, new List<PivotPoint>()) { }
+		public Body(ContentManager content, Vector2 position, Vector2 heading) : this(content, position, heading, 0f, new List<TargetPosition>()) { }
 
-		public Body(ContentManager content, Vector2 position, Vector2 heading, float rotation, List<PivotPoint> pivotPoints)
+		public Body(ContentManager content, Vector2 position, Vector2 heading, float rotation, List<TargetPosition> targetPositions)
 			: base(content, true) {
 			StaticDrawable2DParams bodyParms = new StaticDrawable2DParams();
 			bodyParms.Texture = LoadingUtils.load<Texture2D>(content, "Snakebody");
@@ -54,7 +54,7 @@ namespace SnakeRawrRawr.Model {
 			base.init(new StaticDrawable2D(bodyParms));
 
 			this.heading = heading;
-			this.pivotPoints = pivotPoints;
+			this.targetPositions = targetPositions;
 			this.pulseDirection = PulseDirection.Up;
 		}
 		#endregion Constructor
@@ -68,27 +68,22 @@ namespace SnakeRawrRawr.Model {
 			}
 		}
 
-		public void addPivotPoint(PivotPoint pivotPoint) {
-			this.pivotPoints.Add(pivotPoint);
+		public void addTargetPosition(TargetPosition targetPosition) {
+			this.targetPositions.Add(targetPosition);
 			if (this.child != null) {
-				this.child.addPivotPoint(pivotPoint);
-			}
-		}
-
-		public void addWarpPosition(WarpCoordinates warpCoords) {
-			this.warpCoords = warpCoords;
-			if (this.child != null) {
-				this.child.addWarpPosition(warpCoords);
+				this.child.addTargetPosition(targetPosition);
 			}
 		}
 
 		public void updateMovement(float distance) {
+			Vector2 currentPosition = base.Position;
 			Vector2 position = base.Position;
 			float rotation = base.Rotation;
-			PositionUtils.handleChildMovement(distance, ref this.heading, ref position, ref rotation, ref this.pivotPoints, ref warpCoords);
+			PositionUtils.handleChildMovement(distance, ref this.heading, ref position, ref rotation, ref this.targetPositions);
 
 			base.Position = position;
 			base.Rotation = rotation;
+			PositionGenerator.getInstance().updateLocation(currentPosition, position);
 
 			if (this.child != null) {
 				this.child.updateMovement(distance);

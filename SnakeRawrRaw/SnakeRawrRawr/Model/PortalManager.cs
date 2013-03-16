@@ -24,13 +24,13 @@ using GWNorthEngine.Scripting;
 using SnakeRawrRawr.Logic;
 
 namespace SnakeRawrRawr.Model {
-	public class PortalGroup {
+	public class PortalManager {
 		#region Class variables
 		private ContentManager content;
 		private Random rand;
 		private float elapsed;
 		private const float SPAWN_INTERVAL = 5000f;
-		private const int POINTS = 30;
+		private const int POINTS = 15;
 		#endregion Class variables
 
 		#region Class propeties
@@ -41,10 +41,9 @@ namespace SnakeRawrRawr.Model {
 		#endregion Class properties
 
 		#region Constructor
-		public PortalGroup(ContentManager content, Random rand) {
+		public PortalManager(ContentManager content, Random rand) {
 			this.content = content;
 			this.rand = rand;
-			create();
 		}
 		#endregion Constructor
 

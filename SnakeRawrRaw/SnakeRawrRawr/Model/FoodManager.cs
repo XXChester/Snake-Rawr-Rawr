@@ -22,40 +22,57 @@ using GWNorthEngine.Utils;
 using GWNorthEngine.Scripting;
 
 using SnakeRawrRawr.Logic;
+using SnakeRawrRawr.Logic.Generator;
 
 namespace SnakeRawrRawr.Model {
-	public class WallGroup {
+	public class FoodManager {
 		#region Class variables
 		private ContentManager content;
 		private Random rand;
 		private float elapsed;
-		private List<Wall> walls;
-		private const float SPAWN_INTERVAL = 1000f;
+		private List<Food> foods;
+		private const int BURST_CHANCE = 1;//10; 
+		private const float SPAWN_INTERVAL = 1000f;//3000f;
 		#endregion Class variables
 
 		#region Class propeties
+		public List<Food> Foods { get { return this.foods; } }
 		#endregion Class properties
 
 		#region Constructor
-		public WallGroup(ContentManager content, Random rand) {
+		public FoodManager(ContentManager content, Random rand) {
 			this.content = content;
 			this.rand = rand;
-			this.walls = new List<Wall>();
+			this.foods = new List<Food>();
+			// initially create a couple nodes around the center
+			do {
+				this.foods.Add(new Chicken(this.content, this.rand));
+			} while (this.foods.Count < 2);
 		}
 		#endregion Constructor
 
 		#region Support methods
 		private void create() {
-			this.walls.Add(new Wall(this.content, new Vector2(100f)));
-			this.walls.Add(new Wall(this.content, new Vector2(100f, 132f)));
+			int spawn = 1;
+			if (this.rand.Next(BURST_CHANCE) % BURST_CHANCE == 0) {
+				spawn = 3;
+			}
+			do {
+				if (this.rand.Next(Constants.RARE_SPAWN_ODDS) % Constants.RARE_SPAWN_ODDS == 0) {
+					this.foods.Add(new Carebear(this.content, this.rand));
+				} else {
+					this.foods.Add(new Chicken(this.content, this.rand));
+				}
+				spawn--;
+			} while (spawn > 0);
 			this.elapsed = 0f;
 		}
 
 		public bool wasCollision(BoundingBox bbox) {
 			bool collision = false;
-			if (this.walls != null) {
-				foreach (Wall wall in this.walls) {
-					if (wall.BBox.Intersects(bbox)) {
+			if (this.foods != null) {
+				foreach (Food food in this.foods) {
+					if (food.BBox.Intersects(bbox)) {
 						collision = true;
 						break;
 					}
@@ -65,17 +82,6 @@ namespace SnakeRawrRawr.Model {
 		}
 
 		public void update(float elapsed) {
-			Wall wall = null;
-			for(int i = this.walls.Count - 1; i >= 0; i--) {
-				wall = this.walls[i];
-				if (wall != null) {
-					wall.update(elapsed);
-					if (wall.Release) {
-						this.walls.RemoveAt(i);
-					}
-				}
-			}
-
 			this.elapsed += elapsed;
 			if (this.elapsed >= SPAWN_INTERVAL) {
 				create();
@@ -83,8 +89,8 @@ namespace SnakeRawrRawr.Model {
 		}
 
 		public void render(SpriteBatch spriteBatch) {
-			foreach (Wall wall in this.walls) {
-				wall.render(spriteBatch);
+			foreach (Food food in this.foods) {
+				food.render(spriteBatch);
 			}
 		}
 		#endregion Support methods

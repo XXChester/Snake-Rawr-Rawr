@@ -27,6 +27,7 @@ using GWNorthEngine.Scripting;
 
 using SnakeRawrRawr.Engine;
 using SnakeRawrRawr.Logic;
+using SnakeRawrRawr.Logic.Generator;
 
 namespace SnakeRawrRawr.Model {
 	public abstract class Food : Entity {
@@ -57,7 +58,7 @@ namespace SnakeRawrRawr.Model {
 
 		#region Constructor
 		public Food(ContentManager content, Random rand, int points, float speedMultiplier, List<string> dyingCharacterTextureNames, string deathParticleTextureName,
-			string idleTextureName, string spawnTextureName, string spawnSFXName, string idleSFXName, string dyingSFXName, float spawnPositionYOffset = 0f) 
+			string idleTextureName, string spawnTextureName, string spawnSFXName, string idleSFXName, string dyingSFXName, float spawnPositionYOffset = 0f)
 			: base(content) {
 			this.Points = points;
 			this.SpeedMultiplier = speedMultiplier;
@@ -74,8 +75,7 @@ namespace SnakeRawrRawr.Model {
 			animationParms.AnimationState = AnimationState.PlayForward;
 			animationParms.FrameRate = 100f;
 			animationParms.TotalFrameCount = 4;
-			parms.Position = new Vector2(PositionUtils.getPosition(rand.Next(1, Constants.MAX_X_TILES - 1)),
-				PositionUtils.getPosition(rand.Next(1, Constants.MAX_Y_TILES - 1)) + Constants.HUD_OFFSET + Constants.TILE_SIZE / 2 + Constants.OVERLAP);
+			parms.Position = PositionGenerator.getInstance().generateSpawn();
 			parms.Texture = LoadingUtils.load<Texture2D>(content, idleTextureName);
 			parms.Scale = new Vector2(.5f);
 			parms.Origin = new Vector2(Constants.TILE_SIZE);
@@ -113,6 +113,7 @@ namespace SnakeRawrRawr.Model {
 			BaseParticle2DEmitterParams parms = new BaseParticle2DEmitterParams();
 			parms.ParticleTexture = this. deathParticleTexture;
 			this.deathEmitter = new DeathParticleEmitter(parms, base.Position, heading, this.dyingCharacterTextures);
+			PositionGenerator.getInstance().markPosition(base.Position);
 			base.init(null);
 		}
 
@@ -150,6 +151,8 @@ namespace SnakeRawrRawr.Model {
 					this.elapsedTime = 0f;
 					createIdleEmitter();
 				}
+			} else if (this.lifeStage == Stage.Idle) {
+				PositionGenerator.getInstance().markPosition(base.Position, false);
 			} else if (this.LifeStage == Stage.Dying) {
 				this.elapsedTime += elapsed;
 				if (this.elapsedTime >= Constants.DEATH_DURATION) {

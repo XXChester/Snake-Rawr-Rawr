@@ -136,6 +136,14 @@
     <Compile Include="Engine\IOHelper.cs" />
     <Compile Include="Engine\Program.cs" />
     <Content Include="GameNote.txt" />
+    <Compile Include="Logic\TargetPosition.cs" />
+    <Compile Include="Logic\Generator\BaseWallGenerator.cs" />
+    <Compile Include="Logic\Generator\RightAngleWallGenerator.cs" />
+    <Compile Include="Logic\Generator\CrossWallGenerator.cs" />
+    <Compile Include="Logic\Generator\VerticalWallGenerator.cs" />
+    <Compile Include="Logic\Generator\HorizontalWallGenerator.cs" />
+    <Compile Include="Logic\Generator\PositionGenerator.cs" />
+    <Compile Include="Logic\Generator\ScatteredWallGenerator.cs" />
     <Compile Include="Logic\SoundManager.cs" />
     <Compile Include="Logic\ConfigurationManager.cs" />
     <Compile Include="Logic\Controls.cs" />
@@ -152,7 +160,9 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Model\Carebear.cs" />
     <Compile Include="Model\ConstantSpeedParticleEmitter.cs" />
-    <Compile Include="Model\WallGroup.cs" />
+    <Compile Include="Model\FoodManager.cs" />
+    <Compile Include="Model\GenerationBoundary.cs" />
+    <Compile Include="Model\WallManager.cs" />
     <Compile Include="Model\DustParticleEmitter.cs" />
     <Compile Include="Model\LightningParticleEmitter.cs" />
     <Compile Include="Model\Portal.cs" />
@@ -164,7 +174,7 @@
     <Compile Include="Model\Display\IRenderable.cs" />
     <Compile Include="Model\Display\OptionsSection.cs" />
     <Compile Include="Model\Food.cs" />
-    <Compile Include="Model\PortalGroup.cs" />
+    <Compile Include="Model\PortalManager.cs" />
     <Compile Include="Model\Tail.cs" />
     <Compile Include="Model\Display\GameDisplay.cs" />
     <Compile Include="Model\Display\HUD.cs" />

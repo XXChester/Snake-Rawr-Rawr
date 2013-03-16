@@ -53,11 +53,15 @@ namespace SnakeRawrRawr.Logic {
 		}
 
 		public void addEmitter(SoundEmitter emitter) {
-			this.emitters.Add(emitter);
+			lock (this.emitters) {
+				this.emitters.Add(emitter);
+			}
 		}
 
 		public void removeEmitter(SoundEmitter emitter) {
-			this.emitters.Remove(emitter);
+			lock (this.emitters) {
+				this.emitters.Remove(emitter);
+			}
 		}
 
 		public void playSoundEffect(SoundEmitter sfxEmitter, SoundEffect sfx, bool loop=false) {
@@ -67,8 +71,10 @@ namespace SnakeRawrRawr.Logic {
 
 		public void update(Vector2[] listenersPositions) {
 			this.MusicEngine.update();
-			foreach (SoundEmitter emitter in this.emitters) {
-				emitter.update(listenersPositions);
+			lock (this.emitters) {
+				foreach (SoundEmitter emitter in this.emitters) {
+					emitter.update(listenersPositions);
+				}
 			}
 			this.lastKnownListenersPositions = listenersPositions;
 		}

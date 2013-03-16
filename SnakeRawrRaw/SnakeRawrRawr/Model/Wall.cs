@@ -21,6 +21,9 @@ using GWNorthEngine.Input;
 using GWNorthEngine.Utils;
 using GWNorthEngine.Scripting;
 
+using SnakeRawrRawr.Logic;
+using SnakeRawrRawr.Logic.Generator;
+
 namespace SnakeRawrRawr.Model {
 	public class Wall : Entity {
 		private enum Stage { Opening, Idle, Closing };
@@ -60,7 +63,7 @@ namespace SnakeRawrRawr.Model {
 			parms.Position = position;
 			parms.Scale = new Vector2(.25f);
 			parms.Texture = LoadingUtils.load<Texture2D>(content, "FenceOpening");
-			parms.Origin = new Vector2(Constants.TILE_SIZE + Constants.TILE_SIZE/2f);
+			parms.Origin = new Vector2(Constants.TILE_SIZE);
 			parms.AnimationParams = animationParms;
 			this.spawnSprite = new Animated2DSprite(parms);
 			base.init(spawnSprite);
@@ -99,6 +102,7 @@ namespace SnakeRawrRawr.Model {
 					this.spawnSprite.AnimationManager.State = AnimationState.PlayReversedOnce;
 					this.spawnSprite.reset();
 					base.init(this.spawnSprite);
+					PositionGenerator.getInstance().markPosition(base.Position);
 					// TODO: Sound effect
 				}
 			}

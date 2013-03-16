@@ -40,8 +40,8 @@ namespace SnakeRawrRawr.Logic {
 			this.GameMode = GameMode.Waiting;
 
 			// TESTING VALUES
-			//this.currentGameState = GameState.Active;
-			this.currentGameState = GameState.Waiting;
+			this.currentGameState = GameState.Active;
+			//this.currentGameState = GameState.Waiting;
 			this.GameMode = Logic.GameMode.OnePlayer;
 			//this.GameMode = Logic.GameMode.TwoPlayer;
 			//this.currentGameState = GameState.GameOver;

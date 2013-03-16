@@ -6,12 +6,10 @@ using System.Text;
 using Microsoft.Xna.Framework;
 
 namespace SnakeRawrRawr.Logic {
-	public class WarpCoordinates {
-		public Vector2 WarpFrom { get; set; }
+	public class WarpCoordinates : TargetPosition {
 		public Vector2 WarpTo { get; set; }
 
-		public WarpCoordinates(Vector2 warpFrom, Vector2 warpTo) {
-			this.WarpFrom = warpFrom;
+		public WarpCoordinates(Vector2 warpFrom, Vector2 warpTo) : base(warpFrom) {
 			this.WarpTo = warpTo;
 		}
 	}

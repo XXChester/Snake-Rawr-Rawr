@@ -41,9 +41,9 @@ begging for an appearance so, here it is.
 [*]Portals Functional
 [*]Portals SFX
 [*]Redo portal sprites
-[]Random wall generation
+[*]Random wall generation
 []Random wall generation sfx
-[]New generation algorithm based on the current display
+[*]New generation algorithm based on the current display to prevent overlapping spawns
 [*]Snake corner pieces so its not jaggad
 [*]Death animations fade out
 [*]Countdown to start HUD
@@ -53,6 +53,7 @@ begging for an appearance so, here it is.
 	[]Configurable keys
 []Transitions
 [*]HUD countdown SFXs
+[]In two player a "winner" tag under the score of the player that won
 
 ====================
 	BUGS
@@ -62,6 +63,8 @@ begging for an appearance so, here it is.
 [*]Portal spawn is blarring and completely ignoring the emitter when the game is waiting, once the game is active it respects the emitter
 [*]All sprites are shown in their initial stage, on count down...should be hidden
 [*]SFX Emitter's leaking
+[*]Weird scenario where If you turn in a portal you can loose some nodes
+[]Lingering sounds effects, specifically the portals
 
 
 ====================
@@ -70,6 +73,6 @@ begging for an appearance so, here it is.
 modeling:		.5 hours
 programming
 	core:		6.75 hours		
-	polish:		20 hours		9:22pm-9:39pm
+	polish:		25.25 hours		9:22pm-9:39pm		7:54pm-8:42pm
 art:			14 hours		7:40pm-8:21pm
 sound:			5.75 hour		6:52pm-7:29pm

@@ -14,6 +14,8 @@ namespace SnakeRawrRawr {
 		public const float HUD_OFFSET = 50f;
 		public const float DEATH_DURATION = 5000f;// 5 seconds
 		public const float SHOW_SPAWN_FOR = 800f;
+		public const float GENERATION_OVERLAP = TILE_SIZE / 2f;
+		public const float GENERATION_Y_SIZE = Constants.HUD_OFFSET + Constants.GENERATION_OVERLAP;
 		public const int MAX_X_TILES = 81;
 		public const int MAX_Y_TILES = 45;
 		public const int RESOLUTION_X = 1280;

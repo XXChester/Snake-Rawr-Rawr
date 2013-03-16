@@ -46,9 +46,8 @@ namespace SnakeRawrRawr.Model {
 
 		#region Constructor
 		public Carebear(ContentManager content, Random rand)
-			: base(content, rand, VALUE, SPEED_MULTIPLIER, DYING_CHAR_TEXTURE_NAMES, TEXTURE_NAME_DEATH_PARTICLE, TEXTURE_NAME_IDLE, TEXTURE_NAME_SPAWN, SFX_NAME_SPAWN, 
-			SFX_NAME_IDLE, SFX_NAME_DIE, -(Constants.TILE_SIZE / 2)) {
-		}
+			: base(content, rand, VALUE, SPEED_MULTIPLIER, DYING_CHAR_TEXTURE_NAMES, TEXTURE_NAME_DEATH_PARTICLE, TEXTURE_NAME_IDLE, TEXTURE_NAME_SPAWN, SFX_NAME_SPAWN,
+			SFX_NAME_IDLE, SFX_NAME_DIE, -(Constants.TILE_SIZE / 2)) {}
 		#endregion Constructor
 
 		#region Support methods

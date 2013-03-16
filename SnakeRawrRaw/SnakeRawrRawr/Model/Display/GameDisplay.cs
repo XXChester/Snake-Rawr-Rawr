@@ -23,6 +23,7 @@ using GWNorthEngine.Scripting;
 
 using SnakeRawrRawr.Engine;
 using SnakeRawrRawr.Logic;
+using SnakeRawrRawr.Logic.Generator;
 
 namespace SnakeRawrRawr.Model.Display {
 	public class GameDisplay : IRenderable {
@@ -32,15 +33,16 @@ namespace SnakeRawrRawr.Model.Display {
 		private BackGround backGround;
 		private Snake playerOne;
 		private Snake playerTwo;
-		private List<Food> foods;
-		private WallGroup walls;
-		private PortalGroup portals;
+		private FoodManager foodManager;
+		private WallManager walls;
+		private PortalManager portals;
 		private HUD hud;
 		private BoundingBox boundary;
 #if DEBUG
 		public static bool debugOn = false;
 		public static Texture2D radiusTexture;
 		private Texture2D debugLine;
+		private Texture2D overlayTexture;
 #endif
 		#endregion Class variables
 
@@ -54,6 +56,7 @@ namespace SnakeRawrRawr.Model.Display {
 			init(true);
 #if DEBUG
 			radiusTexture = TextureUtils.create2DRingTexture(graphics, 100, Color.White);
+			this.overlayTexture = LoadingUtils.load<Texture2D>(content, "Overlay");
 #endif
 		}
 		#endregion Constructor
@@ -64,6 +67,7 @@ namespace SnakeRawrRawr.Model.Display {
 			Vector3 max = new Vector3(Constants.RESOLUTION_X, Constants.RESOLUTION_Y, 0f);
 			this.boundary = new BoundingBox(min, max);
 			this.rand = new Random();
+			PositionGenerator.getInstance().init(this.rand);
 			if (StateManager.getInstance().GameMode == GameMode.OnePlayer) {
 				this.playerOne = new Snake(this.content, Constants.HEADING_UP, 0f, ConfigurationManager.getInstance().PlayerOnesControls);
 			} else {
@@ -74,25 +78,14 @@ namespace SnakeRawrRawr.Model.Display {
 			if (fullRegen) {
 				this.backGround = new BackGround(this.content);
 				this.hud = new HUD(this.content);
-				this.foods = new List<Food>();
-				for (int i = 0; i < Constants.EDIBLE_NODES; i++) {
-					spawnNode();
-				}
-				this.portals = new PortalGroup(content, this.rand);
-				this.walls = new WallGroup(content, this.rand);
+				this.foodManager = new FoodManager(content, this.rand);
+				this.portals = new PortalManager(content, this.rand);
+				this.walls = new WallManager(content, this.rand);
 			}
 
 #if DEBUG
 			this.debugLine = LoadingUtils.load<Texture2D>(this.content, "Chip");
 #endif
-		}
-
-		private void spawnNode() {
-			if (this.rand.Next(Constants.RARE_SPAWN_ODDS) % Constants.RARE_SPAWN_ODDS == 0) {
-				this.foods.Add(new Carebear(this.content, this.rand));
-			} else {
-				this.foods.Add(new Chicken(this.content, this.rand));
-			}
 		}
 
 		public void update(float elapsed) {
@@ -119,24 +112,23 @@ namespace SnakeRawrRawr.Model.Display {
 				}
 				SoundManager.getInstance().update(listeners.ToArray());
 
-				if (this.foods != null) {
+				if (this.foodManager != null) {
+					this.foodManager.update(elapsed);
 					Food food = null;
-					for (int i = 0; i < this.foods.Count; i++) {
-						food = this.foods[i];
+					for (int i = 0; i < this.foodManager.Foods.Count; i++) {
+						food = this.foodManager.Foods[i];
 						if (food != null) {
 							food.update(elapsed);
 							if (food.wasCollision(this.playerOne.BBox, this.playerOne.Heading)) {
 								this.playerOne.eat(food.SpeedMultiplier);
-								spawnNode();
 								this.hud.PlayerOneScore += food.Points;
 							} else if (this.playerTwo != null && food.wasCollision(this.playerTwo.BBox, this.playerTwo.Heading)) {
 								this.playerTwo.eat(food.SpeedMultiplier);
-								spawnNode();
 								this.hud.PlayerTwoScore += food.Points;
 							}
 							if (food.Release) {
-								this.foods[i] = null;
-								this.foods.RemoveAt(i);
+								this.foodManager.Foods[i] = null;
+								this.foodManager.Foods.RemoveAt(i);
 								i--;
 							}
 						}
@@ -183,8 +175,6 @@ namespace SnakeRawrRawr.Model.Display {
 				debugOn = !debugOn;
 			} else if (InputManager.getInstance().wasKeyPressed(Keys.D2)) {
 				this.playerOne.eat(1f);
-			} else if (InputManager.getInstance().wasKeyPressed(Keys.K)) {
-				this.foods[0].handleCollision(this.playerOne.Heading);
 			}
 #endif
 		}
@@ -193,12 +183,9 @@ namespace SnakeRawrRawr.Model.Display {
 			if (this.backGround != null) {
 				this.backGround.render(spriteBatch);
 			}
-			if (this.foods != null) {
-				foreach (Food food in foods) {
-					if (food != null) {
-						food.render(spriteBatch);
-					}
-				}
+
+			if (this.foodManager != null) {
+				this.foodManager.render(spriteBatch);
 			}
 			if (this.portals != null) {
 				this.portals.render(spriteBatch);
@@ -220,6 +207,17 @@ namespace SnakeRawrRawr.Model.Display {
 #if DEBUG
 			if (GameDisplay.debugOn) {
 				DebugUtils.drawBoundingBox(spriteBatch, this.boundary, Constants.DEBUG_BBOX_Color, debugLine);
+				Vector2 position;
+				for (int y = 0; y <= PositionGenerator.getInstance().Layout.GetUpperBound(0); y++) {
+					for (int x = 0; x <= PositionGenerator.getInstance().Layout.GetUpperBound(1); x++) {
+						position = new Vector2(PositionGenerator.GRID_PIECE_SIZE * x, PositionGenerator.GRID_PIECE_SIZE * y);
+						if (PositionGenerator.getInstance().Layout[y, x]) {
+							spriteBatch.Draw(this.overlayTexture, position, Color.Gray);
+						} else {
+							spriteBatch.Draw(this.overlayTexture, position, Color.Red);
+						}
+					}
+				}
 			}
 #endif
 		}
