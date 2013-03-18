@@ -48,12 +48,12 @@ begging for an appearance so, here it is.
 [*]Death animations fade out
 [*]Countdown to start HUD
 [*]Main Menu
-[]Options Menu
+[*]Options Menu
 	[*]Sliders for Music & SFX
-	[]Configurable keys
-[]Transitions
+	[*]Configurable keys
+[*]Transitions
 [*]HUD countdown SFXs
-[]In two player a "winner" tag under the score of the player that won
+[*]In two player a "winner" tag under the score of the player that won
 
 ====================
 	BUGS
@@ -64,7 +64,9 @@ begging for an appearance so, here it is.
 [*]All sprites are shown in their initial stage, on count down...should be hidden
 [*]SFX Emitter's leaking
 [*]Weird scenario where If you turn in a portal you can loose some nodes
-[]Lingering sounds effects, specifically the portals
+[*]Lingering sounds effects, specifically the portals
+[*]2 Player is crashing due to the sound engine
+[*]If you hit escape mid transition in of the cinematic it flashes full on first then transitions out
 
 
 ====================
@@ -73,6 +75,6 @@ begging for an appearance so, here it is.
 modeling:		.5 hours
 programming
 	core:		6.75 hours		
-	polish:		25.25 hours		9:22pm-9:39pm		7:54pm-8:42pm
+	polish:		25.25 hours		9:22pm-9:39pm		7:54pm-8:42pm		1:50pm-2:54pm	3:33pm-4:57pm		7:17pm-8:27pm	8:32pm-8:50PM
 art:			14 hours		7:40pm-8:21pm
 sound:			5.75 hour		6:52pm-7:29pm

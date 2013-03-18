@@ -29,9 +29,8 @@ namespace SnakeRawrRawr.Model.Display {
 	public class Cinematic : IRenderable {
 		#region Class variables
 		private StaticDrawable2D cinematic;
-		private float elapsedTransitionTime;
-		private bool wait;
-		private const float TRANSITION_TIME = 1500f;
+		private float elapsedWaitTime;
+		private const float WAIT_TIME = 1500f;
 		#endregion Class variables
 
 		#region Class propeties
@@ -47,40 +46,21 @@ namespace SnakeRawrRawr.Model.Display {
 				Position = new Vector2(Constants.RESOLUTION_X / 2, Constants.RESOLUTION_Y / 2)
 			};
 			this.cinematic = new StaticDrawable2D(parms);
-
-			FadeEffectParams effectParms = new FadeEffectParams {
-				OriginalColour = Color.White,
-				TotalTransitionTime = 1000f,
-				State = FadeEffect.FadeState.In
-			};
-			this.cinematic.addEffect(new FadeEffect(effectParms));
 		}
 		#endregion Constructor
 
 		#region Support methods
 		public void update(float elapsed) {
-			this.elapsedTransitionTime += elapsed;
-			this.cinematic.update(elapsed);
-			FadeEffect effect = ((FadeEffect)this.cinematic.Effects[0]);
-			if (wait) {
-				if (this.elapsedTransitionTime >= TRANSITION_TIME) {
-					effect.State = FadeEffect.FadeState.Out;
-					effect.ElapsedTransitionTime = 0f;
-					wait = false;
-				}
-			} else if (effect.State == FadeEffect.FadeState.In) {
-				if (effect.ElapsedTransitionTime >= TRANSITION_TIME) {
-					wait = true;
-					this.elapsedTransitionTime = 0f;
-				}
-			} else {
-				if (effect.ElapsedTransitionTime >= TRANSITION_TIME) {
+			if (StateManager.getInstance().CurrentTransitionState == TransitionState.None) {
+				this.elapsedWaitTime += elapsed;
+				if (this.elapsedWaitTime >= WAIT_TIME) {
 					StateManager.getInstance().CurrentGameState = GameState.MainMenu;
 				}
 			}
-
-			if (InputManager.getInstance().wasKeyPressed(Keys.Escape)) {
-				StateManager.getInstance().CurrentGameState = GameState.MainMenu;
+			if (StateManager.getInstance().CurrentTransitionState == TransitionState.None || StateManager.getInstance().CurrentTransitionState == TransitionState.TransitionIn) {
+				if (InputManager.getInstance().wasKeyPressed(Keys.Escape)) {
+					StateManager.getInstance().CurrentGameState = GameState.MainMenu;
+				}
 			}
 		}
 

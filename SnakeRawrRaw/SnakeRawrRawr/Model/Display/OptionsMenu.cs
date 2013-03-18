@@ -41,7 +41,6 @@ namespace SnakeRawrRawr.Model.Display {
 		private PulseEffectParams effectParms;
 		private const float SPACE = 65f;
 		private readonly string[] BUTTON_NAMES = { "SetToDefault", "SaveAndReturn", "Return" };
-		private readonly Color DEFAULT = Color.Red;
 		private readonly Vector2 DEFAULT_SCALE = new Vector2(1f, .75f);
 
 #if DEBUG
@@ -63,20 +62,23 @@ namespace SnakeRawrRawr.Model.Display {
 			};
 
 			float x = Constants.RESOLUTION_X / 10;
-			this.playerOneSection = new OptionsSection(content, new Vector2(x, 350f), "One");
-			this.playerTwoSection = new OptionsSection(content, new Vector2(x * 6, 350f), "Two");
+			float leftSideX = Constants.RESOLUTION_X / 2 - 25f;
+			float rightSideX = leftSideX + 250f;
+			float bindingsStartPaddingX = 125f;
+			this.playerOneSection = new OptionsSection(content, new Vector2(x, 325f), x + bindingsStartPaddingX, "One", ConfigurationManager.getInstance().PlayerOnesControls);
+			this.playerTwoSection = new OptionsSection(content, new Vector2(x * 6, 325f), x * 6 + bindingsStartPaddingX, "Two", ConfigurationManager.getInstance().PlayerTwosControls);
 
 			SpriteFont font = LoadingUtils.load<SpriteFont>(content, "SpriteFont1");
 
-			Vector2 position = new Vector2(Constants.RESOLUTION_X / 2 - 25f, 200f);
+			Vector2 position = new Vector2(leftSideX, 200f);
 			SoundEngineSliderParams soundEngineParams = new SoundEngineSliderParams {
 				Position = position,
-				BallColour = DEFAULT,
-				BarColour = DEFAULT,
+				BallColour = Constants.TEXT_COLOUR,
+				BarColour = Constants.TEXT_COLOUR,
 				Content = content,
 				CurrentValue = SoundManager.getInstance().MusicEngine.Volume,
 				Font = font,
-				LightColour = DEFAULT,
+				LightColour = Constants.TEXT_COLOUR,
 				SoundEngine = SoundManager.getInstance().MusicEngine,
 				CheckBoxPosition = new Vector2(position.X + 250f, position.Y),
 				Checked = SoundManager.getInstance().MusicEngine.Muted,
@@ -87,7 +89,7 @@ namespace SnakeRawrRawr.Model.Display {
 			
 			Text2DParams textParms = new Text2DParams {
 				Font = font,
-				LightColour = DEFAULT,
+				LightColour = Constants.TEXT_COLOUR,
 				Position = new Vector2(position.X - 300f, position.Y),
 				WrittenText = "Music",
 				Origin = new Vector2(16f)
@@ -146,6 +148,24 @@ namespace SnakeRawrRawr.Model.Display {
 			return new Rectangle((int)(position.X - origin.X), (int)(position.Y - originY), 256, 70);
 		}
 
+		private void setKeyBindings() {
+			Controls controls = new Controls() {
+				Left = this.playerOneSection.KeyBindings["Left"].BoundKey,
+				Up = this.playerOneSection.KeyBindings["Up"].BoundKey,
+				Right = this.playerOneSection.KeyBindings["Right"].BoundKey,
+				Down = this.playerOneSection.KeyBindings["Down"].BoundKey,
+			};
+			ConfigurationManager.getInstance().PlayerOnesControls = controls;
+
+			controls = new Controls() {
+				Left = this.playerTwoSection.KeyBindings["Left"].BoundKey,
+				Up = this.playerTwoSection.KeyBindings["Up"].BoundKey,
+				Right = this.playerTwoSection.KeyBindings["Right"].BoundKey,
+				Down = this.playerTwoSection.KeyBindings["Down"].BoundKey,
+			};
+			ConfigurationManager.getInstance().PlayerTwosControls = controls;
+		}
+
 		public override void update(float elapsed) {
 			base.update(elapsed);
 			this.playerOneSection.update(elapsed);
@@ -168,6 +188,7 @@ namespace SnakeRawrRawr.Model.Display {
 							IOHelper.resetToDefaultConfiguration();
 							StateManager.getInstance().CurrentGameState = GameState.LoadOptions;
 						} else if (button.Texture.Name.Equals(BUTTON_NAMES[1])) {
+							setKeyBindings();
 							IOHelper.saveCurrentConfiguration();
 							StateManager.getInstance().CurrentGameState = GameState.MainMenu;
 						} else if (button.Texture.Name.Equals(BUTTON_NAMES[2])) {
@@ -180,8 +201,7 @@ namespace SnakeRawrRawr.Model.Display {
 			}
 
 			if (!this.playerOneSection.Binding && !this.playerTwoSection.Binding && InputManager.getInstance().wasKeyPressed(Keys.Escape)) {
-				//StateManager.getInstance().CurrentGameState = GameState.MainMenu;
-				StateManager.getInstance().CurrentGameState = GameState.Exit;
+				StateManager.getInstance().CurrentGameState = GameState.MainMenu;
 			}
 		}
 

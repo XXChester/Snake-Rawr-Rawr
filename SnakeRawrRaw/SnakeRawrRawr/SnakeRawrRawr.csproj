@@ -155,6 +155,7 @@
     <Compile Include="Logic\StateManager.cs" />
     <Compile Include="Logic\TransitionState.cs" />
     <Compile Include="Logic\WarpCoordinates.cs" />
+    <Compile Include="Logic\Winner.cs" />
     <Compile Include="Model\BackGround.cs" />
     <Compile Include="Model\Body.cs" />
     <Compile Include="Model\Chicken.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="Model\ConstantSpeedParticleEmitter.cs" />
     <Compile Include="Model\FoodManager.cs" />
     <Compile Include="Model\GenerationBoundary.cs" />
+    <Compile Include="Model\KeyBinding.cs" />
     <Compile Include="Model\WallManager.cs" />
     <Compile Include="Model\DustParticleEmitter.cs" />
     <Compile Include="Model\LightningParticleEmitter.cs" />

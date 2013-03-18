@@ -4,4 +4,13 @@ false
 //SFX Engine
 false
 .8
-//Key Bindings
+//Player 1 Key Bindings
+Left
+Up
+Right
+Down
+//Player 2 Key Bindings
+A
+W
+D
+S

@@ -88,6 +88,11 @@ namespace SnakeRawrRawr.Model.Display {
 #endif
 		}
 
+		private void makeGameOver(Winner whoWon) {
+			StateManager.getInstance().CurrentGameState = GameState.GameOver;
+			StateManager.getInstance().WhoWon = whoWon;
+		}
+
 		public void update(float elapsed) {
 			if (StateManager.getInstance().CurrentGameState != GameState.Active) {
 				if (InputManager.getInstance().wasKeyPressed(Keys.Enter)) {
@@ -98,15 +103,31 @@ namespace SnakeRawrRawr.Model.Display {
 			} else if (StateManager.getInstance().CurrentGameState == GameState.Active) {
 				this.playerOne.update(elapsed);
 				if (!this.playerOne.BBox.Intersects(this.boundary) || this.playerOne.didICollideWithMyself()) {
-					StateManager.getInstance().CurrentGameState = GameState.GameOver;
+					makeGameOver(playerTwo == null ? Winner.None : Winner.PlayerTwo);
 				}
 				List<Vector2> listeners = new List<Vector2> { this.playerOne.Position };
 
 				if (this.playerTwo != null) {
 					this.playerTwo.update(elapsed);
-					if (!this.playerTwo.BBox.Intersects(this.boundary) || this.playerTwo.didICollideWithMyself() ||
-						this.playerTwo.wasCollisionWithBodies(this.playerOne.BBox) || this.playerOne.wasCollisionWithBodies(this.playerTwo.BBox)) {
-						StateManager.getInstance().CurrentGameState = GameState.GameOver;
+					if (!this.playerTwo.BBox.Intersects(this.boundary) || this.playerTwo.didICollideWithMyself()) {
+						makeGameOver(Winner.PlayerOne);
+					} else {
+						bool p1CrashedIntoBody = this.playerTwo.wasCollisionWithBodies(playerOne.BBox);
+						bool p2CrashedIntoBody = this.playerOne.wasCollisionWithBodies(playerTwo.BBox);
+						// check if the players collided head on or crashed into each others bodies
+						if (this.playerTwo.BBox.Intersects(this.playerOne.BBox) || (p1CrashedIntoBody && p2CrashedIntoBody)) {
+							if (hud.PlayerOneScore > hud.PlayerTwoScore) {
+								makeGameOver(Winner.PlayerOne);
+							} else if (hud.PlayerTwoScore > hud.PlayerOneScore) {
+								makeGameOver(Winner.PlayerTwo);
+							} else {
+								makeGameOver(Winner.None);
+							}
+						} else if (p1CrashedIntoBody) {
+							makeGameOver(Winner.PlayerTwo);
+						} else if (p2CrashedIntoBody) {
+							makeGameOver(Winner.PlayerOne);
+						}
 					}
 					listeners.Add(this.playerTwo.Position);
 				}
@@ -154,10 +175,10 @@ namespace SnakeRawrRawr.Model.Display {
 				if (this.walls != null) {
 					this.walls.update(elapsed);
 					if (this.walls.wasCollision(this.playerOne.BBox)) {
-						StateManager.getInstance().CurrentGameState = GameState.GameOver;
+						makeGameOver(playerTwo == null ? Winner.None : Winner.PlayerTwo);
 					} else {
 						if (this.playerTwo != null && this.walls.wasCollision(this.playerTwo.BBox)) {
-							StateManager.getInstance().CurrentGameState = GameState.GameOver;
+							makeGameOver(Winner.PlayerOne);
 						}
 					}
 				}
@@ -175,6 +196,9 @@ namespace SnakeRawrRawr.Model.Display {
 				debugOn = !debugOn;
 			} else if (InputManager.getInstance().wasKeyPressed(Keys.D2)) {
 				this.playerOne.eat(1f);
+				if (this.playerTwo != null) {
+					this.playerTwo.eat(1f);
+				}
 			}
 #endif
 		}

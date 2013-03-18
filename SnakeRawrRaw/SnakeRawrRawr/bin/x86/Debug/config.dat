@@ -3,4 +3,14 @@ True
 0.5
 //SFX Engine
 False
-1
+0.8
+//Player 1 Key Bindings
+Left
+Up
+Right
+Down
+//Player 2 Key Bindings
+A
+W
+D
+S

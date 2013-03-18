@@ -37,6 +37,11 @@ namespace SnakeRawrRawr.Logic {
 			return instance;
 		}
 
+		private void destroyEmitter(SoundEmitter emitter) {
+			emitter.stopSoundEffect();
+			this.emitters.Remove(emitter);
+		}
+
 		public void init(ContentManager content) {
 			SFXEngineParams sfxEngineParms = new SFXEngineParams();
 			sfxEngineParms.Muted = true;
@@ -60,7 +65,17 @@ namespace SnakeRawrRawr.Logic {
 
 		public void removeEmitter(SoundEmitter emitter) {
 			lock (this.emitters) {
-				this.emitters.Remove(emitter);
+				destroyEmitter(emitter);
+			}
+		}
+
+		public void removeAllEmitters() {
+			lock (this.emitters) {
+				if (this.emitters != null) {
+				for (int i = this.emitters.Count -1; i > 0; i--) {
+					destroyEmitter(this.emitters[i]);
+				}
+			}
 			}
 		}
 

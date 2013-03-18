@@ -10,27 +10,17 @@ namespace SnakeRawrRawr.Logic {
 		#region Class variables
 		// singleton variable
 		private static ConfigurationManager instance = new ConfigurationManager();
+		private Controls playerOnesControls;
+		private Controls playerTwosControls;
 		#endregion Class variables
 
 		#region Class propeties
-		public Controls PlayerOnesControls { get; set; }
-		public Controls PlayerTwosControls { get; set; }
+		public Controls PlayerOnesControls { get{return this.playerOnesControls;} set{this.playerOnesControls = value;} }
+		public Controls PlayerTwosControls { get { return this.playerTwosControls; } set { this.playerTwosControls = value; } }
 		#endregion Class properties
 
 		#region Constructor
 		public ConfigurationManager() {
-			this.PlayerOnesControls = new Controls {
-				Down = Keys.Down,
-				Up = Keys.Up,
-				Left = Keys.Left,
-				Right = Keys.Right
-			};
-			this.PlayerTwosControls = new Controls {
-				Down = Keys.S,
-				Up = Keys.W,
-				Left = Keys.A,
-				Right = Keys.D
-			};
 		}
 		#endregion Constructor
 

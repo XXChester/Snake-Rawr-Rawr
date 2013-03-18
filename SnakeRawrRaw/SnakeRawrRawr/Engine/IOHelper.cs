@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
+using Microsoft.Xna.Framework.Input;
+
 using SnakeRawrRawr.Logic;
 
 namespace SnakeRawrRawr.Engine {
@@ -16,6 +18,14 @@ namespace SnakeRawrRawr.Engine {
 		 * 1			Music Engine Volume
 		 * 2			SFX Engine Muted
 		 * 3			SFX Engine Volume
+		 * 4			Player 1's Left
+		 * 5			Player 1's Up
+		 * 6		Player 1's Right
+		 * 7			Player 1's Down
+		 * 8			Player 2's Left
+		 * 9			Player 2's Up
+		 * 10			Player 2's Right
+		 * 11			Player 2's Down
 		 */
 
 		public static List<string> getConfiguration() {
@@ -42,6 +52,20 @@ namespace SnakeRawrRawr.Engine {
 			SoundManager.getInstance().MusicEngine.Volume = float.Parse(config[1]);
 			SoundManager.getInstance().SFXEngine.Muted = bool.Parse(config[2]);
 			SoundManager.getInstance().SFXEngine.Volume = float.Parse(config[3]);
+			Type type = typeof(Keys);
+			ConfigurationManager.getInstance().PlayerOnesControls = new Controls {
+				Left = (Keys)Enum.Parse(type, config[4], true),
+				Up = (Keys)Enum.Parse(type, config[5], true),
+				Right = (Keys)Enum.Parse(type, config[6], true),
+				Down = (Keys)Enum.Parse(type, config[7], true),
+			};
+
+			ConfigurationManager.getInstance().PlayerTwosControls = new Controls {
+				Left = (Keys)Enum.Parse(type, config[8], true),
+				Up = (Keys)Enum.Parse(type, config[9], true),
+				Right = (Keys)Enum.Parse(type, config[10], true),
+				Down = (Keys)Enum.Parse(type, config[11], true),
+			};
 		}
 
 		public static void resetToDefaultConfiguration() {
@@ -58,6 +82,16 @@ namespace SnakeRawrRawr.Engine {
 				writer.WriteLine("//SFX Engine");
 				writer.WriteLine(SoundManager.getInstance().SFXEngine.Muted.ToString());
 				writer.WriteLine(SoundManager.getInstance().SFXEngine.Volume.ToString());
+				writer.WriteLine("//Player 1 Key Bindings");
+				writer.WriteLine(ConfigurationManager.getInstance().PlayerOnesControls.Left);
+				writer.WriteLine(ConfigurationManager.getInstance().PlayerOnesControls.Up);
+				writer.WriteLine(ConfigurationManager.getInstance().PlayerOnesControls.Right);
+				writer.WriteLine(ConfigurationManager.getInstance().PlayerOnesControls.Down);
+				writer.WriteLine("//Player 2 Key Bindings");
+				writer.WriteLine(ConfigurationManager.getInstance().PlayerTwosControls.Left);
+				writer.WriteLine(ConfigurationManager.getInstance().PlayerTwosControls.Up);
+				writer.WriteLine(ConfigurationManager.getInstance().PlayerTwosControls.Right);
+				writer.WriteLine(ConfigurationManager.getInstance().PlayerTwosControls.Down);
 			}
 		}
 	}

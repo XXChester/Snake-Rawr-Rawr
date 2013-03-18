@@ -93,36 +93,36 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GWNorthEngine.dll" size="102912">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GWNorthEngine.dll" size="110080">
       <assemblyIdentity name="GWNorthEngine" version="1.0.0.2" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>1jecDGaJTD7brO9HQZYECMdeUgI=</dsig:DigestValue>
+        <dsig:DigestValue>vOkfhYSkjb9tn8gH1Xc/GTqBoAs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SnakeRawrRawr.exe" size="143872">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SnakeRawrRawr.exe" size="148992">
       <assemblyIdentity name="SnakeRawrRawr" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>YcuiDcn4QbxMRBYaQtk+T9XD2gg=</dsig:DigestValue>
+        <dsig:DigestValue>f1ep8NwTyyNFTpsrIMgQAjE4MRg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="defaultconfig.dat" size="69">
+  <file name="defaultconfig.dat" size="138">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>RFx1GP4Eehrl8iK0JhMnA28551U=</dsig:DigestValue>
+      <dsig:DigestValue>4/s4phzWZNrN6Iaoef7RL8xjudE=</dsig:DigestValue>
     </hash>
   </file>
   <file name="game.ico" size="82726">
@@ -134,13 +134,13 @@
       <dsig:DigestValue>TIshDK6Tkc83bIO/7gFCWofKoXQ=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="GameNote.txt" size="2433">
+  <file name="GameNote.txt" size="2648">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>RqStFA02ppHyZpVgoAlIw37zU/4=</dsig:DigestValue>
+      <dsig:DigestValue>HwKJlBwOEZXarMGwNkOmiWkyP3I=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Icon.png" size="1437">
@@ -431,13 +431,13 @@
       <dsig:DigestValue>aTvA4hyXvbJ0qPunKc0BMh+hryw=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="SnakeRawrRawrContent\GUIElements.xnb" size="5256">
+  <file name="SnakeRawrRawrContent\GUIElements.xnb" size="3145915">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>pp+Zx+DkU7330fiYVRkBzsiMRzU=</dsig:DigestValue>
+      <dsig:DigestValue>LxlBo3vni3PPiHrWbI5sdLJGwzc=</dsig:DigestValue>
     </hash>
   </file>
   <file name="SnakeRawrRawrContent\Harp.xnb" size="341097">

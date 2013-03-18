@@ -667,6 +667,42 @@
             Animations plays forward then backwards etc etc
             </summary>
         </member>
+        <member name="T:GWNorthEngine.Logic.Params.PulseAnimationManagerParams">
+            <summary>
+            Models the data required to build a PulseAnimationManager object
+            </summary>
+        </member>
+        <member name="T:GWNorthEngine.Logic.Params.BaseAnimationManagerParams">
+            <summary>
+            Object containing the required data to build the AnimationManager object
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.Logic.Params.BaseAnimationManagerParams.#ctor">
+            <summary>
+            Builds the default settings for setting up the AnimationManager object. The default settings are below;
+            AnimationState:		Paused
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Logic.Params.BaseAnimationManagerParams.FrameRate">
+            <summary>
+            Gets or sets the rate in which the object animates at
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Logic.Params.BaseAnimationManagerParams.TotalFrameCount">
+            <summary>
+            Gets or sets the total animation frame count
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Logic.Params.BaseAnimationManagerParams.AnimationState">
+            <summary>
+            Gets or sets the AnimationState of the object
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Logic.Params.PulseAnimationManagerParams.PulseDirection">
+            <summary>
+            Gets or sets the PulseDirection
+            </summary>
+        </member>
         <member name="T:GWNorthEngine.Audio.Params.SoundEmitterParams">
             <summary>
             Models the data required to create a Sound Emitter
@@ -1429,6 +1465,116 @@
             Gets or Sets the viewport the background is rendered in
             </summary>
         </member>
+        <member name="T:GWNorthEngine.Logic.PulseAnimationManager">
+            <summary>
+            Models a pulse animation manager which plays the animation forward to the end, then plays reversed to the start, rinse and repeat
+            </summary>
+        </member>
+        <member name="T:GWNorthEngine.Logic.AnimationManager">
+            <summary>
+            Animation manager class which handles the animation steps for anything animated
+            </summary>
+        </member>
+        <member name="F:GWNorthEngine.Logic.AnimationManager.animationState">
+            <summary>
+            Animation state for the animation sequence
+            </summary>
+        </member>
+        <member name="F:GWNorthEngine.Logic.AnimationManager.frameRate">
+            <summary>
+            Frame rate at which the object is animated
+            </summary>
+        </member>
+        <member name="F:GWNorthEngine.Logic.AnimationManager.totalElapsed">
+            <summary>
+            Time elapsed sense we last animated the object
+            </summary>
+        </member>
+        <member name="F:GWNorthEngine.Logic.AnimationManager.currentFrame">
+            <summary>
+            Current frame we are at in the animation line
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.Logic.AnimationManager.#ctor(GWNorthEngine.Logic.Params.BaseAnimationManagerParams)">
+            <summary>
+            Builds an AnimationManager based on the AnimationManagerParams object passed in
+            </summary>
+            <param name="parms">BaseAnimationManagerParams object containing the data required to load the Animation Manager object</param>
+        </member>
+        <member name="M:GWNorthEngine.Logic.AnimationManager.setNextFrame(System.Int32)">
+            <summary>
+            Handles incrementing the animation steps
+            </summary>
+            <param name="maxFrameCount">Max frames used to reset reverse sprites</param>
+        </member>
+        <member name="M:GWNorthEngine.Logic.AnimationManager.step(System.Int32)">
+            <summary>
+            Steps the animation frame ignoring timing
+            </summary>
+            <param name="maxFrameCount">Max frames used to reset reverse sprites</param>
+        </member>
+        <member name="M:GWNorthEngine.Logic.AnimationManager.resetAnimation(System.Int32,System.Boolean)">
+            <summary>
+            Resets the animation sequence that the AnimationManager is controlling and has an option to set the animation so that it will
+            fire as soon the state is changed to a "play" state
+            </summary>
+            <param name="maxFrameCount">Max frames used to reset reverse sprites</param>
+            <param name="cockAnimation">Determines if we are setting the animation up to fire right away as soon as a "Play" state is entered or whether
+            we want it set to replay the whole wait time</param>
+        </member>
+        <member name="M:GWNorthEngine.Logic.AnimationManager.update(System.Single,System.Int32)">
+            <summary>
+            Handles whether it is time to update the animation step or not
+            </summary>
+            <param name="elapsed">Time elapsed sense the last call</param>
+            <param name="maxFrameCount">Maximum frames of the object</param>
+        </member>
+        <member name="P:GWNorthEngine.Logic.AnimationManager.State">
+            <summary>
+            Gets or sets the animation state for the animation manager
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Logic.AnimationManager.TotalElapsed">
+            <summary>
+            Gets or sets the total elapsed time
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Logic.AnimationManager.FrameRate">
+            <summary>
+            Gets or sets the frame rate in which the sprite animates
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Logic.AnimationManager.CurrentFrame">
+            <summary>
+            Gets the current frame of the object
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.Logic.PulseAnimationManager.#ctor(GWNorthEngine.Logic.Params.PulseAnimationManagerParams)">
+            <summary>
+            Constructs a PuleAnimationManager based on the params passed in
+            </summary>
+            <param name="parms">PulseAnmationManagerParams object</param>
+        </member>
+        <member name="M:GWNorthEngine.Logic.PulseAnimationManager.setNextFrame(System.Int32)">
+            <summary>
+            Handles incrementing the animation steps
+            </summary>
+            <param name="maxFrameCount">Max frames used to reset reverse sprites</param>
+        </member>
+        <member name="M:GWNorthEngine.Logic.PulseAnimationManager.resetAnimation(System.Int32,System.Boolean)">
+            <summary>
+            Resets the animation sequence that the AnimationManager is controlling and has an option to set the animation so that it will
+            fire as soon the state is changed to a "play" state
+            </summary>
+            <param name="maxFrameCount">Max frames used to reset reverse sprites</param>
+            <param name="cockAnimation">Determines if we are setting the animation up to fire right away as soon as a "Play" state is entered or whether
+            we want it set to replay the whole wait time</param>
+        </member>
+        <member name="P:GWNorthEngine.Logic.PulseAnimationManager.PulseDirection">
+            <summary>
+            Gets or Sets the direction to pulse in
+            </summary>
+        </member>
         <member name="T:GWNorthEngine.Engine.FrameRate">
             <summary>
             Frames per second class
@@ -1554,6 +1700,11 @@
             <param name="sfx">SoundEffect to play</param>
             <param name="pitch">Pitch of the sound effect</param>
             <param name="loop">Whether we are looping the sound effect or not</param>
+        </member>
+        <member name="M:GWNorthEngine.Audio.SoundEmitter.stopSoundEffect">
+            <summary>
+            Stops the emitters sound effect from playing
+            </summary>
         </member>
         <member name="M:GWNorthEngine.Audio.SoundEmitter.update(Microsoft.Xna.Framework.Vector2)">
             <summary>
@@ -1867,6 +2018,12 @@
             <param name="key">Key that we are checking for</param>
             <returns>True if the key is held, otherwise false</returns>
         </member>
+        <member name="M:GWNorthEngine.Input.InputManager.getNewKeys">
+            <summary>
+            Returns an Keys[] of the keys that were pressed since the last update
+            </summary>
+            <returns>Keys[] of the new keys</returns>
+        </member>
         <member name="M:GWNorthEngine.Input.InputManager.wasButtonPressed(GWNorthEngine.Input.MouseButton)">
             <summary>
             Determines if a button was just pressed down
@@ -2024,6 +2181,16 @@
         <member name="P:GWNorthEngine.Input.InputManager.PreviousMousePosition">
             <summary>
             Returns a Vector2 of the mouses previous position
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Input.InputManager.KeyboardState">
+            <summary>
+            Gets the current keyboard state
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.Input.InputManager.PreviousKeyboardState">
+            <summary>
+            Gets the previous keyboard state
             </summary>
         </member>
         <member name="T:GWNorthEngine.Logic.Camera3D">
@@ -2717,6 +2884,11 @@
             Gets or sets the ID of the button
             </summary>
         </member>
+        <member name="P:GWNorthEngine.Model.TexturedEffectButton.PickableArea">
+            <summary>
+            Gets or sets the area of a texturedbutton that is pickable
+            </summary>
+        </member>
         <member name="T:GWNorthEngine.GUI.Params.SoundEngineSliderParams">
             <summary>
             Models the data required to build a SoundEngine specific slider
@@ -2881,33 +3053,33 @@
             Gets the actual reference object of the registered object
             </summary>
         </member>
-        <member name="T:GWNorthEngine.Model.Effects.ColorLerpEffect">
+        <member name="T:GWNorthEngine.Model.Effects.ColourLerpEffect">
             <summary>
             Models the data required for a Color lerping effect
             </summary>
         </member>
-        <member name="M:GWNorthEngine.Model.Effects.ColorLerpEffect.#ctor(GWNorthEngine.Model.Effects.Params.ColourLerpEffectParams)">
+        <member name="M:GWNorthEngine.Model.Effects.ColourLerpEffect.#ctor(GWNorthEngine.Model.Effects.Params.ColourLerpEffectParams)">
             <summary>
             Constructs a PulseEffect object
             </summary>
             <param name="parms">ColourLerpEffectParms object used to build the effect</param>
         </member>
-        <member name="M:GWNorthEngine.Model.Effects.ColorLerpEffect.update(System.Single)">
+        <member name="M:GWNorthEngine.Model.Effects.ColourLerpEffect.update(System.Single)">
             <summary>
             Runs the effect
             </summary>
         </member>
-        <member name="P:GWNorthEngine.Model.Effects.ColorLerpEffect.LerpUpTo">
+        <member name="P:GWNorthEngine.Model.Effects.ColourLerpEffect.LerpUpTo">
             <summary>
             Color to lerp down to
             </summary>
         </member>
-        <member name="P:GWNorthEngine.Model.Effects.ColorLerpEffect.LerpDownTo">
+        <member name="P:GWNorthEngine.Model.Effects.ColourLerpEffect.LerpDownTo">
             <summary>
             Color to lerp up to
             </summary>
         </member>
-        <member name="P:GWNorthEngine.Model.Effects.ColorLerpEffect.LerpBy">
+        <member name="P:GWNorthEngine.Model.Effects.ColourLerpEffect.LerpBy">
             <summary>
             Amount to lerp by
             </summary>
@@ -2931,6 +3103,12 @@
             <summary>
             Gets or sets the texture for the line
             </summary>
+        </member>
+        <member name="T:GWNorthEngine.Model.resetDrawableDelegate">
+            <summary>
+            Deletgate to reset a StaticDrawable2D object
+            </summary>
+            <param name="drawable">StaticDrawable2D object to reset</param>
         </member>
         <member name="T:GWNorthEngine.Model.AutoParticle2DEmitter">
             <summary>
@@ -3177,6 +3355,16 @@
             Location of the Slider's Bar
             </summary>
         </member>
+        <member name="F:GWNorthEngine.GUI.Constants.TXT_BOX_END">
+            <summary>
+            Location of the Textbox end bar
+            </summary>
+        </member>
+        <member name="F:GWNorthEngine.GUI.Constants.TXT_BOX_MIDDLE">
+            <summary>
+            Location of the Textox middle
+            </summary>
+        </member>
         <member name="T:GWNorthEngine.Audio.MusicEngine">
             <summary>
             Music engine, handles playing a play list
@@ -3260,32 +3448,6 @@
             Gets or sets the volume of the engine
             </summary>
         </member>
-        <member name="T:GWNorthEngine.Logic.Params.BaseAnimationManagerParams">
-            <summary>
-            Object containing the required data to build the AnimationManager object
-            </summary>
-        </member>
-        <member name="M:GWNorthEngine.Logic.Params.BaseAnimationManagerParams.#ctor">
-            <summary>
-            Builds the default settings for setting up the AnimationManager object. The default settings are below;
-            AnimationState:		Paused
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.Logic.Params.BaseAnimationManagerParams.FrameRate">
-            <summary>
-            Gets or sets the rate in which the object animates at
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.Logic.Params.BaseAnimationManagerParams.TotalFrameCount">
-            <summary>
-            Gets or sets the total animation frame count
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.Logic.Params.BaseAnimationManagerParams.AnimationState">
-            <summary>
-            Gets or sets the AnimationState of the object
-            </summary>
-        </member>
         <member name="T:GWNorthEngine.AI.AStar.Params.DefaultPathfinderParams">
             <summary>
             Contains data required to build a A* PathFinder
@@ -3325,85 +3487,6 @@
             <param name="bboxes">List of bounding boxes to check a collision for</param>
             <param name="checkWith">Single bounding box to check against</param>
             <returns>True if a collision was found, otherwise false</returns>
-        </member>
-        <member name="T:GWNorthEngine.Logic.AnimationManager">
-            <summary>
-            Animation manager class which handles the animation steps for anything animated
-            </summary>
-        </member>
-        <member name="F:GWNorthEngine.Logic.AnimationManager.animationState">
-            <summary>
-            Animation state for the animation sequence
-            </summary>
-        </member>
-        <member name="F:GWNorthEngine.Logic.AnimationManager.frameRate">
-            <summary>
-            Frame rate at which the object is animated
-            </summary>
-        </member>
-        <member name="F:GWNorthEngine.Logic.AnimationManager.totalElapsed">
-            <summary>
-            Time elapsed sense we last animated the object
-            </summary>
-        </member>
-        <member name="F:GWNorthEngine.Logic.AnimationManager.currentFrame">
-            <summary>
-            Current frame we are at in the animation line
-            </summary>
-        </member>
-        <member name="M:GWNorthEngine.Logic.AnimationManager.#ctor(GWNorthEngine.Logic.Params.BaseAnimationManagerParams)">
-            <summary>
-            Builds an AnimationManager based on the AnimationManagerParams object passed in
-            </summary>
-            <param name="parms">BaseAnimationManagerParams object containing the data required to load the Animation Manager object</param>
-        </member>
-        <member name="M:GWNorthEngine.Logic.AnimationManager.setNextFrame(System.Int32)">
-            <summary>
-            Handles incrementing the animation steps
-            </summary>
-            <param name="maxFrameCount">Max frames used to reset reverse sprites</param>
-        </member>
-        <member name="M:GWNorthEngine.Logic.AnimationManager.step(System.Int32)">
-            <summary>
-            Steps the animation frame ignoring timing
-            </summary>
-            <param name="maxFrameCount">Max frames used to reset reverse sprites</param>
-        </member>
-        <member name="M:GWNorthEngine.Logic.AnimationManager.resetAnimation(System.Int32,System.Boolean)">
-            <summary>
-            Resets the animation sequence that the AnimationManager is controlling and has an option to set the animation so that it will
-            fire as soon the state is changed to a "play" state
-            </summary>
-            <param name="maxFrameCount">Max frames used to reset reverse sprites</param>
-            <param name="cockAnimation">Determines if we are setting the animation up to fire right away as soon as a "Play" state is entered or whether
-            we want it set to replay the whole wait time</param>
-        </member>
-        <member name="M:GWNorthEngine.Logic.AnimationManager.update(System.Single,System.Int32)">
-            <summary>
-            Handles whether it is time to update the animation step or not
-            </summary>
-            <param name="elapsed">Time elapsed sense the last call</param>
-            <param name="maxFrameCount">Maximum frames of the object</param>
-        </member>
-        <member name="P:GWNorthEngine.Logic.AnimationManager.State">
-            <summary>
-            Gets or sets the animation state for the animation manager
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.Logic.AnimationManager.TotalElapsed">
-            <summary>
-            Gets or sets the total elapsed time
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.Logic.AnimationManager.FrameRate">
-            <summary>
-            Gets or sets the frame rate in which the sprite animates
-            </summary>
-        </member>
-        <member name="P:GWNorthEngine.Logic.AnimationManager.CurrentFrame">
-            <summary>
-            Gets the current frame of the object
-            </summary>
         </member>
         <member name="T:GWNorthEngine.Model.Params.Animated2DSpriteLoadSingleCustomRow">
             <summary>
@@ -3974,6 +4057,16 @@
             Runs the effect
             </summary>
         </member>
+        <member name="M:GWNorthEngine.Model.Effects.FadeEffect.reset">
+            <summary>
+            Resets the effect
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.Model.Effects.FadeEffect.interruptFade">
+            <summary>
+            Changes the elapsed time to it's reversed version so that the alpha blending takes place from the current position instead of restarting
+            </summary>
+        </member>
         <member name="P:GWNorthEngine.Model.Effects.FadeEffect.State">
             <summary>
             State of the effect
@@ -4114,24 +4207,181 @@
             Whether or not the check box is checked or unchecked
             </summary>
         </member>
-        <member name="M:GWNorthEngine.Logic.PulseAnimationManager.setNextFrame(System.Int32)">
+        <member name="T:GWNorthEngine.GUI.Params.TextBoxParams">
             <summary>
-            Handles incrementing the animation steps
+            Models the data required to build a textbox
             </summary>
-            <param name="maxFrameCount">Max frames used to reset reverse sprites</param>
         </member>
-        <member name="M:GWNorthEngine.Logic.PulseAnimationManager.resetAnimation(System.Int32,System.Boolean)">
+        <member name="M:GWNorthEngine.GUI.Params.TextBoxParams.#ctor">
             <summary>
-            Resets the animation sequence that the AnimationManager is controlling and has an option to set the animation so that it will
-            fire as soon the state is changed to a "play" state
+            Constructs a default TextBoxParms object with the following values
+            MaxLength:				20
+            SizePerCharacter:		11f
+            TextScale:				1f,1f
             </summary>
-            <param name="maxFrameCount">Max frames used to reset reverse sprites</param>
-            <param name="cockAnimation">Determines if we are setting the animation up to fire right away as soon as a "Play" state is entered or whether
-            we want it set to replay the whole wait time</param>
         </member>
-        <member name="T:GWNorthEngine.Logic.Params.PulseAnimationManagerParams">
+        <member name="P:GWNorthEngine.GUI.Params.TextBoxParams.Text">
             <summary>
-            Models the data required to build a PulseAnimationManager object
+            Text to set in the Textbox
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Params.TextBoxParams.Font">
+            <summary>
+            SpriteFont to use for the Textbox
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Params.TextBoxParams.MaxLength">
+            <summary>
+            Maximum length of the text
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Params.TextBoxParams.SizePerCharacter">
+            <summary>
+            Size per character
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Params.TextBoxParams.TextScale">
+            <summary>
+            Scale of the text
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Params.TextBoxParams.TextColour">
+            <summary>
+            Colour of the text
+            </summary>
+        </member>
+        <member name="T:GWNorthEngine.GUI.TextBox">
+            <summary>
+            Models a TextBox
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.GUI.TextBox.#ctor(GWNorthEngine.GUI.Params.TextBoxParams)">
+            <summary>
+            Constructs a Textbox based on the params object passed in
+            </summary>
+            <param name="parms">TextBoxParams object</param>
+        </member>
+        <member name="M:GWNorthEngine.GUI.TextBox.handleTextUpdate">
+            <summary>
+            Handles updating the text of the TextBox
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.GUI.TextBox.checkFocus">
+            <summary>
+            Checks if the textbox has gained focus
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.GUI.TextBox.isActorOver(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Determines if the actor is over the button
+            </summary>
+            <param name="actorsPosition">Actors current position</param>
+            <returns>boolean based on whether the actor is over the button</returns>
+        </member>
+        <member name="M:GWNorthEngine.GUI.TextBox.update(System.Single)">
+            <summary>
+            Updates the TextBox
+            </summary>
+            <param name="elapsed">Time since the last frame</param>
+        </member>
+        <member name="M:GWNorthEngine.GUI.TextBox.render(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
+            <summary>
+            Renders the TextBox
+            </summary>
+            <param name="spriteBatch">SpriteBatch object used to render the TextBox</param>
+        </member>
+        <member name="P:GWNorthEngine.GUI.TextBox.Text">
+            <summary>
+            Text written inside of the box
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.TextBox.HasFocus">
+            <summary>
+            Whether or not the textbox has focus
+            </summary>
+        </member>
+        <member name="T:GWNorthEngine.GUI.KeyLists">
+            <summary>
+            Constant representations of List[Keys]
+            </summary>
+        </member>
+        <member name="F:GWNorthEngine.GUI.KeyLists.NUMBER_KEYS">
+            <summary>
+            Number keys 0-9
+            </summary>
+        </member>
+        <member name="F:GWNorthEngine.GUI.KeyLists.LETTERS_KEYS">
+            <summary>
+            Letters a-z
+            </summary>
+        </member>
+        <member name="F:GWNorthEngine.GUI.KeyLists.NUMPAD_KEYS">
+            <summary>
+            Numpad keys Numpad0-Numpad9
+            </summary>
+        </member>
+        <member name="F:GWNorthEngine.GUI.KeyLists.DIRECTIONAL_KEYS">
+            <summary>
+            Directional Keys (left,right,up,donw)
+            </summary>
+        </member>
+        <member name="F:GWNorthEngine.GUI.KeyLists.TRANSLATIONS">
+            <summary>
+            Translations for keys
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.GUI.KeyLists.translate(Microsoft.Xna.Framework.Input.Keys)">
+            <summary>
+            Translates a Key to a user friendly version if there is one
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="T:GWNorthEngine.GUI.KeyBindingTextBox">
+            <summary>
+            Models a KeyBindingTextBox
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.GUI.KeyBindingTextBox.#ctor(GWNorthEngine.GUI.Params.KeyBindingTextBoxParams)">
+            <summary>
+            Constructs a KeyBindingTextBox
+            </summary>
+            <param name="parms">KeyBindingTextBoxParams object containing the data required to construct the object</param>
+        </member>
+        <member name="M:GWNorthEngine.GUI.KeyBindingTextBox.handleTextUpdate">
+            <summary>
+            handles the text update
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.GUI.KeyBindingTextBox.checkFocus">
+            <summary>
+            Checks if the textbox has gained focus
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.KeyBindingTextBox.HasFocus">
+            <summary>
+            Override HasFocus
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.KeyBindingTextBox.BoundTo">
+            <summary>
+            Key that we are bound to
+            </summary>
+        </member>
+        <member name="T:GWNorthEngine.GUI.Params.KeyBindingTextBoxParams">
+            <summary>
+            Models the data required to build a key binding textbox
+            </summary>
+        </member>
+        <member name="M:GWNorthEngine.GUI.Params.KeyBindingTextBoxParams.#ctor">
+            <summary>
+            Constructs a default KeyBindingTextBoxParams object with the following values
+            MaxLength:				1
+            </summary>
+        </member>
+        <member name="P:GWNorthEngine.GUI.Params.KeyBindingTextBoxParams.BoundTo">
+            <summary>
+            Key that we are bound to
             </summary>
         </member>
     </members>

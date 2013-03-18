@@ -4,11 +4,5 @@ using System.Linq;
 using System.Text;
 
 namespace SnakeRawrRawr.Logic {
-	public enum TransitionState {
-		None,
-		InitTransitionIn,
-		InitTransitionOut,
-		TransitionIn,
-		TransitionOut,
-	}
+	public enum Winner { None, PlayerOne, PlayerTwo }
 }

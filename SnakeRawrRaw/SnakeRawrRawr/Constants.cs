@@ -27,6 +27,7 @@ namespace SnakeRawrRawr {
 		public static Vector2 HEADING_UP = new Vector2(0, -1f);
 		public static Vector2 HEADING_DOWN = new Vector2(0, 1f);
 		public static Color SNAKE_LIGHT = Color.LightGreen;
+		public static Color TEXT_COLOUR = Color.Red;
 
 #if DEBUG
 		public static Color DEBUG_BBOX_Color = Color.Red;

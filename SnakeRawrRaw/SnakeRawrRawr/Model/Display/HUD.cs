@@ -29,6 +29,7 @@ namespace SnakeRawrRawr.Model.Display {
 	public class HUD {
 		#region Class variables
 		private Text2D[] scoreTexts;
+		private Text2D[] winnerTexts;
 		private Text2D statusText;
 		private StaticDrawable2D activeCountdownItem;
 		private StaticDrawable2D[] countDownImages;
@@ -39,6 +40,12 @@ namespace SnakeRawrRawr.Model.Display {
 		private int index;
 		private const string TEXT_RESTART = "Press {Enter} to replay";
 		private const string TEXT_SCORE = "Score: ";
+		private const string TEXT_WINNER = "Winner";
+		private const float RIGHT_X = Constants.RESOLUTION_X - 250f;
+		private const float LEFT_X = 15f;
+		private const float SCORES_Y = -5f;
+		private const float WINNER_Y_OFFSET = 22f;
+		private const float WINNER_X_PADDING = 60f;
 		#endregion Class variables
 
 		#region Class propeties
@@ -63,21 +70,33 @@ namespace SnakeRawrRawr.Model.Display {
 				LerpUpTo = Color.Red
 			};
 
+			int size = 1;
 			if (StateManager.getInstance().GameMode == GameMode.TwoPlayer) {
-				this.scoreTexts = new Text2D[2];
-			} else {
-				this.scoreTexts = new Text2D[1];
+				size = 2;
 			}
+			this.scoreTexts = new Text2D[size];
+			this.winnerTexts = new Text2D[size];
 
-			parms.Position = new Vector2(Constants.RESOLUTION_X - 250f, 5f);
+			parms.Position = new Vector2(RIGHT_X, SCORES_Y);
 			parms.WrittenText = TEXT_SCORE + getScore(0);
 			this.scoreTexts[0] = new Text2D(parms);
-			this.scoreTexts[0].addEffect(new ColorLerpEffect(effectParms));
+			this.scoreTexts[0].addEffect(new ColourLerpEffect(effectParms));
+
+			parms.Position = new Vector2(RIGHT_X + WINNER_X_PADDING, SCORES_Y + WINNER_Y_OFFSET);
+			parms.WrittenText = TEXT_WINNER;
+			this.winnerTexts[0] = new Text2D(parms);
+			this.winnerTexts[0].addEffect(new ColourLerpEffect(effectParms));
 
 			if (StateManager.getInstance().GameMode == GameMode.TwoPlayer) {
-				parms.Position = new Vector2(15f, 5f);
+				parms.Position = new Vector2(LEFT_X, SCORES_Y);
+				parms.WrittenText = TEXT_SCORE + getScore(1);
 				this.scoreTexts[1] = new Text2D(parms);
-				this.scoreTexts[1].addEffect(new ColorLerpEffect(effectParms));
+				this.scoreTexts[1].addEffect(new ColourLerpEffect(effectParms));
+
+				parms.Position = new Vector2(LEFT_X + WINNER_X_PADDING, SCORES_Y + WINNER_Y_OFFSET);
+				parms.WrittenText = TEXT_WINNER;
+				this.winnerTexts[1] = new Text2D(parms);
+				this.winnerTexts[1].addEffect(new ColourLerpEffect(effectParms));
 			}
 
 			this.countDownImages = new StaticDrawable2D[3];
@@ -123,17 +142,22 @@ namespace SnakeRawrRawr.Model.Display {
 		public void update(float elapsed) {
 			this.elapsedTime += elapsed;
 
-			if (this.elapsedTime >= 1000f && this.index > -1) {
-				this.index -= 1;
-				if (this.index == -1) {
-					this.activeCountdownItem = null;
-					StateManager.getInstance().CurrentGameState = GameState.Active;
-				} else {
-					this.activeCountdownItem = this.countDownImages[this.index];
-					this.activeCountdownItem.addEffect(new ScaleOverTimeEffect(this.scaleOverTimeEffectParms));
-					SoundManager.getInstance().SFXEngine.playSoundEffect(this.soundEffect);
+			if (StateManager.getInstance().CurrentGameState == GameState.Waiting) {
+				if (this.elapsedTime >= 1000f && this.index > -1) {
+					this.index -= 1;
+					if (this.index == -1) {
+						this.activeCountdownItem = null;
+						StateManager.getInstance().CurrentGameState = GameState.Active;
+					} else {
+						this.activeCountdownItem = this.countDownImages[this.index];
+						this.activeCountdownItem.addEffect(new ScaleOverTimeEffect(this.scaleOverTimeEffectParms));
+						SoundManager.getInstance().SFXEngine.playSoundEffect(this.soundEffect);
+					}
+					this.elapsedTime = 0f;
 				}
-				this.elapsedTime = 0f;
+				if (this.activeCountdownItem != null) {
+					this.activeCountdownItem.update(elapsed);
+				}
 			}
 
 			if (StateManager.getInstance().CurrentGameState == GameState.GameOver) {
@@ -153,8 +177,10 @@ namespace SnakeRawrRawr.Model.Display {
 				}
 			}
 
-			if (this.activeCountdownItem != null) {
-				this.activeCountdownItem.update(elapsed);
+			if (this.winnerTexts != null) {
+				for (int i = 0; i < this.winnerTexts.Length; i++) {
+					this.winnerTexts[i].update(elapsed);
+				}
 			}
 		}
 
@@ -164,6 +190,7 @@ namespace SnakeRawrRawr.Model.Display {
 					this.scoreTexts[i].render(spriteBatch);
 				}
 			}
+
 			if (StateManager.getInstance().CurrentGameState == GameState.GameOver) {
 				if (this.statusText != null) {
 					this.statusText.render(spriteBatch);
@@ -171,9 +198,17 @@ namespace SnakeRawrRawr.Model.Display {
 				if (this.gameOver != null) {
 					this.gameOver.render(spriteBatch);
 				}
-			}
-			if (this.activeCountdownItem != null) {
-				this.activeCountdownItem.render(spriteBatch);
+				if (StateManager.getInstance().WhoWon != Winner.None) {
+					if (StateManager.getInstance().WhoWon == Winner.PlayerOne) {
+						this.winnerTexts[0].render(spriteBatch);
+					} else {
+						this.winnerTexts[1].render(spriteBatch);
+					}
+				}
+			} else if (StateManager.getInstance().CurrentGameState == GameState.Waiting) {
+				if (this.activeCountdownItem != null) {
+					this.activeCountdownItem.render(spriteBatch);
+				}
 			}
 		}
 		#endregion Support methods

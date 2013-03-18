@@ -87,6 +87,7 @@ namespace SnakeRawrRawr.Model {
 			base.update(elapsed);
 			this.dustEmitter.update(elapsed);
 
+			PositionGenerator.getInstance().markPosition(base.Position, false);
 			if (this.stage == Stage.Opening) {
 				if (this.spawnSprite.AnimationManager.State == AnimationState.Paused) {
 					this.stage = Stage.Idle;
