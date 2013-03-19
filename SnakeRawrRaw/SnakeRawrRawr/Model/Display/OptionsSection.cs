@@ -1,33 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-
-using GWNorthEngine.Engine;
-using GWNorthEngine.Engine.Params;
+﻿using System.Collections.Generic;
 using GWNorthEngine.Model;
 using GWNorthEngine.Model.Params;
-using GWNorthEngine.Logic;
-using GWNorthEngine.Logic.Params;
-using GWNorthEngine.Input;
 using GWNorthEngine.Utils;
-using GWNorthEngine.Scripting;
-
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using SnakeRawrRawr.Logic;
 
 namespace SnakeRawrRawr.Model.Display {
 	public class OptionsSection {
 		#region Class variables
 		private Text2D heading;
-		//private List<KeyBinding> bindings;
 		private Dictionary<string, KeyBinding> bindings;
 		private readonly string[] BINDING_NAMES = { "Left", "Up", "Right", "Down" };
 		private const float SPACE = 35f;
@@ -62,7 +45,6 @@ namespace SnakeRawrRawr.Model.Display {
 			this.heading = new Text2D(parms);
 			Vector2 textPosition = new Vector2(position.X, position.Y + SPACE);
 			Vector2 bindersPosition = new Vector2(bindersX, textPosition.Y);
-			//this.bindings = new List<KeyBinding>();
 			this.bindings = new Dictionary<string, KeyBinding>();
 
 			this.bindings.Add(BINDING_NAMES[0], new KeyBinding(font, content, textPosition, bindersPosition, BINDING_NAMES[0], controls.Left));

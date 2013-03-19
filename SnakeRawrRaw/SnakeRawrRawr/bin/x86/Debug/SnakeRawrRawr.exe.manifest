@@ -105,14 +105,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SnakeRawrRawr.exe" size="148992">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SnakeRawrRawr.exe" size="149504">
       <assemblyIdentity name="SnakeRawrRawr" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>f1ep8NwTyyNFTpsrIMgQAjE4MRg=</dsig:DigestValue>
+        <dsig:DigestValue>5SikXxt2KGO0K4eUGY/QOSAJcKE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -134,13 +134,13 @@
       <dsig:DigestValue>TIshDK6Tkc83bIO/7gFCWofKoXQ=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="GameNote.txt" size="2648">
+  <file name="GameNote.txt" size="2762">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>HwKJlBwOEZXarMGwNkOmiWkyP3I=</dsig:DigestValue>
+      <dsig:DigestValue>bf0bEJyQKqVPulCe+V+VrLAQ6ao=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Icon.png" size="1437">
@@ -357,6 +357,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>AOxpL/uXJMpLGqjJ5gtd/FE0vmI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="SnakeRawrRawrContent\Crumple.xnb" size="119913">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>1PuQ087WYUSakzDwCQPvL1kZol8=</dsig:DigestValue>
     </hash>
   </file>
   <file name="SnakeRawrRawrContent\Dust.xnb" size="16571">

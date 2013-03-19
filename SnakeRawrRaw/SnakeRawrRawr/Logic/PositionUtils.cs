@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Microsoft.Xna.Framework;
 
-using GWNorthEngine.Engine;
 namespace SnakeRawrRawr.Logic {
 	public class PositionUtils {
 		public static float getPosition(int index) {
