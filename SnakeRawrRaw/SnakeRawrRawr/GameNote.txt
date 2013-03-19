@@ -66,18 +66,18 @@ begging for an appearance so, here it is.
 [*]Weird scenario where If you turn in a portal you can loose some nodes
 [*]Lingering sounds effects, specifically the portals
 [*]2 Player is crashing due to the sound engine
-[*]If you hit escape mid transition in of the cinematic it flashes full on first then transitions out
-[*]if you hit escape twice the transition out restarts (see Options screen)
+[*]If you hit escape mid transition of the cinematic it flashes full on first then transitions out
+[*]If you hit escape twice the transition out restarts (see Options screen)
 
 
 ====================
 	TIME
 ====================
-modeling:		.5 hours
+modeling:			.5 hours
 programming
-	core:		6.75 hours		
-	polish:		30.5 hours		
-art:			14 .75hours		
-sound:			6.5 hour	
+	core:			6.75 hours		
+	polish:			30.5 hours		
+art:				14 .75hours		
+sound:				6.5 hour	
 
-Total Time:		59 Hours
+Total Time:			59 Hours

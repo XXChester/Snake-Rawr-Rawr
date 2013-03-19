@@ -79,8 +79,11 @@ namespace SnakeRawrRawr.Logic {
 			sfxEmitter.playSoundEffect(sfx, loop: loop);
 		}
 
-		public void update(Vector2[] listenersPositions) {
+		public void update() {
 			this.MusicEngine.update();
+		}
+
+		public void update(Vector2[] listenersPositions) {
 			lock (this.emitters) {
 				foreach (SoundEmitter emitter in this.emitters) {
 					emitter.update(listenersPositions);

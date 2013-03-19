@@ -189,6 +189,7 @@ namespace SnakeRawrRawr.Engine {
 
 			float elapsed = gameTime.ElapsedGameTime.Milliseconds;
 			handleTransitionState(elapsed);
+			SoundManager.getInstance().update();
 
 			this.activeDisplay.update(elapsed);
 			this.transitionItem.update(elapsed);
