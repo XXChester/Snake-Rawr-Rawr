@@ -42,7 +42,7 @@ begging for an appearance so, here it is.
 [*]Portals SFX
 [*]Redo portal sprites
 [*]Random wall generation
-[]Random wall generation sfx
+[*]Random wall generation sfx
 [*]New generation algorithm based on the current display to prevent overlapping spawns
 [*]Snake corner pieces so its not jaggad
 [*]Death animations fade out
@@ -67,6 +67,7 @@ begging for an appearance so, here it is.
 [*]Lingering sounds effects, specifically the portals
 [*]2 Player is crashing due to the sound engine
 [*]If you hit escape mid transition in of the cinematic it flashes full on first then transitions out
+[*]if you hit escape twice the transition out restarts (see Options screen)
 
 
 ====================
@@ -75,6 +76,8 @@ begging for an appearance so, here it is.
 modeling:		.5 hours
 programming
 	core:		6.75 hours		
-	polish:		25.25 hours		9:22pm-9:39pm		7:54pm-8:42pm		1:50pm-2:54pm	3:33pm-4:57pm		7:17pm-8:27pm	8:32pm-8:50PM
-art:			14 hours		7:40pm-8:21pm
-sound:			5.75 hour		6:52pm-7:29pm
+	polish:		30.5 hours		
+art:			14 .75hours		
+sound:			6.5 hour	
+
+Total Time:		59 Hours

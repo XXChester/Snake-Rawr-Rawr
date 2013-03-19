@@ -1,26 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
+using GWNorthEngine.Audio;
+using GWNorthEngine.Audio.Params;
+using GWNorthEngine.Logic;
+using GWNorthEngine.Logic.Params;
+using GWNorthEngine.Model;
+using GWNorthEngine.Model.Params;
+using GWNorthEngine.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-
-using GWNorthEngine.Engine;
-using GWNorthEngine.Engine.Params;
-using GWNorthEngine.Model;
-using GWNorthEngine.Model.Params;
-using GWNorthEngine.Logic;
-using GWNorthEngine.Logic.Params;
-using GWNorthEngine.Input;
-using GWNorthEngine.Utils;
-using GWNorthEngine.Scripting;
-
 using SnakeRawrRawr.Logic;
 using SnakeRawrRawr.Logic.Generator;
 
@@ -33,7 +22,11 @@ namespace SnakeRawrRawr.Model {
 		private DustParticleEmitter dustEmitter;
 		private Animated2DSprite spawnSprite;
 		private StaticDrawable2D idleImage;
+		private SoundEmitter sfxEmitter;
+		private SoundEffect crumpleSFX;
+		private const string SFX_NAME_CRUMPLE = "Crumple";
 		private const float TIME_TO_LIVE = 12000f;
+		private const float SFX_EMITT_RADIUS = 50f;
 		#endregion Class variables
 
 		#region Class propeties
@@ -76,7 +69,15 @@ namespace SnakeRawrRawr.Model {
 				this.dustEmitter.createParticle();
 			}
 
-			// TODO: Sound effect
+			this.crumpleSFX = LoadingUtils.load<SoundEffect>(content, SFX_NAME_CRUMPLE);
+			SoundEmitterParams sfxEmitterParms = new SoundEmitterParams {
+				SFXEngine = SoundManager.getInstance().SFXEngine,
+				EmittRadius = SFX_EMITT_RADIUS,
+				Position = this.spawnSprite.Position
+			};
+			this.sfxEmitter = new SoundEmitter(sfxEmitterParms);
+			SoundManager.getInstance().addEmitter(this.sfxEmitter);
+			SoundManager.getInstance().playSoundEffect(this.sfxEmitter, this.crumpleSFX);
 			this.stage = Stage.Opening;
 		}
 		#endregion Constructor
@@ -104,7 +105,7 @@ namespace SnakeRawrRawr.Model {
 					this.spawnSprite.reset();
 					base.init(this.spawnSprite);
 					PositionGenerator.getInstance().markPosition(base.Position);
-					// TODO: Sound effect
+					SoundManager.getInstance().playSoundEffect(this.sfxEmitter, this.crumpleSFX);
 				}
 			}
 		}
@@ -113,6 +114,12 @@ namespace SnakeRawrRawr.Model {
 			base.render(spriteBatch);
 			if (this.stage == Stage.Idle) {
 				this.dustEmitter.render(spriteBatch);
+			}
+		}
+
+		~Wall() {
+			if (this.sfxEmitter != null) {
+				SoundManager.getInstance().removeEmitter(this.sfxEmitter);
 			}
 		}
 		#endregion Support methods

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace SnakeRawrRawr.Logic {
 	public class StateManager {
 		// singleton variable
@@ -21,9 +17,11 @@ namespace SnakeRawrRawr.Logic {
 				this.currentGameState = value;
 
 				// some states sohuld not trigger a transition; these are listed here
-				if (this.currentGameState != GameState.GameOver && this.currentGameState != GameState.Active &&
-					this.currentGameState != GameState.Waiting && this.currentGameState != GameState.Options) {
+				if (this.currentTransitionState != TransitionState.TransitionOut) {
+					if (this.currentGameState != GameState.GameOver && this.currentGameState != GameState.Active &&
+						this.currentGameState != GameState.Waiting && this.currentGameState != GameState.Options) {
 						this.currentTransitionState = TransitionState.InitTransitionOut;
+					}
 				}
 			}
 		}
@@ -47,6 +45,7 @@ namespace SnakeRawrRawr.Logic {
 			this.GameMode = GameMode.Waiting;
 			this.WhoWon = Winner.None;
 
+#if DEBUG
 			// TESTING VALUES
 			//this.currentGameState = GameState.Active;
 			//this.currentGameState = GameState.Waiting;
@@ -55,7 +54,8 @@ namespace SnakeRawrRawr.Logic {
 			//this.currentGameState = GameState.GameOver;
 			//this.WhoWon = Winner.PlayerOne;
 			//this.currentGameState = GameState.MainMenu;
-			this.currentGameState = GameState.Options;
+			//this.currentGameState = GameState.Options;
+#endif
 		}
 		#endregion Constructor
 
