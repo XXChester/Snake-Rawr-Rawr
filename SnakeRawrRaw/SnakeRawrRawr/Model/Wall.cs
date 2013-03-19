@@ -35,7 +35,7 @@ namespace SnakeRawrRawr.Model {
 
 		#region Constructor
 		public Wall(ContentManager content, Vector2 position)
-			:base(content, true) {
+			:base(content) {
 
 			Texture2D texture = null;
 			texture = LoadingUtils.load<Texture2D>(content, "Fence");
