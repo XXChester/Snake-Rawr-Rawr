@@ -158,6 +158,7 @@
     <Compile Include="Logic\WarpCoordinates.cs" />
     <Compile Include="Logic\Winner.cs" />
     <Compile Include="Model\BackGround.cs" />
+    <Compile Include="Model\BaseManager.cs" />
     <Compile Include="Model\Body.cs" />
     <Compile Include="Model\Chicken.cs" />
     <Compile Include="Constants.cs" />

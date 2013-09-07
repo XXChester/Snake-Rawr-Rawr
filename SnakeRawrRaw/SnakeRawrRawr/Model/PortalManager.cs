@@ -8,11 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 using SnakeRawrRawr.Logic;
 
 namespace SnakeRawrRawr.Model {
-	public class PortalManager {
+	public class PortalManager : BaseManager {
 		#region Class variables
-		private ContentManager content;
-		private Random rand;
-		private float elapsed;
 		private const float SPAWN_INTERVAL = 5000f;
 		private const int POINTS = 15;
 		#endregion Class variables
@@ -25,17 +22,17 @@ namespace SnakeRawrRawr.Model {
 		#endregion Class properties
 
 		#region Constructor
-		public PortalManager(ContentManager content, Random rand) {
-			this.content = content;
-			this.rand = rand;
+		public PortalManager(ContentManager content, Random rand) : base(content, rand, SPAWN_INTERVAL) {
 		}
 		#endregion Constructor
 
 		#region Support methods
-		private void create() {
+		protected override void create() {
 			this.One = new Portal(this.content, this.rand);
 			this.Two = new Portal(this.content, this.rand);
-			this.elapsed = 0f;
+			base.nodes.Add(this.One);
+			base.nodes.Add(this.Two);
+			base.create();
 		}
 
 		public bool wasCollision(BoundingBox bbox, Vector2 snakesPosition) {
@@ -61,7 +58,7 @@ namespace SnakeRawrRawr.Model {
 			return collision;
 		}
 
-		public bool wasClosingCollision(BoundingBox tailBBox) {
+		public override bool wasCollision(BoundingBox tailBBox) {
 			bool collision = false;
 			if (this.One != null) {
 				if (this.One.wasTailCollision(tailBBox)) {
@@ -76,7 +73,7 @@ namespace SnakeRawrRawr.Model {
 			return collision;
 		}
 
-		public void update(float elapsed) {
+		public override void update(float elapsed) {
 			if (this.One != null) {
 				this.One.update(elapsed);
 				if (this.One.Release) {
@@ -90,20 +87,8 @@ namespace SnakeRawrRawr.Model {
 				}
 			}
 			if (this.One == null && this.Two == null) {
-				this.elapsed += elapsed;
 				this.WarpCoords = null;
-				if (this.elapsed >= SPAWN_INTERVAL) {
-					create();
-				}
-			}
-		}
-
-		public void render(SpriteBatch spriteBatch) {
-			if (this.One != null) {
-				this.One.render(spriteBatch);
-			}
-			if (this.Two != null) {
-				this.Two.render(spriteBatch);
+				base.update(elapsed);
 			}
 		}
 		#endregion Support methods

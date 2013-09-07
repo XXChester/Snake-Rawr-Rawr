@@ -120,8 +120,8 @@ namespace SnakeRawrRawr.Model.Display {
 				if (this.foodManager != null) {
 					this.foodManager.update(elapsed);
 					Food food = null;
-					for (int i = 0; i < this.foodManager.Foods.Count; i++) {
-						food = this.foodManager.Foods[i];
+					for (int i = 0; i < this.foodManager.Nodes.Count; i++) {
+						food = (Food)this.foodManager.Nodes[i];
 						if (food != null) {
 							food.update(elapsed);
 							if (food.wasCollision(this.playerOne.BBox, this.playerOne.Heading)) {
@@ -132,8 +132,8 @@ namespace SnakeRawrRawr.Model.Display {
 								this.hud.PlayerTwoScore += food.Points;
 							}
 							if (food.Release) {
-								this.foodManager.Foods[i] = null;
-								this.foodManager.Foods.RemoveAt(i);
+								this.foodManager.Nodes[i] = null;
+								this.foodManager.Nodes.RemoveAt(i);
 								i--;
 							}
 						}
@@ -146,13 +146,13 @@ namespace SnakeRawrRawr.Model.Display {
 						this.playerOne.handlePortalCollision(this.portals.WarpCoords);
 						this.hud.PlayerOneScore += this.portals.Points;
 					}
-					this.portals.wasClosingCollision(this.playerOne.TailsBBox);
+					this.portals.wasCollision(this.playerOne.TailsBBox);
 					if (this.playerTwo != null) {
 						if (this.portals.wasCollision(this.playerTwo.BBox, this.playerTwo.Position)) {
 							this.playerTwo.handlePortalCollision(this.portals.WarpCoords);
 							this.hud.PlayerTwoScore += this.portals.Points;
 						}
-						this.portals.wasClosingCollision(this.playerTwo.TailsBBox);
+						this.portals.wasCollision(this.playerTwo.TailsBBox);
 					}
 				}
 

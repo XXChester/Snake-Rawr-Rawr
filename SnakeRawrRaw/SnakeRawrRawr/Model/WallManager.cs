@@ -9,12 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using SnakeRawrRawr.Logic.Generator;
 
 namespace SnakeRawrRawr.Model {
-	public class WallManager {
+	public class WallManager : BaseManager {
 		#region Class variables
-		private ContentManager content;
-		private Random rand;
-		private float elapsed;
-		private List<Wall> walls;
 		private const float SPAWN_INTERVAL = 6000f;
 		private readonly List<BaseWallGenerator> GENERATORS;
 		#endregion Class variables
@@ -23,9 +19,7 @@ namespace SnakeRawrRawr.Model {
 		#endregion Class properties
 
 		#region Constructor
-		public WallManager(ContentManager content, Random rand) {
-			this.content = content;
-			this.rand = rand;
+		public WallManager(ContentManager content, Random rand) : base(content, rand, SPAWN_INTERVAL) {
 			this.GENERATORS = new List<BaseWallGenerator>() {
 				new ScatteredWallGenerator(rand),
 				new HorizontalWallGenerator(rand),
@@ -33,54 +27,31 @@ namespace SnakeRawrRawr.Model {
 				new CrossWallGenerator(rand),
 				new RightAngleWallGenerator(rand),
 			};
-			this.walls = new List<Wall>();
 		}
 		#endregion Constructor
 
 		#region Support methods
-		private void create() {
-			List<Vector2> positions = this.GENERATORS[this.rand.Next(0, this.GENERATORS.Count - 1)].generate();
+		protected override  void create() {
+			List<Vector2> positions = this.GENERATORS[base.rand.Next(0, this.GENERATORS.Count - 1)].generate();
 			foreach (Vector2 position in positions) {
-				this.walls.Add(new Wall(this.content, position));
+				base.nodes.Add(new Wall(base.content, position));
 			}
-			this.elapsed = 0f;
+			base.create();
 		}
 
-		public bool wasCollision(BoundingBox bbox) {
-			bool collision = false;
-			if (this.walls != null) {
-				foreach (Wall wall in this.walls) {
-					if (wall.BBox.Intersects(bbox)) {
-						collision = true;
-						break;
-					}
-				}
-			}
-			return collision;
-		}
-
-		public void update(float elapsed) {
+		public override void update(float elapsed) {
 			Wall wall = null;
-			for(int i = this.walls.Count - 1; i >= 0; i--) {
-				wall = this.walls[i];
+			for(int i = base.nodes.Count - 1; i >= 0; i--) {
+				wall = (Wall)base.nodes[i];
 				if (wall != null) {
 					wall.update(elapsed);
 					if (wall.Release) {
-						this.walls.RemoveAt(i);
+						base.nodes.RemoveAt(i);
 					}
 				}
 			}
 
-			this.elapsed += elapsed;
-			if (this.elapsed >= SPAWN_INTERVAL) {
-				create();
-			}
-		}
-
-		public void render(SpriteBatch spriteBatch) {
-			foreach (Wall wall in this.walls) {
-				wall.render(spriteBatch);
-			}
+			base.update(elapsed);
 		}
 		#endregion Support methods
 	}
