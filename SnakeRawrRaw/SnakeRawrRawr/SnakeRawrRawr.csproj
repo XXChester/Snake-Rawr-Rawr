@@ -138,6 +138,7 @@
     <Compile Include="Engine\Program.cs" />
     <Content Include="game.ico" />
     <Content Include="GameNote.txt" />
+    <Compile Include="Logic\Generator\SpawnGenerator.cs" />
     <Compile Include="Logic\TargetPosition.cs" />
     <Compile Include="Logic\Generator\BaseWallGenerator.cs" />
     <Compile Include="Logic\Generator\RightAngleWallGenerator.cs" />

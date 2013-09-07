@@ -52,6 +52,7 @@ namespace SnakeRawrRawr.Model.Display {
 			this.boundary = new BoundingBox(min, max);
 			this.rand = new Random();
 			PositionGenerator.getInstance().init(this.rand);
+			SpawnGenerator.getInstance().SpawnRequests.Clear();
 			if (StateManager.getInstance().GameMode == GameMode.OnePlayer) {
 				this.playerOne = new Snake(this.content, Constants.HEADING_UP, 0f, ConfigurationManager.getInstance().PlayerOnesControls);
 			} else {

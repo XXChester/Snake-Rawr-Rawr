@@ -47,6 +47,9 @@ namespace SnakeRawrRawr.Engine {
 
 		public static void loadConfiguration(List<string> config) {
 			SoundManager.getInstance().MusicEngine.Muted = bool.Parse(config[0]);
+#if DEBUG
+			SoundManager.getInstance().MusicEngine.Muted = true;
+#endif
 			SoundManager.getInstance().MusicEngine.Volume = float.Parse(config[1]);
 			SoundManager.getInstance().SFXEngine.Muted = bool.Parse(config[2]);
 			SoundManager.getInstance().SFXEngine.Volume = float.Parse(config[3]);

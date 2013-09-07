@@ -80,4 +80,4 @@ programming
 art:				14 .75hours		
 sound:				6.5 hour	
 
-Total Time:			59 Hours
+Total Time:			61 Hours

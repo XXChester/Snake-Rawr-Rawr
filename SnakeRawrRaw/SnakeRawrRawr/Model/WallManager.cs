@@ -27,18 +27,19 @@ namespace SnakeRawrRawr.Model {
 				new CrossWallGenerator(rand),
 				new RightAngleWallGenerator(rand),
 			};
+			
+			base.spawnHandler = delegate() {
+				List<Vector2> positions = this.GENERATORS[base.rand.Next(0, this.GENERATORS.Count - 1)].generate();
+				lock (base.nodes) {
+					foreach (Vector2 position in positions) {
+						base.nodes.Add(new Wall(base.content, position));
+					}
+				}
+			};
 		}
 		#endregion Constructor
 
 		#region Support methods
-		protected override  void create() {
-			List<Vector2> positions = this.GENERATORS[base.rand.Next(0, this.GENERATORS.Count - 1)].generate();
-			foreach (Vector2 position in positions) {
-				base.nodes.Add(new Wall(base.content, position));
-			}
-			base.create();
-		}
-
 		public override void update(float elapsed) {
 			Wall wall = null;
 			for(int i = base.nodes.Count - 1; i >= 0; i--) {

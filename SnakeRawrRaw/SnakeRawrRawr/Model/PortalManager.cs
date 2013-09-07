@@ -15,26 +15,38 @@ namespace SnakeRawrRawr.Model {
 		#endregion Class variables
 
 		#region Class propeties
-		public Portal One { get; set; }
-		public Portal Two { get; set; }
+		public Portal One {
+			get {
+				Portal node = null;
+				if (base.nodes != null && base.nodes.Count > 0) {
+					node = (Portal)base.nodes[0];
+				}
+				return node;
+			}
+		}
+		public Portal Two {
+			get {
+				Portal node = null;
+				if (base.nodes != null && base.nodes.Count > 1) {
+					node = (Portal)base.nodes[1];
+				}
+				return node;
+			}
+		}
 		public WarpCoordinates WarpCoords { get; set; }
 		public int Points { get { return POINTS; } }
 		#endregion Class properties
 
 		#region Constructor
 		public PortalManager(ContentManager content, Random rand) : base(content, rand, SPAWN_INTERVAL) {
+			base.spawnHandler = delegate() {
+				this.nodes.Add(new Portal(base.content, base.rand));
+				this.nodes.Add(new Portal(base.content, base.rand));
+			};
 		}
 		#endregion Constructor
 
 		#region Support methods
-		protected override void create() {
-			this.One = new Portal(this.content, this.rand);
-			this.Two = new Portal(this.content, this.rand);
-			base.nodes.Add(this.One);
-			base.nodes.Add(this.Two);
-			base.create();
-		}
-
 		public bool wasCollision(BoundingBox bbox, Vector2 snakesPosition) {
 			bool collision = false;
 			if (this.One != null) {
@@ -74,19 +86,15 @@ namespace SnakeRawrRawr.Model {
 		}
 
 		public override void update(float elapsed) {
-			if (this.One != null) {
-				this.One.update(elapsed);
-				if (this.One.Release) {
-					this.One = null;
+			Entity node = null;
+			for (int i = base.nodes.Count - 1; i >= 0; i--) {
+				node = base.nodes[i];
+				node.update(elapsed);
+				if (((Portal)node).Release) {
+					base.nodes.RemoveAt(i);
 				}
 			}
-			if (this.Two != null) {
-				this.Two.update(elapsed);
-				if (this.Two.Release) {
-					this.Two = null;
-				}
-			}
-			if (this.One == null && this.Two == null) {
+			if (base.nodes.Count == 0) {
 				this.WarpCoords = null;
 				base.update(elapsed);
 			}

@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SnakeRawrRawr.Logic;
+using SnakeRawrRawr.Logic.Generator;
 using SnakeRawrRawr.Model.Display;
 
 namespace SnakeRawrRawr.Engine {
@@ -169,6 +170,7 @@ namespace SnakeRawrRawr.Engine {
 			}
 			if (InputManager.getInstance().wasKeyPressed(Keys.Escape) ||
 			InputManager.getInstance().wasButtonPressed(PlayerIndex.One, Buttons.B)) {
+				//SpawnGenerator.getInstance().Running = false;
 				//this.Exit();
 			}
 #endif
@@ -176,6 +178,7 @@ namespace SnakeRawrRawr.Engine {
 			handleNewTransition();
 
 			if (StateManager.getInstance().CurrentGameState == GameState.Exit) {
+				SpawnGenerator.getInstance().Running = false;
 				this.Exit();
 			}
 

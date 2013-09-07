@@ -24,26 +24,24 @@ namespace SnakeRawrRawr.Model {
 			do {
 				base.nodes.Add(new Chicken(this.content, this.rand));
 			} while (base.nodes.Count < 2);
+			base.spawnHandler = delegate() {
+				int spawn = 1;
+				if (this.rand.Next(BURST_CHANCE) % BURST_CHANCE == 0) {
+					spawn = 3;
+				}
+				do {
+					if (this.rand.Next(Constants.RARE_SPAWN_ODDS) % Constants.RARE_SPAWN_ODDS == 0) {
+						base.nodes.Add(new Carebear(this.content, this.rand));
+					} else {
+						base.nodes.Add(new Chicken(this.content, this.rand));
+					}
+					spawn--;
+				} while (spawn > 0);
+			};
 		}
 		#endregion Constructor
 
 		#region Support methods
-		protected override void create() {
-			int spawn = 1;
-			if (this.rand.Next(BURST_CHANCE) % BURST_CHANCE == 0) {
-				spawn = 3;
-			}
-			do {
-				if (this.rand.Next(Constants.RARE_SPAWN_ODDS) % Constants.RARE_SPAWN_ODDS == 0) {
-					base.nodes.Add(new Carebear(this.content, this.rand));
-				} else {
-					base.nodes.Add(new Chicken(this.content, this.rand));
-				}
-				spawn--;
-			} while (spawn > 0);
-			base.create();
-		}
-
 		public override bool wasCollision(BoundingBox bbox) {
 			bool collision = false;
 			if (base.nodes != null) {

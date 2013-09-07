@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using SnakeRawrRawr.Logic.Generator;
+
 namespace SnakeRawrRawr.Model {
 	public abstract class BaseManager {
 		#region Class variables
@@ -14,6 +16,7 @@ namespace SnakeRawrRawr.Model {
 		protected ContentManager content;
 		protected Random rand;
 		protected List<Entity> nodes;
+		protected SpawnGenerator.HandleSpawn spawnHandler;
 		private readonly float SPAWN_INTERVAL;
 		#endregion Class variables
 
@@ -33,15 +36,20 @@ namespace SnakeRawrRawr.Model {
 		#region Support methods
 		protected virtual void create() {
 			this.elapsed = 0f;
+			if (this.spawnHandler != null) {
+				SpawnGenerator.getInstance().SpawnRequests.Enqueue(this.spawnHandler);
+			}
 		}
 
 		public virtual bool wasCollision(BoundingBox bbox) {
 			bool collision = false;
-			if (this.nodes != null) {
-				foreach (Entity node in this.nodes) {
-					if (node.BBox.Intersects(bbox)) {
-						collision = true;
-						break;
+			lock (this.nodes) {
+				if (this.nodes != null) {
+					foreach (Entity node in this.nodes) {
+						if (node.BBox.Intersects(bbox)) {
+							collision = true;
+							break;
+						}
 					}
 				}
 			}
@@ -56,8 +64,10 @@ namespace SnakeRawrRawr.Model {
 		}
 
 		public virtual void render(SpriteBatch spriteBatch) {
-			foreach (Entity node in this.nodes) {
-				node.render(spriteBatch);
+			lock (this.nodes) {
+				foreach (Entity node in this.nodes) {
+					node.render(spriteBatch);
+				}
 			}
 		}
 		#endregion Support methods
